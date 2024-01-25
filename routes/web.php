@@ -19,3 +19,7 @@ Route::get('/', function () {
 Route::get('modeloPrincipal', function () {
     return view('modeloPrincipal');
 });
+
+
+Route::view('recibo','recibo');
+
