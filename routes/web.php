@@ -23,3 +23,5 @@ Route::get('modeloPrincipal', function () {
 
 Route::view('recibo','recibo');
 
+Route::view('panel_control','panel_control');
+
