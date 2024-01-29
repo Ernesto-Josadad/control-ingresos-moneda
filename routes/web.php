@@ -20,8 +20,15 @@ Route::get('modeloPrincipal', function () {
     return view('modeloPrincipal');
 });
 
+Route::get('login2', function () {
+    return view('login');
+});
 
 Route::view('recibo','recibo');
 
 Route::view('panel_control','panel_control');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
