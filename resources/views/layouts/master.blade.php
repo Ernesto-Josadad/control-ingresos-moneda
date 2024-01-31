@@ -41,7 +41,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </nav>
         <!-- /.navbar -->
 
-<<<<<<< HEAD
         <!-- Contenedor de barra lateral -->
         <aside class="main-sidebar sidebar-light-primary ">
             <!-- Sidebar -->
@@ -136,61 +135,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Derechos reservados
             </center>
         </footer>
-=======
-  <!-- Contenedor de barra lateral -->
-  <aside class="main-sidebar" style="background: #08483A;">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Menu barralatera -->
-      <nav class="mt-2">
-        <div style="font-weight: bold; font-size:20px;">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li style="margin-bottom: 40%;">
-          </li>
-          <li class="nav-item" style="margin-bottom: 20%; margin-top:30%">
-            <a href="#" class="nav-link">
-            <span class='icon-field'><img src="dist/img/panel.png" width="40"></span>
-              <p style="color:white;">
-                Panel de control
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
-            <span class='icon-field'><img src="dist/img/usuario.png" width="40"></span>
-              <p style="color:white;">
-                Alumnos
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
-            <span class='icon-field'><img src="dist/img/ticket.png" width="40"></span>
-              <p style="color:white;">
-                Recibo alumnos
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
-            <span class='icon-field'><img src="dist/img/altas.png" width="40"></span>
-              <p style="color:white;">
-                Grupos
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
-            <span class='icon-field'><img src="dist/img/pago.png" width="40"></span>
-              <p style="color:white;">
-                Ingresos
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
->>>>>>> 53c4475235b752db6c1b011c2a92cbc29966e27c
     </div>
     <!-- ./wrapper -->
 
