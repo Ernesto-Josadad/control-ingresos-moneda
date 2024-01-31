@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 Route::get('modeloPrincipal', function () {
     return view('modeloPrincipal');
@@ -27,6 +27,8 @@ Route::get('login2', function () {
 Route::view('recibo','recibo');
 
 Route::view('panel_control','panel_control');
+
+Route::view('alumnos','alumnos');
 
 
 Auth::routes();

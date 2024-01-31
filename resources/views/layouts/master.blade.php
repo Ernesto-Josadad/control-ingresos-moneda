@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Cerrar sesion -->
     <ul class="navbar-nav ml-auto">
-    <a class="dropdown-item" style="background: #FF977A;"><img src="dist/img/logout.png" width="20" class="logout"><strong>   Cerrar Sesión</strong> </a>
+    <a class="dropdown-item btn-btn" style="background: #FF977A;"><img src="dist/img/logout.png" width="20" class="logout"><strong class="btn btn">   Cerrar Sesión</strong> </a>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -107,7 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div>
   <!-- /.content-wrapper -->
 
-  
+
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
@@ -131,5 +131,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="js/adminlte.min.js"></script>
+
+
+
+<script src="{{  asset('assets/bower_components/jquery/dist/jquery.min.js') }} "></script>
+
+    <!-- DataTables -->
+    <script src=" {{ asset('assets/bower_components/datatables.net/js/jquery.dataTables.min.js') }} "></script>
+    <script src="{{ asset('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }} "></script>
+
+
+    <script src="{{ asset('assets/validator/validator.min.js') }}"></script>
+
+
+
+    {{--<script>--}}
+    {{--$(function () {--}}
+    {{--$('#items-table').DataTable()--}}
+    {{--$('#example2').DataTable({--}}
+    {{--'paging'      : true,--}}
+    {{--'lengthChange': false,--}}
+    {{--'searching'   : false,--}}
+    {{--'ordering'    : true,--}}
+    {{--'info'        : true,--}}
+    {{--'autoWidth'   : false--}}
+    {{--})--}}
+    {{--})--}}
+    {{--</script>--}}
+
+
 </body>
 </html>
