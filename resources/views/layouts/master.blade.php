@@ -33,13 +33,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             </ul>
 
-            <!-- Cerrar sesion -->
-            <ul class="navbar-nav ml-auto">
-                <a class="dropdown-item" style="background: #FF977A;"><img src="dist/img/logout.png" width="20"
-                        class="logout"><strong> Cerrar Sesión</strong> </a>
-            </ul>
-        </nav>
-        <!-- /.navbar -->
+    <!-- Cerrar sesion -->
+    <ul class="navbar-nav ml-auto">
+    <a class="dropdown-item" style="background: #FF977A;"><img src="dist/img/logout.png" width="20" class="logout"><strong>   Cerrar Sesión</strong> </a>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
 
         <!-- Contenedor de barra lateral -->
         <aside class="main-sidebar sidebar-light-primary ">
@@ -135,19 +134,100 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Derechos reservados
             </center>
         </footer>
+  <!-- Contenedor de barra lateral -->
+  <aside class="main-sidebar" style="background: #08483A;">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Menu barralatera -->
+      <nav class="mt-2">
+        <div style="font-weight: bold; font-size:20px;">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li style="margin-bottom: 40%;">
+          </li>
+          <li class="nav-item" style="margin-bottom: 20%; margin-top:30%">
+            <a href="#" class="nav-link">
+            <span class='icon-field'><img src="dist/img/panel.png" width="40"></span>
+              <p style="color:white;">
+                Panel de control
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" style="margin-bottom: 20%;">
+            <a href="#" class="nav-link">
+            <span class='icon-field'><img src="dist/img/usuario.png" width="40"></span>
+              <p style="color:white;">
+                Alumnos
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" style="margin-bottom: 20%;">
+            <a href="#" class="nav-link">
+            <span class='icon-field'><img src="dist/img/ticket.png" width="40"></span>
+              <p style="color:white;">
+                Recibo alumnos
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" style="margin-bottom: 20%;">
+            <a href="#" class="nav-link">
+            <span class='icon-field'><img src="dist/img/altas.png" width="40"></span>
+              <p style="color:white;">
+                Grupos
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" style="margin-bottom: 20%;">
+            <a href="#" class="nav-link">
+            <span class='icon-field'><img src="dist/img/pago.png" width="40"></span>
+              <p style="color:white;">
+                Ingresos
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
     </div>
-    <!-- ./wrapper -->
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="background: #FF977A;">
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid" >
+        @yield('contenido')
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer" style="background: #08483A; color:blanchedalmond"; font-weight:bold; font-size:30pts;>
+
+    <!-- Default to the left -->
+    <center>
+     Derechos reservados
+    </center>
+  </footer>
+</div>
+<!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
 
     @stack('scripts')
 
-    <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="js/adminlte.min.js"></script>
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="js/adminlte.min.js"></script>
 </body>
 
 </html>
