@@ -1,3 +1,18 @@
 body{
     background: #FF977A;
 }
+info-stats4{
+background: #ffffff;
+-webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:10 px ;
+border-bottom: 1px solid #e0e3e8;
+margin-bottom: 1rem;
+display:flex;
+align-items: center;
+flex-direction: row;
+padding: 1rem;
+}
+
+
+
