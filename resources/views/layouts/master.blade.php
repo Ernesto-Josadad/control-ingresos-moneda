@@ -40,7 +40,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </nav>
   <!-- /.navbar -->
 
-<<<<<<< HEAD
         <!-- Contenedor de barra lateral -->
         <aside class="main-sidebar sidebar-light-primary ">
             <!-- Sidebar -->
@@ -135,7 +134,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Derechos reservados
             </center>
         </footer>
-=======
   <!-- Contenedor de barra lateral -->
   <aside class="main-sidebar" style="background: #08483A;">
     <!-- Sidebar -->
