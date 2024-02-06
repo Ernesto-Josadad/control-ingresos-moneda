@@ -48,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li style="margin-bottom: 40%;">
           </li>
           <li class="nav-item" style="margin-bottom: 20%; margin-top:30%">
-            <a href="#" class="nav-link">
+            <a href="panel_control" class="nav-link">
             <span class='icon-field'><img src="dist/img/panel.png" width="40"></span>
               <p style="color:white;">
                 Panel de control
@@ -64,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
+            <a href="recibo" class="nav-link">
             <span class='icon-field'><img src="dist/img/ticket.png" width="40"></span>
               <p style="color:white;">
                 Recibo alumnos
