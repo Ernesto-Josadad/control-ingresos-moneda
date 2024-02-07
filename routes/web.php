@@ -20,10 +20,12 @@ Route::get('modeloPrincipal', function () {
     return view('modeloPrincipal');
 });
 
-Route::view('recibo','recibo');
+Route::view('recibo', 'recibo');
 
-Route::view('panel_control','panel_control');
+Route::view('panel_control', 'panel_control');
 
-Route::view('alumnos','alumnos');
+Route::view('reporte', 'reporte_mensual');
+
+Route::view('alumnos', 'alumnos');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
