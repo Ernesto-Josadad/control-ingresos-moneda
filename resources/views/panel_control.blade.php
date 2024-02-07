@@ -64,7 +64,7 @@
     $cuadros = [
       ['url' => 'url_de_tu_pagina_alumnos', 'img' => 'dist/img/alumnos.png', 'alt' => 'Alumnos', 'text' => 'Alumnos'],
       ['url' => 'recibo', 'img' => 'dist/img/recibo.png', 'alt' => 'Recibo Alumno', 'text' => 'Recibo Alumnos'],
-      ['url' => 'url_de_tu_pagina_recibo_coordinacion', 'img' => 'dist/img/contrato.png', 'alt' => 'Recibo Coordinación', 'text' => 'Recibo Coordinación'],
+      ['url' => 'url_de_tu_pagina_recibo_coordinacion', 'img' => 'dist/img/altas.png', 'alt' => 'Grupos', 'text' => 'Grupos'],
       ['url' => 'url_de_tu_pagina_ingresos', 'img' => 'dist/img/reportes.png', 'alt' => 'Ingresos', 'text' => 'Ingresos'],
     ];
 
