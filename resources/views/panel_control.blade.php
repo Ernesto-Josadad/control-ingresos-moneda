@@ -19,10 +19,10 @@
     .fondo {
       width: 79%;
       height: 82%;
-      background-color: #fff; /* Color de fondo blanco */
-      position: absolute; /* Posicionamiento absoluto para crear el fondo */
-      z-index: 0; /* Asegura que el fondo esté detrás de los cuadros pequeños */
-      margin-left: 20px; /* sirve para alinear el contenido */
+      background-color: #fff; 
+      position: absolute; 
+      z-index: 0; 
+      margin-left: 20px; 
     }
 
     .cuadro {
@@ -37,60 +37,50 @@
       font-size: 22px;
       font-weight: bold;
       border-radius: 40px;
-      overflow: hidden; /* Evita que el contenido se desborde */
-      margin-left: 30px; /* sirve para alinear el contenido */
-      position: relative; /* Ajustado para que los cuadros estén en el flujo normal */
+      overflow: hidden; 
+      margin-left: 30px; 
+      position: relative; 
     }
 
     .cuadro img {
       display: block;
-      margin: auto; /* Centra horizontalmente */
+      margin: auto; 
       padding: 20px;
       margin-bottom: 9px;
-      width: 31%; /* Ajusta el tamaño de la imagen según tus necesidades */
+      width: 31%; 
     }
 
     .text {
-      margin-top: 1px; /* Ajusta el espacio entre la imagen y el texto */
+      margin-top: 1px; 
     }
   </style>
 
 </head>
 <body>
-  <div class="fondo"></div>
-  
-  <div class="contenedor">
-    <div class="cuadro">
-      <a href="url_de_tu_pagina_alumnos">
-        <img src="dist/img/alumnos.png" alt="Alumnos">
-      </a>
-      <p>Alumnos</p>
-    </div>
+  <?php
+    echo '<div class="fondo"></div>';
+    echo '<div class="contenedor">';
+    
+    $cuadros = [
+      ['url' => 'url_de_tu_pagina_alumnos', 'img' => 'dist/img/alumnos.png', 'alt' => 'Alumnos', 'text' => 'Alumnos'],
+      ['url' => 'recibo', 'img' => 'dist/img/recibo.png', 'alt' => 'Recibo Alumno', 'text' => 'Recibo Alumnos'],
+      ['url' => 'url_de_tu_pagina_recibo_coordinacion', 'img' => 'dist/img/altas.png', 'alt' => 'Grupos', 'text' => 'Grupos'],
+      ['url' => 'url_de_tu_pagina_ingresos', 'img' => 'dist/img/reportes.png', 'alt' => 'Ingresos', 'text' => 'Ingresos'],
+    ];
 
-    <div class="cuadro">
-      <a href="recibo">
-        <img src="dist/img/recibo.png" alt="Recibo Alumno">
-      </a>
-      <p>Recibo Alumnos</p>
-    </div>
+    foreach ($cuadros as $cuadro) {
+      echo '<div class="cuadro">';
+      echo '<a href="' . $cuadro['url'] . '">';
+      echo '<img src="' . $cuadro['img'] . '" alt="' . $cuadro['alt'] . '">';
+      echo '</a>';
+      echo '<p>' . $cuadro['text'] . '</p>';
+      echo '</div>';
+    }
 
-    <div class="cuadro">
-      <a href="url_de_tu_pagina_recibo_coordinacion">
-        <img src="dist/img/altas.png" alt="Recibo Coordinación">
-      </a>
-      <p>Grupos</p>
-    </div>
-
-    <div class="cuadro">
-      <a href="url_de_tu_pagina_ingresos">
-        <img src="dist/img/reportes.png" alt="Ingresos">
-      </a>
-      <div class="text">
-        <p>Ingresos</p>
-      </div>
-    </div>
-  </div>
+    echo '</div>';
+  ?>
 </body>
 </html>
+
 
 @endsection
