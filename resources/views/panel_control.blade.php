@@ -60,7 +60,7 @@
 </head>
 <body>
   <div class="fondo"></div>
-  
+
   <div class="contenedor">
     <div class="cuadro">
       <a href="url_de_tu_pagina_alumnos">
@@ -84,7 +84,7 @@
     </div>
 
     <div class="cuadro">
-      <a href="url_de_tu_pagina_ingresos">
+      <a href="reporte">
         <img src="dist/img/reportes.png" alt="Ingresos">
       </a>
       <div class="text">

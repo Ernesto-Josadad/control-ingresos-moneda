@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('titulo', 'reporte_mensual')
 @section('contenido')
+    <link rel="stylesheet" href="css/monthReport.css">
     <header id="encabezado">
         <h2 class="tittle">INFORME REAL DE INGRESOS</h2>
         <h2 class="tittle">CENTRO DE BACHILLERATO TECNOLOGICO AGROPECUARIO No.284</h2>
@@ -73,7 +74,7 @@
                     <td>TOTAL DISPONIBLE</td>
                     <td></td>
                     <td>(agregar total)</td>
-                    </tr>
+                </tr>
             </table>
         </section>
 

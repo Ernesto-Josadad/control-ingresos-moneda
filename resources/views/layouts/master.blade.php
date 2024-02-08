@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
+            <a href="reporte" class="nav-link">
             <span class='icon-field'><img src="dist/img/pago.png" width="40"></span>
               <p style="color:white;">
                 Ingresos
@@ -107,7 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div>
   <!-- /.content-wrapper -->
 
-  
+
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
