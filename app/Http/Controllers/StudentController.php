@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Student;
+use Illuminate\Http\Request;
+
+class StudentController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+        $students = Student::all();
+        return view('students.students',compact('students'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+        $student= new Student(); //Genero instancia de un nuevo registro conforme al modelo
+        $student->matricula = $request->get('matricula'); //defino cada uno de los campos
+        // apunto primero al registro del modelo y con el get traido el valor de lo que tengo en el name de la plantilla blade.
+        $student->nombre = $request->get('nombre');
+        $student->apellido_paterno = $request->get('apellido_paterno');
+        $student->apellido_materno = $request->get('apellido_materno');
+        $student->grado = $request->get('grado');
+        $student->grupo = $request->get('grupo');
+        $student->carrera = $request->get('carrera');
+        $student->save(); //guardo el registro
+        return redirect('/students'); //retorno a la vista ya enrutada para que recargue y muestre el registro 
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+        $student = Student::find($id); //Encuntro el registro conforme al ID
+        return view('students.editStudent', compact('student')); //Retorno a la vista de editar
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+        $student = Student::find($id); // encuentro el registro a actualizar
+        $student->matricula = $request->get('matricula'); //defino cada uno de los campos
+        // apunto primero al registro del modelo y con el get traido el valor de lo que tengo en el name de la plantilla blade.
+        $student->nombre = $request->get('nombre');
+        $student->apellido_paterno = $request->get('apellido_paterno');
+        $student->apellido_materno = $request->get('apellido_materno');
+        $student->grado = $request->get('grado');
+        $student->grupo = $request->get('grupo');
+        $student->carrera = $request->get('carrera');
+        $student->save(); //guardo el registro
+        return redirect('/students'); //retorno a la vista enrutada. 
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+        $student = Student::find($id); //encuentro el registro
+        $student->delete(); //lo elimino
+        return redirect('/students'); //redirijo a la vista
+    }
+}
