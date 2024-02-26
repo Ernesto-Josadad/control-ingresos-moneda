@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <style>
         body {
             background-color: #FF977A;
             display: flex;
@@ -80,25 +81,46 @@
             color: red;
             font-size: 12px;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
-    <div class="container">
-        <h1>LOGIN</h1>
-        <form>
-            <input type="text" id="username" name="username" class="form-control" required
-                placeholder="Nombre de usuario">
+<div class="wrapper">
+        <div class="login-box">
+            <form action="">
+                <h2>Login</h2>
+            <div class="input-box">
+                <span class="icon">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+                <input type="email" required>
+                <label>Email</label>
+            </div>
 
-            <input type="password" id="password" name="password" class="form-control" required
-                placeholder="Contraseña">
+            <div class="input-box">
+                <span class="icon">
+                    <i class="fa-solid fa-lock"></i>
+                </span>
+                <input type="password" required>
+                <label>Pass</label>
+            </div>
 
-            <button type="submit" class="btn btn-block">Entrar</button>
-        </form>
+            <div class="remember-forgot">
+                <label><input type="checkbox">Remember me</label>
+                <a href="#">Forgot Password</a>
+            </div>
+
+            <button type="submit">Login</button>
+
+            <div class="register-link">
+                <p>Don't Have an Account 
+                    <a href="#">Register</a>
+                </p>
+            </div>
+            </form>
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 </body>
 
 </html>

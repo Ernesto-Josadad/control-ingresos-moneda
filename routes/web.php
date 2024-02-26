@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,6 @@ Route::get('modeloPrincipal', function () {
     return view('modeloPrincipal');
 });
 
-Route::view('recibo', 'recibo');
 
 Route::view('panel_control', 'panel_control');
 
@@ -29,5 +29,7 @@ Route::view('reporte', 'reporte_mensual');
 Route::view('alumnos', 'alumnos');
 
 Route::view('login','login');
+Route::view('recibo','recibo');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('/students', StudentController::class);
