@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReciboController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,7 @@ Route::view('recibo','recibo');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/students', StudentController::class);
+Route::resource('/payment', ReciboController::class);
+// show pdf 
+Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
+

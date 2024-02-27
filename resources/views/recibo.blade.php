@@ -68,11 +68,12 @@
 							<h5 class="mb-0" style="text-align: center;">
 								<b>RECIBO OFICIAL DE COBRO</b>
 							</h5>
-							<div>
+							<div style="margin-left: 90%;">
 								<a href="#" class="d-none d-sm-inline-block btn btn-primary shadow-sm" data-toggle="modal" data-target="#modalRecibo">
 									<i class="fa fa-plus-square" aria-hidden="true"></i></i>RECIBO
 								</a>
 							</div>
+							<!--
 							@if($message = Session::get('Correcto'))
 							<div class="col-12 alert alert-success alert-dismissable fade show" role="alert">
 								<h5>LISTO</h5>
@@ -96,7 +97,42 @@
 
 								</div>
 								@endif
+							</div> 
+						-->
+
+							<!--  -->
+							<div class="card-body">
+								<table class="table table-reponsive table-striped">
+									<thead>
+										<th>#</th>
+										<th>Folio</th>
+										<th>Alumno</th>
+										<th>Grupo</th>
+										<th>Clave Pago</th>
+										<th>Total</th>
+										<th>Acciones</th>
+									</thead>
+									<tbody>
+										<tr>
+											@foreach($payment as $row)
+											<td>{{$row->id}}</td>
+											<td>{{$row->folio}}</td>
+											<td>{{$row->nombre}}</td>
+											<td>{{$row->clave_padre}}</td>
+											<td>{{$row->clave_pago}}</td>
+											<td>${{$row->total}}</td>
+											<td>
+												<a href="{{ route('payments.pdf', $row->id) }}" class="btn btn-primary">Ver Pdf</a>
+											</td>
+											</tr>
+											@endforeach
+										
+									</tbody>
+								</table>
 							</div>
+
+
+							<!--  -->
 							<!-- Modal -->
 							<div class="modal fade" id="modalRecibo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 								<div class="modal-dialog modal-xl">

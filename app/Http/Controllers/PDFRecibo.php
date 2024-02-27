@@ -2,86 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Groups;
-use App\Models\Recibo;
-use App\Models\ReciboPagos;
-use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Models\Recibo;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
-class ReciboController extends Controller
+class PDFRecibo extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-        $paymentReceipt = ReciboPagos::all();
-        $student = Student::all();
-        $group = Groups::all();
-        $payment = Recibo::select(
-            'payments.id',
-            'clave_pago',
-            'total',
-            'student_id',
-            'matricula',
-            'nombre',
-            'apellido_paterno',
-            'apellido_materno',
-            'grado',
-            'grupo',
-            'carrera',
-            'payment_receipt_id',
-            'folio',
-            'group_id',
-            'clave_padre'
-        )
-            ->join('students', 'students.id', '=', 'payments.student_id')
-            ->join('payment_receipts', 'payment_receipts.id', '=', 'payments.payment_receipt_id')
-            ->join('groups', 'groups.id', '=', 'payments.group_id')->get();
-        return view('recibo', compact('payment', 'student', 'group', 'paymentReceipt'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-        $payment = new Recibo();
-        $payment->student_id = $request->get('student_id');
-        $payment->payment_receipt_id = $request->get('payment_receipt_id');
-        $payment->group_id = $request->get('group_id');
-        $payment->clave_pago = $request->get('clave_pago');
-        $payment->total = $request->get('total');
-        $payment->save();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
+    //
     public function showPDF($paymentId)
     {
         $pdf = $this->generatePDF($paymentId);
@@ -264,6 +191,4 @@ class ReciboController extends Controller
         $fpdf->Output();
         exit;
     }
-
-    
 }

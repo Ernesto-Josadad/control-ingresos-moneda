@@ -60,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
+            <a href="/students" class="nav-link">
             <span class='icon-field'><i class="fa fa-user-plus" style="color: #ffffff;"></i></span>
               <p style="color:white;">
                 Alumnos
@@ -68,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="recibo" class="nav-link">
+            <a href="/payment" class="nav-link">
             <span class='icon-field'><i class="fa fa-clipboard" style="color: #ffffff;"></i></span>
               <p style="color:white;">
                 Recibo alumnos
