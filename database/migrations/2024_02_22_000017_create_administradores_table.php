@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_groups', function (Blueprint $table) {
+        Schema::create('administradores', function (Blueprint $table) {
             $table->id();
-            $table->string('clave_hijo');
-            $table->string('concepto');
-            $table->float('costo');
+            $table->string('apellido_paterno');
+            $table->string('apellido_materno');
+            $table->string('nombres');
+            $table->string('nombre_usuario');
+            $table->string('contrasena');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_groups');
+        Schema::dropIfExists('administradores');
     }
 };

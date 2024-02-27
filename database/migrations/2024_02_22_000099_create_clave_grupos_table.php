@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use function Laravel\Prompts\table;
+
 return new class extends Migration
 {
     /**
@@ -11,13 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_receipts', function (Blueprint $table) {
+        Schema::create('clave_grupos', function (Blueprint $table) {
             $table->id();
-            $table->string('folio');
-            $table->string('num_recibo');
-            $table->string('entidad_federativa');
-            $table->string('ur');
-            $table->foreignId('administrator_id')->constrained()->onDelete('cascade');
+            $table->string('codigo');
+            $table->string('descripcion');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_receipt');
+        Schema::dropIfExists('clave_grupos');
     }
 };
