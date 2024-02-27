@@ -31,6 +31,7 @@ Route::view('alumnos', 'alumnos');
 
 Route::view('login','login');
 Route::view('recibo','recibo');
+Route::view('grupos_subgrupos', 'grupos_subgrupos');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/students', StudentController::class);
@@ -38,3 +39,10 @@ Route::resource('/payment', ReciboController::class);
 // show pdf 
 Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
 
+Route::group(['middleware' => 'web'], function () {
+    
+    Route::resource('grupos_subgrupos', GruposController::class);
+
+    
+    Route::resource('subgrupos', SubgruposController::class);
+});
