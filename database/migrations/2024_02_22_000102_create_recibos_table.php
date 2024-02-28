@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('recibos', function (Blueprint $table) {
             $table->id();
             $table->integer('numero_recibo')->unsigned();
+            $table->integer('codigo_subgrupos');
             $table->unsignedInteger('cantidad_subgrupos');
             $table->string('entidad_federativa');
-            $table->dateTime('fecha');
             $table->unsignedInteger('importe');
             $table->unsignedBigInteger('monto_total');
             $table->string('monto_total_letras');
-            $table->string('ur');
             // Llaves foraneas
             $table->foreignId('alumno_id')->constrained()->onDelete('cascade');
             $table->foreignId('clave_grupo_id')->constrained()->onDelete('cascade');
+            $table->foreingId('clave_subgrupo_id')->constrained()->onDelete('cascade');
             $table->foreignId('administradore_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
