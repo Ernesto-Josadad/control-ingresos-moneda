@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Groups;
+use App\Models\Grupos;
 use App\Models\Recibo;
+use App\Models\Subgrupos;
 use App\Models\ReciboPagos;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -17,30 +18,20 @@ class ReciboController extends Controller
     public function index()
     {
         //
-        $paymentReceipt = ReciboPagos::all();
         $student = Student::all();
-        $group = Groups::all();
         $payment = Recibo::select(
-            'payments.id',
-            'clave_pago',
-            'total',
             'student_id',
             'matricula',
-            'nombre',
             'apellido_paterno',
             'apellido_materno',
-            'grado',
-            'grupo',
-            'carrera',
-            'payment_receipt_id',
+            'nombres',            
             'folio',
-            'group_id',
-            'clave_padre'
+            'cantidad',
+            'fecha',
+            'total',
         )
-            ->join('students', 'students.id', '=', 'payments.student_id')
-            ->join('payment_receipts', 'payment_receipts.id', '=', 'payments.payment_receipt_id')
-            ->join('groups', 'groups.id', '=', 'payments.group_id')->get();
-        return view('recibo', compact('payment', 'student', 'group', 'paymentReceipt'));
+            ->join('students', 'students.id', '=', 'recibo_pagos.student_id')->get();
+        return view('recibo', compact('payment', 'student'));
     }
 
     /**
@@ -48,13 +39,9 @@ class ReciboController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
         $payment = new Recibo();
         $payment->student_id = $request->get('student_id');
-        $payment->payment_receipt_id = $request->get('payment_receipt_id');
-        $payment->group_id = $request->get('group_id');
-        $payment->clave_pago = $request->get('clave_pago');
-        $payment->total = $request->get('total');
         $payment->save();
     }
 
@@ -91,7 +78,7 @@ class ReciboController extends Controller
     private function generatePDF($paymentId)
     {
         // Obtener los datos del pago desde el modelo
-        $payment = Recibo::with(['alumno','group', 'paymentReceipt'])->findOrFail($paymentId);
+        $payment = Recibo::with(['alumno','clave_grupos','clave_subgrupos', 'paymentReceipt'])->findOrFail($paymentId);
         if (!$payment){
             abort(404);
         }

@@ -26,12 +26,13 @@ class StudentController extends Controller
         $student= new Student(); //Genero instancia de un nuevo registro conforme al modelo
         $student->matricula = $request->get('matricula'); //defino cada uno de los campos
         // apunto primero al registro del modelo y con el get traido el valor de lo que tengo en el name de la plantilla blade.
-        $student->nombre = $request->get('nombre');
         $student->apellido_paterno = $request->get('apellido_paterno');
         $student->apellido_materno = $request->get('apellido_materno');
+        $student->nombres=$request->get('nombres');
+        $student->carrera = $request->get('carrera');
         $student->grado = $request->get('grado');
         $student->grupo = $request->get('grupo');
-        $student->carrera = $request->get('carrera');
+        $student->turno = $request->get('turno');
         $student->save(); //guardo el registro
         return redirect('/students'); //retorno a la vista ya enrutada para que recargue y muestre el registro 
     }
@@ -56,12 +57,13 @@ class StudentController extends Controller
         $student = Student::find($id); // encuentro el registro a actualizar
         $student->matricula = $request->get('matricula'); //defino cada uno de los campos
         // apunto primero al registro del modelo y con el get traido el valor de lo que tengo en el name de la plantilla blade.
-        $student->nombre = $request->get('nombre');
+        $student->nombres=$request->get('nombres');
         $student->apellido_paterno = $request->get('apellido_paterno');
         $student->apellido_materno = $request->get('apellido_materno');
+        $student->carrera = $request->get('carrera');
         $student->grado = $request->get('grado');
         $student->grupo = $request->get('grupo');
-        $student->carrera = $request->get('carrera');
+        $student->turno = $request->get('turno');
         $student->save(); //guardo el registro
         return redirect('/students'); //retorno a la vista enrutada. 
     }

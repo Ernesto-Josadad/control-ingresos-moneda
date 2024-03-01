@@ -13,17 +13,20 @@
             <div class="form-group">
                 <input type="text" placeholder="Matricula" class="form-control mt-2" name="matricula" value="{{$student->matricula}}">
                 <!-- Todo los input deveran de tener la propiedad value dentro de ella la variable como se muestra -->
-                <input type="text" placeholder="Nombre" class="form-control mt-2" name="nombre" value="{{$student->nombre}}">
+                <input type="text" placeholder="Nombres" class="form-control mt-2" name="nombres" value="{{$student->nombres}}">
                 <input type="text" placeholder="Apellido Paterno" class="form-control mt-2" name="apellido_paterno" value="{{$student->apellido_paterno}}">
                 <input type="text" placeholder="Apellido Materno" class="form-control mt-2" name="apellido_materno" value="{{$student->apellido_materno}}">
                 <input type="text" placeholder="Grado" class="form-control mt-2" name="grado" value="{{$student->grado}}">
                 <input type="text" placeholder="Grupo" class="form-control mt-2" name="grupo" value="{{$student->grupo}}">
-                <input type="text" placeholder="Carrea" class="form-control mt-2" name="carrera" value="{{$student->carrera}}">
+                <input type="text" placeholder="Carrera" class="form-control mt-2" name="carrera" value="{{$student->carrera}}">
+                <input type="text" placeholder="Turno" class="form-control mt-2" name="turno" value="{{$student->turno}}">
             </div>
             <div class="row">
             <div class="d-gid col-3 mx-auto">
             <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-            
+            </div>
+            <div>
+                
             </div>
             </div>
         </form>

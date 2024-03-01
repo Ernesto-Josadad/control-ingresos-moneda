@@ -12,12 +12,13 @@ class Student extends Model
     public $primaryKey = 'id';
     protected $fillable = [
         'matricula', 
-        'nombre', 
+        'nombres', 
         'apellido_paterno',
         'apellido_materno',
         'grado',
         'grupo',
-        'carrera'
+        'carrera',
+        'turno'
     ]; 
 
 }

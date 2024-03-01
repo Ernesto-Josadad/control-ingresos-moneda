@@ -8,23 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Recibo extends Model
 {
     use HasFactory;
-    protected $table = 'payments'; // Nombre de la tabla en la base de datos
+    protected $table = 'recibo_pagos'; // Nombre de la tabla en la base de datos
     public $primaryKey = 'id';
     protected $fillable = [
-        'student_id', 
-        'payment_receipt_id', 
-        'group_id', 
-        'clave_pago',
-        'total'
+        'student_id',
+        'folio',
+        'cantidad',
+        'total',
+        'fecha'
     ]; 
 
     public function alumno()
     {
         return $this->belongsTo(Student::class, 'student_id');
     }
-    public function group()
+    public function subgrupos()
     {
-        return $this->belongsTo(Groups::class, 'group_id');
+        return $this->belongsTo(Subgrupos::class, 'clave_subgrupos_id');
     }
     public function paymentReceipt()
     {

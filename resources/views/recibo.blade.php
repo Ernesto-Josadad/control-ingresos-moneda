@@ -106,9 +106,10 @@
 									<thead>
 										<th>#</th>
 										<th>Folio</th>
-										<th>Alumno</th>
-										<th>Grupo</th>
-										<th>Clave Pago</th>
+										<th>Matricula</th>
+										<th>Nombre</th>
+										<th>Apellido P</th>
+										<th>Apellido M</th>
 										<th>Total</th>
 										<th>Acciones</th>
 									</thead>
@@ -117,12 +118,13 @@
 											@foreach($payment as $row)
 											<td>{{$row->id}}</td>
 											<td>{{$row->folio}}</td>
-											<td>{{$row->nombre}}</td>
-											<td>{{$row->clave_padre}}</td>
-											<td>{{$row->clave_pago}}</td>
+											<td>{{$row->matricula}}</td>
+											<td>{{$row->nombres}}</td>
+											<td>{{$row->apellido_paterno}}</td>
+											<td>{{$row->apellido_materno}}</td>
 											<td>${{$row->total}}</td>
 											<td>
-												<a href="{{ route('payments.pdf', $row->id) }}" class="btn btn-primary">Ver Pdf</a>
+												
 											</td>
 											</tr>
 											@endforeach

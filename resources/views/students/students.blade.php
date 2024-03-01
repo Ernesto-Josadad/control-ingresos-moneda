@@ -27,12 +27,13 @@
                                     <thead>
                                         <th>#</th>
                                         <th>MATRICULA</th>
-                                        <th>NOMBRE</th>
+                                        <th>NOMBRES</th>
                                         <th>APELLIDO PATERNO</th>
                                         <th>APELLIDO MATERNO</th>
                                         <th>GRUPO</th>
                                         <th>GRADO</th>
                                         <th>CARRERA</th>
+                                        <th>TURNO</th>
                                         <th>ACCIONES</th>
                                     </thead>
                                     <tbody>
@@ -42,12 +43,13 @@
             despues del as es el valor que se va a sustituir en la tabla -->
                                             <td>{{$row -> id}}</td>
                                             <td>{{$row -> matricula}}</td>
-                                            <td>{{$row -> nombre}}</td>
+                                            <td>{{$row -> nombres}}</td>
                                             <td>{{$row -> apellido_paterno}}</td>
                                             <td>{{$row -> apellido_materno}}</td>
                                             <td>{{$row -> grado}}</td>
                                             <td>{{$row -> grupo}}</td>
                                             <td>{{$row -> carrera}}</td>
+                                            <td>{{$row -> turno}}</td>
                                             <td>
 
                                                 <a href="{{url('/students',[$row])}}" class="btn btn-warning mb-2"><i class="fa-solid fa-pencil"></i></a>
@@ -84,12 +86,13 @@
                                                 @csrf
                                                 <div class="form-group">
                                                     <input type="text" placeholder="Matricula" class="form-control mt-2" name="matricula">
-                                                    <input type="text" placeholder="Nombre" class="form-control mt-2" name="nombre">
+                                                    <input type="text" placeholder="Nombre" class="form-control mt-2" name="nombres">
                                                     <input type="text" placeholder="Apellido Paterno" class="form-control mt-2" name="apellido_paterno">
                                                     <input type="text" placeholder="Apellido Materno" class="form-control mt-2" name="apellido_materno">
                                                     <input type="text" placeholder="Grado" class="form-control mt-2" name="grado">
                                                     <input type="text" placeholder="Grupo" class="form-control mt-2" name="grupo">
-                                                    <input type="text" placeholder="Carrea" class="form-control mt-2" name="carrera">
+                                                    <input type="text" placeholder="Carrera" class="form-control mt-2" name="carrera">
+                                                    <input type="text" placeholder="Turno" class="form-control mt-2" name="turno">
                                                 </div>
 
                                         </div>
