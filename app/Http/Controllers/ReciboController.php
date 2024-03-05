@@ -252,5 +252,18 @@ class ReciboController extends Controller
         exit;
     }
 
+    public function ultimoFolio(){
+        $ultimaConsulta = Recibo::latest('folio')->first();
+
+        if ($ultimaConsulta) {
+            // Obtener el número del folio eliminando los espacios en blanco
+            $numeroFolio = (int)str_replace(' ', '', explode(' ', $ultimaConsulta->folio)[1]);
+
+            return $numeroFolio;
+        } else {
+            return null;
+        }
+    }
+
     
 }

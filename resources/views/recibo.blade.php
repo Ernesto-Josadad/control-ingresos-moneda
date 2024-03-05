@@ -124,11 +124,11 @@
 											<td>{{$row->apellido_materno}}</td>
 											<td>${{$row->total}}</td>
 											<td>
-												
+
 											</td>
-											</tr>
-											@endforeach
-										
+										</tr>
+										@endforeach
+
 									</tbody>
 								</table>
 							</div>
@@ -145,160 +145,155 @@
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
-										<form action="/recibo" method="post">
-											@csrf
-											<div class="modal-body">
+
+										<div class="modal-body">
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="form-group">
+														<input type="text" class="form-control" name="folio" placeholder="FOLIO">
+													</div>
+												</div>
+												<div class="grid-item">
+													<div class="form-group">
+														<input type="text" class="form-control" name="num_recibo" placeholder="NUMERO RECIBO">
+													</div>
+												</div>
+											</div>
+											<div>
+												<hr>
+
 												<div class="grid-container">
 													<div class="grid-item">
-														<div class="form-group">
-															<input type="text" class="form-control" name="folio" placeholder="FOLIO">
+														<div class="input-group mb-3">
+															<!-- <button class="btn btn-primary" id="btnActualizar">Search</button> -->
+															<button class="btn btn-outline-secondary btn-sm" id="btnActualizar">Search</button>
+															<input type="text" id="inputAlumno" class="form-control mt-2">
 														</div>
 													</div>
 													<div class="grid-item">
-														<div class="form-group">
-															<input type="text" class="form-control" name="ur" placeholder="UR">
-														</div>
+														<label>RECIBI DE: </label>
+														<input type="text" class="form-control" name="matricula" placeholder="Nombres" id="nombres">
 													</div>
 													<div class="grid-item">
-														<div class="form-group">
-															<input type="text" class="form-control" name="num_recibo" placeholder="NUMERO RECIBO">
-														</div>
+														<input type="text" class="form-control" name="matricula" placeholder="Nombres" id="matricula">
 													</div>
 													<div class="grid-item">
-														<div class="form-group">
-															<input type="text" class="form-control" name="entidad_federativa" placeholder="ENTIDAD FEDERATIVA">
+														<input type="text" class="form-control" name="matricula" placeholder="Nombres" id="apellido_paterno">
+													</div>
+													<div class="grid-item">
+														<input type="text" class="form-control" name="matricula" placeholder="Nombres" id="apellido_materno">
+													</div>
+													<div class="grid-item">
+														<input type="text" class="form-control" name="matricula" placeholder="Nombres" id="grado">
+													</div>
+													<div class="grid-item">
+														<input type="text" class="form-control" name="matricula" placeholder="Nombres" id="grupo">
+													</div>
+												</div>
+
+												<div class="container">
+													<div class="row align-items-center">
+														<div class="form-group col-auto"> <!-- Utilizamos col-auto para que este div ocupe solo el espacio necesario -->
+															<div>CONOCIDO</div>
+														</div>
+														<div class="form-group col">
+															<input type="text" class="form-control" name="grado" placeholder="GRADO">
+														</div>
+														<div class="form-group col">
+															<input type="text" class="form-control" name="grupo" placeholder="GRUPO">
+														</div>
+														<div class="form-group col">
+															<input type="text" class="form-control" name="turno" placeholder="TURNO">
 														</div>
 													</div>
 												</div>
-												<div>
-													<hr>
-
-													<div class="container">
-														<div class="row justify-content-center">
-															<div class="col-6">
+												<div class="container1">
+													<div class="row1">
+														<div class="col">
+															<div class="d-flex">
 																<div class="form-group">
-																	<label style="text-align: center;">RECIBI DE: </label>
-																	<input type="text" class="form-control" name="matricula" placeholder="MATRICULA">
+																	<input type="text" class="form-control" name="total" placeholder="TOTAL">
+																</div>
+																<div class="form-group">
+																	<input type="text" class="form-control" name="total_letras" placeholder="TOTAL EN LETRAS">
 																</div>
 															</div>
 														</div>
 													</div>
-
-													<div class="form-row">
-														<div class="form-group col">
-															<input type="text" class="form-control" name="apellido_paterno" placeholder="APELLIDO PATERNO">
-														</div>
-														<div class="form-group col">
-															<input type="text" class="form-control" name="apellido_materno" placeholder="APELLIDO MATERNO">
-														</div>
-														<div class="form-group col">
-															<input type="text" class="form-control" name="nombre" placeholder="NOMBRE (S)">
-														</div>
-													</div>
-
-													<div class="container">
-														<div class="row align-items-center">
-															<div class="form-group col-auto"> <!-- Utilizamos col-auto para que este div ocupe solo el espacio necesario -->
-																<div>CONOCIDO</div>
-															</div>
-															<div class="form-group col">
-																<input type="text" class="form-control" name="grado" placeholder="GRADO">
-															</div>
-															<div class="form-group col">
-																<input type="text" class="form-control" name="grupo" placeholder="GRUPO">
-															</div>
-															<div class="form-group col">
-																<input type="text" class="form-control" name="turno" placeholder="TURNO">
-															</div>
-														</div>
-													</div>
-													<div class="container1">
-														<div class="row1">
-															<div class="col">
-																<div class="d-flex">
-																	<div class="form-group">
-																		<input type="text" class="form-control" name="total" placeholder="TOTAL">
-																	</div>
-																	<div class="form-group">
-																		<input type="text" class="form-control" name="total_letras" placeholder="TOTAL EN LETRAS">
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="my-2">
-														<table class="table">
-															<thead>
-																<tr>
-																	<th scope="col"><label for="cantidad">CANTIDAD</label></th>
-																	<th scope="col"><label for="clave_padre">CLAVE</label></th>
-																	<th scope="col"><label for="concepto">CONCEPTO</label></th>
-																	<th scope="col"><label for="costo">CUOTA</label></th>
-																	<th scope="col"><label for="total">IMPORTE</label></th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td><input type="text" class="form-control" id="cantidad" name="cantidad"></td>
-																	<td><select name="clave_padre" id="clave_hijo">
-																			<option value="selecciona">SELECCIONA UNA CLAVE</option>
-																			<option value="A003">A003</option>
-																			<option value="B002">B002</option>
-																			<option value="B003">B003</option>
-																		</select></td>
-																	<td><input type="text" class="form-control" id="concepto" name="concepto"></td>
-																	<td><input type="text" class="form-control" id="cuota" name="cuota"></td>
-																	<td><input type="text" class="form-control" id="importe" name="importe"></td>
-																</tr>
-																<tr>
-																	<td><input type="text" class="form-control" id="cantidad" name="cantidad"></td>
-																	<td><select name="clave_padre" id="clave_hijo">
-																			<option value="selecciona">SELECCIONA UNA CLAVE</option>
-																			<option value="A003">A003</option>
-																			<option value="B002">B002</option>
-																			<option value="B003">B003</option>
-																		</select></td>
-																	<td><input type="text" class="form-control" id="concepto" name="concepto"></td>
-																	<td><input type="text" class="form-control" id="cuota" name="cuota"></td>
-																	<td><input type="text" class="form-control" id="importe" name="importe"></td>
-																</tr>
-																<tr>
-																	<td><input type="text" class="form-control" id="cantidad" name="cantidad"></td>
-																	<td><select name="clave_padre" id="clave_hijo">
-																			<option value="selecciona">SELECCIONA UNA CLAVE</option>
-																			<option value="A003">A003</option>
-																			<option value="B002">B002</option>
-																			<option value="B003">B003</option>
-																		</select></td>
-																	<td><input type="text" class="form-control" id="concepto" name="concepto"></td>
-																	<td><input type="text" class="form-control" id="cuota" name="cuota"></td>
-																	<td><input type="text" class="form-control" id="importe" name="importe"></td>
-																</tr>
-															</tbody>
-															<tbody>
-																<tr>
-																	<td></td>
-																	<td></td>
-																	<td></td>
-																	<td><label for="total">TOTAL</label></td>
-																	<td>
-																		<input type="text" class="form-control" id="total" name="total">
-																	</td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-
-
-
+												</div>
+												<div class="my-2">
+													<table class="table">
+														<thead>
+															<tr>
+																<th scope="col"><label for="cantidad">CANTIDAD</label></th>
+																<th scope="col"><label for="clave_padre">CLAVE</label></th>
+																<th scope="col"><label for="concepto">CONCEPTO</label></th>
+																<th scope="col"><label for="costo">CUOTA</label></th>
+																<th scope="col"><label for="total">IMPORTE</label></th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td><input type="text" class="form-control" id="cantidad" name="cantidad"></td>
+																<td><select name="clave_padre" id="clave_hijo">
+																		<option value="selecciona">SELECCIONA UNA CLAVE</option>
+																		<option value="A003">A003</option>
+																		<option value="B002">B002</option>
+																		<option value="B003">B003</option>
+																	</select></td>
+																<td><input type="text" class="form-control" id="concepto" name="concepto"></td>
+																<td><input type="text" class="form-control" id="cuota" name="cuota"></td>
+																<td><input type="text" class="form-control" id="importe" name="importe"></td>
+															</tr>
+															<tr>
+																<td><input type="text" class="form-control" id="cantidad" name="cantidad"></td>
+																<td><select name="clave_padre" id="clave_hijo">
+																		<option value="selecciona">SELECCIONA UNA CLAVE</option>
+																		<option value="A003">A003</option>
+																		<option value="B002">B002</option>
+																		<option value="B003">B003</option>
+																	</select></td>
+																<td><input type="text" class="form-control" id="concepto" name="concepto"></td>
+																<td><input type="text" class="form-control" id="cuota" name="cuota"></td>
+																<td><input type="text" class="form-control" id="importe" name="importe"></td>
+															</tr>
+															<tr>
+																<td><input type="text" class="form-control" id="cantidad" name="cantidad"></td>
+																<td><select name="clave_padre" id="clave_hijo">
+																		<option value="selecciona">SELECCIONA UNA CLAVE</option>
+																		<option value="A003">A003</option>
+																		<option value="B002">B002</option>
+																		<option value="B003">B003</option>
+																	</select></td>
+																<td><input type="text" class="form-control" id="concepto" name="concepto"></td>
+																<td><input type="text" class="form-control" id="cuota" name="cuota"></td>
+																<td><input type="text" class="form-control" id="importe" name="importe"></td>
+															</tr>
+														</tbody>
+														<tbody>
+															<tr>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td><label for="total">TOTAL</label></td>
+																<td>
+																	<input type="text" class="form-control" id="total" name="total">
+																</td>
+															</tr>
+														</tbody>
+													</table>
 												</div>
 
+
+
 											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-												<button type="submit" class="btn btn-primary">GUARDAR</button>
-											</div>
-										</form>
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+											<button type="submit" class="btn btn-primary">GUARDAR</button>
+										</div>
+
 									</div>
 								</div>
 							</div>
@@ -314,6 +309,32 @@
 		</div>
 	</div>
 </div>
+@push('scripts')
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Aquí dentro colocarías todas tus funciones y llamadas a funciones
+		actualizarCampos();
 
+	});
 
+	function actualizarCampos() {
+		document.getElementById('btnActualizar').addEventListener('click', function() {
+			var matriculaAlumno = document.getElementById('inputAlumno').value; // Obtener la matrícula del alumno
+			var alumnos = $student;
+
+			var alumnoSeleccionado = alumnos.find(function(alumno) {
+				return alumno.matricula == matriculaAlumno; // Comparar por matrícula en lugar de ID
+			});
+
+			document.getElementById('nombres').value = alumnoSeleccionado.nombres;
+			document.getElementById('matricula').value = alumnoSeleccionado.matricula;
+			document.getElementById('apellido_paterno').value = alumnoSeleccionado.apellido_paterno;
+			document.getElementById('apellido_materno').value = alumnoSeleccionado.apellido_materno;
+			document.getElementById('grado').value = alumnoSeleccionado.grado;
+			document.getElementById('grupo').value = alumnoSeleccionado.grupo;
+		});
+	}
+</script>
+
+@endpush
 @endsection

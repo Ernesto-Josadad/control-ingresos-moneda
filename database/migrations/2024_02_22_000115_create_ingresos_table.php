@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ingresos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recibo_id')->constrained()->onDelete('cascade');
+            $table->foreignId('recibo_pago_id')->constrained()->onDelete('cascade');
             $table->string('ejercicio_fiscal');
             $table->date('fecha_elaboracion');
             $table->decimal('saldo_mes', 10, 2);
