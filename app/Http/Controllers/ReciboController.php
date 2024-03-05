@@ -20,7 +20,7 @@ class ReciboController extends Controller
         //
         $student = Student::all();
         $payment = Recibo::select(
-            'student_id',
+            'alumno_id',
             'matricula',
             'apellido_paterno',
             'apellido_materno',
@@ -30,7 +30,7 @@ class ReciboController extends Controller
             'fecha',
             'total',
         )
-            ->join('students', 'students.id', '=', 'recibo_pagos.student_id')->get();
+            ->join('alumnos', 'alumnos.id', '=', 'recibo_pagos.alumno_id')->get();
         return view('recibo', compact('payment', 'student'));
     }
 
@@ -41,7 +41,7 @@ class ReciboController extends Controller
     {
         
         $payment = new Recibo();
-        $payment->student_id = $request->get('student_id');
+        $payment->alumno_id = $request->get('alumno_id');
         $payment->save();
     }
 

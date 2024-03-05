@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
-    protected $table = 'students'; // Nombre de la tabla en la base de datos
+    protected $table = 'alumnos'; // Nombre de la tabla en la base de datos
     public $primaryKey = 'id';
     protected $fillable = [
         'matricula', 

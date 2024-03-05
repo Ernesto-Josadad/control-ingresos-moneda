@@ -320,7 +320,7 @@
 	function actualizarCampos() {
 		document.getElementById('btnActualizar').addEventListener('click', function() {
 			var matriculaAlumno = document.getElementById('inputAlumno').value; // Obtener la matrícula del alumno
-			var alumnos = $student;
+			var alumnos = $alumno;
 
 			var alumnoSeleccionado = alumnos.find(function(alumno) {
 				return alumno.matricula == matriculaAlumno; // Comparar por matrícula en lugar de ID
