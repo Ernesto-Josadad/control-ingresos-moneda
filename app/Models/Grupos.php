@@ -11,7 +11,7 @@ class Grupos extends Model
     protected $table = 'clave_grupos';
     public $primaryKey = 'id';
     protected $fillable = [
-        'codigo'
+        'clave',
+        'concepto'
     ];
 }
-

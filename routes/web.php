@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReciboController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ReporteMensualController;
+use App\Http\Controllers\GruposController;
+use App\Http\Controllers\SubgruposController;
+use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +36,7 @@ Route::get('reporteMes', [ReporteMensualController::class, 'index']);
 Route::view('alumnos', 'alumnos');
 
 Route::view('login','login');
-Route::view('recibo','recibo');
-Route::view('grupos_subgrupos', 'grupos_subgrupos');
+Route::view('tabla_grupos_subgrupos', 'tabla_grupos_subgrupos');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Conchi Routes:
@@ -44,9 +47,9 @@ Route::view('/makePayment', 'formPagos');
 Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
 // =============================================================================================>
 Route::group(['middleware' => 'web'], function () {
-
     Route::resource('grupos_subgrupos', GruposController::class);
-
-
     Route::resource('subgrupos', SubgruposController::class);
 });
+Route::resource('/grupos_subgrupos', SubgruposController::class);
+Route::resource('/nuevogrupo', GruposController::class);
+
