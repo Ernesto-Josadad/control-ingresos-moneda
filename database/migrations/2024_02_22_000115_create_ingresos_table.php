@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('folio_inicial');
             $table->string('folio_final');
             $table->integer('cantidad_folios_utilizados');
-            $table->string('recibo_uso_folios');
             $table->integer('ingresos_subgrupo');
             $table->date('fecha_inicio_periodo_informe');
             $table->date('fecha_corte_periodo_informe');
