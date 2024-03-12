@@ -3,6 +3,7 @@
 use App\Http\Controllers\ReciboController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GenerarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,21 +27,11 @@ Route::get('modeloPrincipal', function () {
 Route::view('panel_control', 'panel_control');
 
 Route::view('reporte', 'reporte_mensual');
-
-Route::view('alumnos', 'alumnos');
-
 Route::view('login','login');
 Route::view('recibo','recibo');
-Route::view('grupos_subgrupos', 'grupos_subgrupos');
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Conchi Routes: 
-Route::resource('/students', StudentController::class);
-Route::resource('/payment', ReciboController::class);
-Route::view('/makePayment', 'formPagos');
-// show pdf 
-Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
-// =============================================================================================>
+
 Route::group(['middleware' => 'web'], function () {
     
     Route::resource('grupos_subgrupos', GruposController::class);
