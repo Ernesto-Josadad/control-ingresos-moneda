@@ -60,7 +60,7 @@
             <div class="grid-item">
                 <div class="row">
                     <div class="col-md-2">
-                        <input type="text" id="inputCode" class="form-control" placeholder="MATRICULA">
+                        <input type="text" id="inputCode" class="form-control" placeholder="CLAVE SUBGRUPO">
                     </div>
                     <div class="col-md-6 mt-2 mt-md-0 mb-4">
                         <button class="btn btn-success btn-sm" id="btnAddNewRow">BUSCAR</button>

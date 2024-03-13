@@ -1,36 +1,27 @@
 <?php
-
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Validator; 
-use App\Models\Grupos; 
 
+use App\Models\Grupos;
+use App\Models\Subgrupos;
 use Illuminate\Http\Request;
 
 class GruposController extends Controller
 {
     public function index()
     {
-        return view('grupos_subgrupos');
+        $cgrupos = Grupos::all();
+
+
+        return view('nuevogrupo', compact('cgrupos'));
     }
 
     public function store(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'clavegrupo' => 'required',
-    ]);
+    {
+        $grupo = new Grupos();
 
-    if ($validator->fails()) {
-        return back()
-            ->withInput()
-            ->with('ErrorInsert', 'Favor de llenar todos los campos')
-            ->withErrors($validator);
-    } else {
-        $grupo = clave_grupos::create([
-            'clave_padre' => $request->clavegrupo,
-        ]);
-        return back()->with('Listo', 'Se ha agregado el grupo correctamente');
+        $grupo->clave = $request->get('clave');
+        $grupo->concepto = $request->get('concepto');
+        $grupo->save();
+        return redirect('/nuevogrupo');
     }
-}
-
-    
 }

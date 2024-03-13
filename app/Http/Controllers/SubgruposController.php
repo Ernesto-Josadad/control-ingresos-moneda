@@ -3,39 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Models\Subgrupo;
+use App\Models\Subgrupos;
+use App\Models\Grupos;
 
 class SubgruposController extends Controller
 {
     public function index()
-    {
-        $subgroups = Subgroup::all();
-        return view('grupos_subgrupos');
-    }
-    
+{
+    $grupos= Grupos::all();
+    $csubgroup = Subgrupos::select (
+        'clave_grupo_id',
+        'clave',
+        'concepto',
+        'codigo',
+        'descripcion',
+        'costo'
+
+    )
+    ->join('clave_grupos','clave_grupos.id','=', 'clave_subgrupos.clave_grupo_id')->get();
+    return view('grupos_subgrupos', compact('csubgroup','grupos'));
+}
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'clavesubgrupo' => 'required',
-            'descripcionsubgrupo' => 'required',
-            'costosubgrupo' => 'required',
-        ]);
+        $subgrupo = new Subgrupos();
 
-        if ($validator->fails()) {
-            return back()
-                ->withInput()
-                ->with('ErrorInsert', 'Favor de llenar todos los campos')
-                ->withErrors($validator);
-        } else {
-            $subgrupo = Subgroup::create([
-                'clave_hijo' => $request->clavesubgrupo,
-                'concepto' => $request->descripcionsubgrupo,
-                'costo' => $request->costosubgrupo,
-            ]);
+        $subgrupo->clave = $request->get('codigo');
+        $subgrupo->concepto = $request->get('descripcion');
+        $subgrupo->concepto = $request->get('costo');
+        $subgrupo->save();
+        return redirect('/grupos_subgrupos');
 
-            return back()->with('Listo', 'Se ha agregado el subgrupo correctamente');
-        }
     }
 }

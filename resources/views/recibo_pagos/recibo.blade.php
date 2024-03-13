@@ -75,9 +75,9 @@
 								</a>
 							</div> -->
 							<div style="margin-left: 80%;">
-								<button type="button" class="d-sm-inline-block btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-									<i class="fa-regular fa-square-plus"></i> Nuevo Alumno
-								</button>
+								<a href="/generar" type="button" class="d-sm-inline-block btn btn-primary shadow-sm">
+									<i class="fa-regular fa-square-plus"></i> Nuevo recibo
+								</a>
 							</div>
 							<!-- Tabla para visualizar los datos de los recibos -->
 							<div class="card-body">
@@ -126,43 +126,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">AGREGAR ALUMNOS</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-
-						<div class="form-group">
-						<div class="col-md-6">
-                            <input type="text" id="inputMatricula" class="form-control" placeholder="MATRICULA">
-                        </div>
-							<div class="col-md-6 mt-2 mt-md-0">
-								<button class="btn btn-success btn-sm" id="btnActualizar">BUSCAR</button>
-							</div>
-							<input type="text" placeholder="Matricula" class="form-control mt-2" id="matricula">
-							<input type="text" placeholder="Nombre" class="form-control mt-2" id="nombres">
-							<input type="text" placeholder="Apellido Paterno" class="form-control mt-2" id="apellido_paterno">
-							<input type="text" placeholder="Apellido Materno" class="form-control mt-2" id="apellido_materno">
-							<input type="text" placeholder="Grado" class="form-control mt-2" id="grado">
-							<input type="text" placeholder="Grupo" class="form-control mt-2" id="grupo">
-							<input type="text" placeholder="Carrera" class="form-control mt-2" id="carrera">
-							<input type="text" placeholder="Turno" class="form-control mt-2" id="turno">
-						</div>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-						<button type="submit" class="btn btn-primary">GUARDAR</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- End Modal -->
 	</div>
 </div>
 @push('scripts')

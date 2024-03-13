@@ -31,7 +31,14 @@ Route::view('login','login');
 Route::view('recibo','recibo');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Conchi Routes: 
+Route::resource('/students', StudentController::class);
+Route::resource('/payment', ReciboController::class);
+Route::resource('/generar', GenerarController::class);
 
+Route::view('/makePayment', 'formPagos');
+// show pdf 
+Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
+// =============================================================================================>
 Route::group(['middleware' => 'web'], function () {
     
     Route::resource('grupos_subgrupos', GruposController::class);
