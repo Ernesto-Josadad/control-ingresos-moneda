@@ -10,8 +10,6 @@ class Reporte_mensual extends Model
     use HasFactory;
     protected $table = 'ingresos';
     protected $fillable = [
-        'recibo_pago_id',
-        'ejercicio_fiscal',
         'fecha_elaboracion',
         'saldo_mes',
         'folio_inicial',
@@ -25,5 +23,9 @@ class Reporte_mensual extends Model
     public function reciboPago()
     {
         return $this->belongsTo(Recibo::class, 'recibo_pagos_id');
+    }
+    public function clave_grupos()
+    {
+        return $this->belongsTo(Grupos::class, 'clave_grupos_id');
     }
 }

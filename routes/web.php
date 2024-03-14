@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReciboController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ReporteMensualController;
 use App\Http\Controllers\GruposController;
 use App\Http\Controllers\SubgruposController;
-use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -20,9 +21,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Auth
+
+Route::prefix('auth')->group(function(){
+    Route::get('login', [AuthController::class, 'login']);
+    Route::get('register', [AuthController::class, 'register']);
+    Route::post('register', [AuthController::class, 'registerVerify'])->name('login.verify');
+    Route::post('login', [AuthController::class, 'loginVerify']);
+});
+
+//Protegidas
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('panel_control', function(){
+        return view('panel_control')->name('panel_control');
+    });
+});
+
 Route::get('/', function () {
     return view('login');
 });
+
+
 Route::get('modeloPrincipal', function () {
     return view('modeloPrincipal');
 });
