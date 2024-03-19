@@ -8,31 +8,60 @@ use App\Models\Grupos;
 
 class SubgruposController extends Controller
 {
+    // Método para mostrar todos los subgrupos
     public function index()
-{
-    $grupos= Grupos::all();
-    $csubgroup = Subgrupos::select (
-        'clave_grupo_id',
-        'clave',
-        'concepto',
-        'codigo',
-        'descripcion',
-        'costo'
+    {
+        $csubgrupos = Subgrupos::all(); // Recupera todos los subgrupos de la base de datos
+        $grupos = Grupos::all(); // Recupera todos los grupos de la base de datos
+        return view('grupos_subgrupos', compact('csubgrupos', 'grupos')); // Devuelve la vista 'grupos_subgrupos' con los subgrupos y grupos recuperados
+    }
 
-    )
-    ->join('clave_grupos','clave_grupos.id','=', 'clave_subgrupos.clave_grupo_id')->get();
-    return view('grupos_subgrupos', compact('csubgroup','grupos'));
-}
-
+    // Método para almacenar un nuevo subgrupo
     public function store(Request $request)
     {
-        $subgrupo = new Subgrupos();
+        $subgrupo = new Subgrupos(); // Crea una nueva instancia de Subgrupos
 
-        $subgrupo->clave = $request->get('codigo');
-        $subgrupo->concepto = $request->get('descripcion');
-        $subgrupo->concepto = $request->get('costo');
-        $subgrupo->save();
-        return redirect('/grupos_subgrupos');
+        // Asigna los valores del formulario al nuevo subgrupo
+        $subgrupo->clave_grupo_id = $request->get('clave_grupo_id');
+        $subgrupo->codigo = $request->get('codigo');
+        $subgrupo->descripcion = $request->get('descripcion');
+        $subgrupo->costo = $request->get('costo');
 
+        $subgrupo->save(); // Guarda el nuevo subgrupo en la base de datos
+
+        return redirect('/grupos_subgrupos'); // Redirige a la vista 'grupos_subgrupos'
+    }
+
+    // Método para mostrar el formulario de edición de un subgrupo
+    public function show(string $id)
+    {
+        $csubgrupos = Subgrupos::find($id); // Busca el subgrupo con el ID proporcionado
+        $grupos = Grupos::all(); // Obtener todos los grupos
+        return view('editgrupos_subgrupos', compact('csubgrupos', 'grupos')); // Devuelve la vista 'editgrupos_subgrupos' para editar el subgrupo
+    }
+
+    // Método para actualizar un subgrupo existente
+    public function update(Request $request, string $id)
+    {
+        $subgrupo = Subgrupos::find($id); // Busca el subgrupo a actualizar
+
+        // Actualiza los valores del subgrupo con los datos del formulario
+        $subgrupo->clave_grupo_id = $request->get('clave_grupo_id');
+        $subgrupo->codigo = $request->get('codigo');
+        $subgrupo->descripcion = $request->get('descripcion');
+        $subgrupo->costo = $request->get('costo');
+
+        $subgrupo->save(); // Guarda los cambios en la base de datos
+
+        return redirect('/grupos_subgrupos'); // Redirige a la vista 'grupos_subgrupos'
+    }
+
+    // Método para eliminar un subgrupo
+    public function destroy(string $id)
+    {
+        $csubgrupos = Subgrupos::find($id); // Busca el subgrupo a eliminar
+        $csubgrupos->delete(); // Elimina el subgrupo de la base de datos
+        return redirect('/grupos_subgrupos'); // Redirige a la vista 'grupos_subgrupos'
     }
 }
+

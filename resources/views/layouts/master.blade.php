@@ -77,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item" style="margin-bottom: 20%;">
-            <a href="#" class="nav-link">
+            <a href="/nuevogrupo" class="nav-link">
             <span class='icon-field'><i class="fa fa-users" style="color: #ffffff;"></i></span>
               <p style="color:white;">
                 Grupos
