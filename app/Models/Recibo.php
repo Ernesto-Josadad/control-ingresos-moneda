@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Recibo extends Model
 {
     use HasFactory;
-    protected $table = 'recibo_pagos'; // Nombre de la tabla en la base de datos
+    protected $table = 'pago_recibo'; // Nombre de la tabla en la base de datos
     public $primaryKey = 'id';
     protected $fillable = [
         'student_id',
@@ -16,7 +16,7 @@ class Recibo extends Model
         'cantidad',
         'total',
         'fecha'
-    ]; 
+    ];
 
     // public function alumno()
     // {

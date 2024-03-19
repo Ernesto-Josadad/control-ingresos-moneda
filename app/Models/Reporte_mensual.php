@@ -8,16 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Reporte_mensual extends Model
 {
     use HasFactory;
-    protected $table = 'ingresos';
+    protected $table = 'ingresos'; // Nombre de la tabla
+
     protected $fillable = [
-        'fecha_elaboracion',
-        'saldo_mes',
+        'ingresos',
+        'cantidad_de_folios',
         'folio_inicial',
         'folio_final',
-        'cantidad_folios_utilizados',
-        'ingresos_subgrupo',
-        'fecha_inicio_periodo_informe',
-        'fecha_corte_periodo_informe',
+        'fecha_inicial_del_mes',
+        'fecha_final_del_mes',
+        'ganancias_por_subgrupo',
+        'grupos',
+        'ganancias_por_grupo',
+        'ejercicio_fiscal',
+        'periodo_de_informe',
+        'fecha_de_elaboracion',
+        'total_disponible',
     ];
 
     public function reciboPago()
@@ -27,5 +33,10 @@ class Reporte_mensual extends Model
     public function clave_grupos()
     {
         return $this->belongsTo(Grupos::class, 'clave_grupos_id');
+    }
+
+    public function clave_subgrupos()
+    {
+        return $this->belongsTo(Subgrupos::class, 'clave_subgrupo_id');
     }
 }
