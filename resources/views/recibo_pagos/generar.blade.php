@@ -12,21 +12,26 @@
                 <div class="col-md-6" style="width: 30%;">
                     <label for="matricula">Recibí de:</label>
                     <div class="row">
-                        <div class="col-md-6">
-                            <input type="text" id="inputMatricula" class="form-control" placeholder="MATRICULA">
-                        </div>
-                        <div class="col-md-6 mt-2 mt-md-0">
-                            <button class="btn btn-success btn-sm" id="btnActualizar">BUSCAR</button>
-                        </div>
+                        
+                            <div class="col-md-6">
+                                <input type="text" id="inputMatricula" class="form-control" placeholder="MATRICULA">
+                            </div>
+                            <div class="col-md-6 mt-2 mt-md-0">
+                                <button class="btn btn-success btn-sm" id="btnActualizar">BUSCAR</button>
+                            </div>
                     </div>
                 </div>
             </div>
             <div class="form-group" style="margin-left:80%">
-                <input type="text" class="form-control" name="folio" placeholder="FOLIO">
+                <input type="text" class="form-control" name="folio" id="folio" placeholder="FOLIO">
             </div>
 
 
-
+            <div class="row" mb-3>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="alumno_id" name="alumno_id">
+                </div>
+            </div>
             <div class="row mb-3"> <!-- Añadimos mb-3 para la separación -->
                 <div class="col-md-4">
                     <input type="text" class="form-control" name="matricula" placeholder="NOMBRES" id="nombres">
@@ -65,6 +70,10 @@
                     <div class="col-md-6 mt-2 mt-md-0 mb-4">
                         <button class="btn btn-success btn-sm" id="btnAddNewRow">BUSCAR</button>
                     </div>
+
+                    <div class="col-md-6 mt-2 mt-md-0 mb-4">
+                        <input type="number" id="claveSubgrupoId" class="form-control">
+                    </div>
                 </div>
             </div>
             <div class="container">
@@ -81,20 +90,18 @@
                     <tbody>
                         <!-- Aquí colocas la primera fila que estará presente siempre -->
 
+
                         <!-- Aquí puedes agregar más filas dinámicamente si es necesario -->
                     </tbody>
                 </table>
             </div>
-
-
         </div>
-
         <div class="card-body">
             <div class="footer">
-                <a href="/payment" type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</a>
-                <button type="submit" class="btn btn-primary">GUARDAR</button>
+                <input type="submit" id="sendForm" value="Enviar" class="btn btn-primary">
             </div>
         </div>
+        
     </div>
 </div>
 </div>
@@ -106,6 +113,7 @@
         // Aquí dentro colocarías todas tus funciones y llamadas a funciones
         actualizarCampos();
         addNewRowTableSubGroup();
+        sendFormToDb();
 
     });
 
@@ -122,6 +130,7 @@
 
 
             // Actualizar los campos del formulario con la información del alumno seleccionado
+            document.getElementById('alumno_id').value = alumnoSeleccionado.id;
             document.getElementById('nombres').value = alumnoSeleccionado.nombres;
             document.getElementById('matricula').value = alumnoSeleccionado.matricula;
             document.getElementById('apellido_paterno').value = alumnoSeleccionado.apellido_paterno;
@@ -174,6 +183,7 @@
                 cellDescripcion.innerHTML = subGrupoSeleccionado.descripcion;
                 cellCosto.innerHTML = subGrupoSeleccionado.costo;
                 cellImporte.textContent = importe;
+                document.getElementById('claveSubgrupoId').value = subGrupoSeleccionado.id;
 
                 // Agregar un evento change al input cantidad
                 cantidadInput.addEventListener("change", function() {
@@ -194,6 +204,117 @@
                 console.error('Sub grupo no encontrado con el codigo: ' + codigoSubGrupo + ' no encontrado');
             }
         });
+    }
+    // Lo declaramos de forma global para poder usarlo en el json form de lo contario
+    // nos saldra indefinido
+    let detallePagos = [];
+
+    function sendFormToDb() {
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let form = {};
+            // Traemos los datos de la tabla de sub grupos 
+            let table = document.getElementById('subGroupTable');
+            if (table) {
+                console.log('Se encontró la tabla');
+
+
+                // Obtener todas las filas de la tabla
+                let rows = table.getElementsByTagName('tr');
+
+                // Iterar sobre todas las filas, excepto la primera (encabezados)
+                for (let i = 1; i < rows.length; i++) {
+                    let cells = rows[i].getElementsByTagName('td');
+
+                    // Obtener los valores de las celdas en la fila actual
+                    //let claveSubgrupoId = cells[5].textContent; // Suponiendo que el ID del subgrupo está en la sexta columna
+                    let importeString = cells[4].textContent;
+                    let importe = parseInt(importeString, 10)
+                    let cantidadSubgrupo = cells[0].querySelector('input');
+                    let cantidad = parseInt(cantidadSubgrupo.value, 10);
+
+                    // Crear un objeto con los datos del detalle de pago y agregarlo al array
+                    let detallePago = {
+                        clave_subgrupo_id: parseInt(document.getElementById('claveSubgrupoId').value, 10),
+                        importe: importe,
+                        cantidad_subgrupo: cantidad
+                    };
+                    detallePagos.push(detallePago);
+                }
+
+                console.log(detallePagos);
+
+
+            } else {
+                console.error('No se encontró la tabla');
+            }
+
+            // Crear el objeto de formulario con detallePagos
+            form = {
+                alumno_id: document.getElementById('alumno_id').value,
+                folio: document.getElementById('folio').value,
+                detallePago: detallePagos, // Aquí usamos detallePagos
+            };
+            console.log(form);
+
+
+            // try {
+            //     let response = await fetch('savePayment', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify(form)
+            //     });
+            // } catch (error) {
+            //     console.error('Error de red:', error);
+            // }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtener el botón de enviar
+        let submitButton = document.getElementById('sendForm');
+
+        // Agregar un evento de escucha para el evento click del botón de enviar
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Evitar que la acción predeterminada del botón se ejecute
+
+            // Llamar a la función sendFormDataToBackend() para enviar los datos al backend
+            sendFormDataToBackend();
+        });
+    });
+
+
+
+    async function sendFormToBackend() {
+        // Crear el objeto de formulario con los datos
+        let form = {
+            alumno_id: document.getElementById('alumno_id').value,
+            folio: document.getElementById('folio').value,
+            detallePago: detallePagos, // Aquí usamos detallePagos
+        };
+
+        try {
+            // Realizar la solicitud POST al backend
+            let response = await fetch('savePayment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(form)
+            });
+
+            // Verificar si la solicitud fue exitosa (código de estado 200-299)
+            if (response.ok) {
+                let data = await response.json(); // Obtener los datos de la respuesta si hay
+                console.log(data); // Hacer algo con los datos si es necesario
+            } else {
+                console.error('Error en la solicitud:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
     }
 </script>
 @endpush

@@ -16,5 +16,10 @@ class ReciboPagos extends Model
         'importe',
         'cantidad_subgrupo'
     ];
-    
+
+    public function recibo()
+    {
+        return $this->belongsTo(Recibo::class);
+    }
+     
 }

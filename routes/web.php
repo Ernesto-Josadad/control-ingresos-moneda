@@ -34,6 +34,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('/students', StudentController::class);
 Route::resource('/payment', ReciboController::class);
 Route::resource('/generar', GenerarController::class);
+Route::post('savePayment', [GenerarController::class, 'savePayment'])->name('savePayment');
 
 Route::view('/makePayment', 'formPagos');
 // show pdf 
