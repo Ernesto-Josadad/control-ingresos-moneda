@@ -13,7 +13,7 @@ class StudentController extends Controller
     public function index()
     {
         //
-        $students = Student::all();
+        $students = Student::Paginate(1);
         return view('students.students',compact('students'));
     }
 
@@ -43,7 +43,7 @@ class StudentController extends Controller
     public function show(string $id)
     {
         //
-        $student = Student::find($id); //Encuntro el registro conforme al ID
+        $student = Student::find($id); //Encuentro el registro conforme al ID
         return view('students.editStudent', compact('student')); //Retorno a la vista de editar
 
     }

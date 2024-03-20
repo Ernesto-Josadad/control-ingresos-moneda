@@ -15,7 +15,7 @@
                     <option value="">Selecciona un grupo</option> 
                     @foreach ($grupos as $grupo) 
                     <option value="{{ $grupo->id }}" {{ $grupo->id == $csubgrupos->clave_grupo_id ? 'selected' : '' }}> 
-                        {{ $grupo->concepto }} 
+                        {{ $grupo->clave }} 
                     </option>
                     @endforeach 
                 </select> 

@@ -31,7 +31,7 @@
     }
 
     .opciones {
-        width: 130px;
+        width: 120px;
     }
 
     .card {
@@ -70,7 +70,7 @@
                     <tr>
                         <th>ID</th>
                         <th class="opciones">GRUPO</th>
-                        <th class="opciones">CODIGO</th>
+                        <th>CODIGO SUBGRUPO</th>
                         <th>DESCRIPCIÓN</th>
                         <th class="opciones">COSTO</th>
                         <th class="opciones">ACCIONES</th>
@@ -87,13 +87,13 @@
                             $grupo = App\Models\Grupos::find($row->clave_grupo_id);
                             @endphp
                             @if ($grupo)
-                            {{$grupo->concepto}}
+                            {{$grupo->clave}}
                             @endif
                         </td>
 
                         <td class="align-middle text-center">{{$row->codigo}}</td>
                         <td class="align-middle text-center">{{$row->descripcion}}</td>
-                        <td class="align-middle text-center">$ {{$row->costo}}</td>
+                        <td class="align-middle text-center">${{$row->costo}}</td>
                         <td>
                             <!-- Botones para editar y eliminar cada subgrupo -->
                             <div class="d-inline-flex mt-2">
@@ -131,7 +131,7 @@
                                 <select class="form-control" name="clave_grupo_id">
                                     <option value="">Selecciona un grupo</option>
                                     @foreach ($grupos as $grupo)
-                                    <option value="{{ $grupo->id }}">{{ $grupo->concepto}}</option>
+                                    <option value="{{ $grupo->id }}">{{ $grupo->clave}}</option>
                                     @endforeach
                                 </select>
                             </div>

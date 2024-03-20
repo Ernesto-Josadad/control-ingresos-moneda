@@ -23,9 +23,13 @@
       width: 79%;
       height: 82%;
       background-color: #fff;
+      /* Color de fondo blanco */
       position: absolute;
+      /* Posicionamiento absoluto para crear el fondo */
       z-index: 0;
+      /* Asegura que el fondo esté detrás de los cuadros pequeños */
       margin-left: 20px;
+      /* sirve para alinear el contenido */
     }
 
     .cuadro {
@@ -41,20 +45,26 @@
       font-weight: bold;
       border-radius: 40px;
       overflow: hidden;
+      /* Evita que el contenido se desborde */
       margin-left: 30px;
+      /* sirve para alinear el contenido */
       position: relative;
+      /* Ajustado para que los cuadros estén en el flujo normal */
     }
 
     .cuadro img {
       display: block;
       margin: auto;
+      /* Centra horizontalmente */
       padding: 20px;
       margin-bottom: 9px;
       width: 31%;
+      /* Ajusta el tamaño de la imagen según tus necesidades */
     }
 
     .text {
       margin-top: 1px;
+      /* Ajusta el espacio entre la imagen y el texto */
     }
   </style>
 
@@ -72,21 +82,21 @@
 
             <div class="contenedor">
               <div class="cuadro">
-                <a href="students">
+                <a href="url_de_tu_pagina_alumnos">
                   <img src="dist/img/alumnos.png" alt="Alumnos">
                 </a>
                 <p>Alumnos</p>
               </div>
 
               <div class="cuadro">
-                <a href="/payment">
+                <a href="recibo">
                   <img src="dist/img/recibo.png" alt="Recibo Alumno">
                 </a>
                 <p>Recibo Alumnos</p>
               </div>
 
               <div class="cuadro">
-                <a href="nuevogrupo">
+                <a href="url_de_tu_pagina_recibo_coordinacion">
                   <img src="dist/img/altas.png" alt="Grupos">
                 </a>
                 <p>Grupos</p>
