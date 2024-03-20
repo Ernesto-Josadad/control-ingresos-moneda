@@ -24,6 +24,8 @@
             </div>
             <div class="form-group" style="margin-left:80%">
                 <input type="text" class="form-control" name="folio" id="folio" placeholder="FOLIO">
+
+                <input type="date" id="fecha" class="form-control">
             </div>
 
 
@@ -98,7 +100,7 @@
         </div>
         <div class="card-body">
             <div class="footer">
-                <input type="submit" id="sendForm" value="Enviar" class="btn btn-primary">
+                <button class="btn btn-primary" @onclick="sendFormToBackend()">Enviar</button>
             </div>
         </div>
         
@@ -208,10 +210,10 @@
     // Lo declaramos de forma global para poder usarlo en el json form de lo contario
     // nos saldra indefinido
     let detallePagos = [];
-
+    let importe = 0;
+    let cantidad = 0;
     function sendFormToDb() {
-        document.getElementById('myForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+     let detallePagos = []; // Definir detallePagos dentro de la función
             let form = {};
             // Traemos los datos de la tabla de sub grupos 
             let table = document.getElementById('subGroupTable');
@@ -229,8 +231,8 @@
                     // Obtener los valores de las celdas en la fila actual
                     //let claveSubgrupoId = cells[5].textContent; // Suponiendo que el ID del subgrupo está en la sexta columna
                     let importeString = cells[4].textContent;
-                    let importe = parseInt(importeString, 10)
-                    let cantidadSubgrupo = cells[0].querySelector('input');
+                     importe = parseFloat(importeString, 10)
+                     cantidadSubgrupo = cells[0].querySelector('input');
                     let cantidad = parseInt(cantidadSubgrupo.value, 10);
 
                     // Crear un objeto con los datos del detalle de pago y agregarlo al array
@@ -248,54 +250,37 @@
             } else {
                 console.error('No se encontró la tabla');
             }
+            let fechaInput = document.getElementById('fecha');
+            let fecha = new Date(fechaInput.value);
+            let dia = fecha.getDate().toString().padStart(2, '0');
+            let mes = (fecha.getMonth +1).toString().padStart(2, '0');
+            let año = fecha.getFullYear();
+            let fechaFormateada = `${dia}/${mes}/${año}`;
 
             // Crear el objeto de formulario con detallePagos
             form = {
                 alumno_id: document.getElementById('alumno_id').value,
                 folio: document.getElementById('folio').value,
+                fecha: fechaFormateada,
+                total: importe,
+                cantidad: cantidad,
                 detallePago: detallePagos, // Aquí usamos detallePagos
             };
             console.log(form);
-
-
-            // try {
-            //     let response = await fetch('savePayment', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         body: JSON.stringify(form)
-            //     });
-            // } catch (error) {
-            //     console.error('Error de red:', error);
-            // }
-        });
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Obtener el botón de enviar
-        let submitButton = document.getElementById('sendForm');
-
-        // Agregar un evento de escucha para el evento click del botón de enviar
-        submitButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Evitar que la acción predeterminada del botón se ejecute
-
-            // Llamar a la función sendFormDataToBackend() para enviar los datos al backend
-            sendFormDataToBackend();
-        });
-    });
-
-
 
     async function sendFormToBackend() {
         // Crear el objeto de formulario con los datos
-        let form = {
-            alumno_id: document.getElementById('alumno_id').value,
-            folio: document.getElementById('folio').value,
-            detallePago: detallePagos, // Aquí usamos detallePagos
-        };
+        //let form = {
+          //  alumno_id: document.getElementById('alumno_id').value,
+            //folio: document.getElementById('folio').value,
+            //detallePago: detallePagos, // Aquí usamos detallePagos
+        //};
+
+
 
         try {
+            let formData = sendFormToDb();
             // Realizar la solicitud POST al backend
             let response = await fetch('savePayment', {
                 method: 'POST',

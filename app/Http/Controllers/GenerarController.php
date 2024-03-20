@@ -13,8 +13,8 @@ class GenerarController extends Controller
     public function index()
     {
         //
-        $students = Student::all();
-        $subGroups = Subgrupos::all();
+        $students = Student::all(); // Obtiene todos los estudiantes
+        $subGroups = Subgrupos::all(); // Obtiene todos los subgrupos
         $payment = Recibo::select(
             'alumno_id',
             'matricula',
@@ -24,25 +24,24 @@ class GenerarController extends Controller
             'folio',
             'cantidad',
             'fecha',
-            'total',
-            
+            'total',            
         )
-            ->join('alumnos', 'alumnos.id', '=', 'recibo_pagos.alumno_id')->get();
-        return view('recibo_pagos.generar', compact('payment','students','subGroups'));
+            ->join('alumnos', 'alumnos.id', '=', 'recibo_pagos.alumno_id')->get(); // Realiza una consulta para obtener los pagos
+        return view('recibo_pagos.generar', compact('payment','students','subGroups')); // Devuelve la vista con los datos necesarios
     }
 
     public function savePayment(Request $request){
         $request->validate([
-            'alumno_id' => 'required',
-            'folio' => 'required',
-            'cantidad' => 'required',
-            'total' => 'required',
-            'fecha' => 'required',
-            'detallePagos' => 'required|array',
-            'detallePagos.*.pago_recibo_id' => 'required',
-            'detallePagos.*.clave_subgrupo_id' => 'required',
-            'detallePagos.*.importe' => 'required',
-            'detallePagos.*.cantidad_subgrupo' => 'required'
+            'alumno_id' => 'required', // Valida que el alumno_id esté presente en la solicitud
+            'folio' => 'required', // Valida que el folio esté presente en la solicitud
+            'cantidad' => 'required', // Valida que la cantidad esté presente en la solicitud
+            'total' => 'required', // Valida que el total esté presente en la solicitud
+            'fecha' => 'required', // Valida que la fecha esté presente en la solicitud
+            'detallePagos' => 'required|array', // Valida que detallePagos sea un arreglo y esté presente en la solicitud
+            'detallePagos.*.pago_recibo_id' => 'required', // Valida que cada pago_recibo_id dentro de detallePagos esté presente
+            'detallePagos.*.clave_subgrupo_id' => 'required', // Valida que cada clave_subgrupo_id dentro de detallePagos esté presente
+            'detallePagos.*.importe' => 'required', // Valida que cada importe dentro de detallePagos esté presente
+            'detallePagos.*.cantidad_subgrupo' => 'required' // Valida que cada cantidad_subgrupo dentro de detallePagos esté presente
         ]);
 
         // Creamos un nuevo recibo
