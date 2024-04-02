@@ -4,19 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Recibo;
 use App\Models\ReciboPagos;
-use App\Models\Student; // Agregar el modelo Student
+use Illuminate\Http\Request;
 use NumberToWords\NumberToWords;
 
 class TablaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener todos los recibos de pago con los datos de los estudiantes cargados
-        // Agregar paginación
-        $recibos = Recibo::with('alumno')->paginate(10);
+        // Obtener el término de búsqueda
+        $search = $request->input('search');
+
+        // Obtener los recibos de pago con los datos de los estudiantes cargados
+        $recibosQuery = Recibo::with('alumno');
+
+        // Aplicar filtro si se proporciona un término de búsqueda
+        if ($search) {
+            $recibosQuery->whereHas('alumno', function ($query) use ($search) {
+                $query->where('matricula', 'like', "%$search%")
+                      ->orWhere('nombres', 'like', "%$search%")
+                      ->orWhere('apellido_paterno', 'like', "%$search%")
+                      ->orWhere('apellido_materno', 'like', "%$search%")
+                      ->orWhere('grado', 'like', "%$search%")
+                      ->orWhere('grupo', 'like', "%$search%")
+                      ->orWhere('carrera', 'like', "%$search%");
+            });
+        }
+
+        // Paginar los resultados
+        $recibos = $recibosQuery->paginate(7)->appends(['search' => $search]);
+
 
         // Obtener los datos de los recibos, incluidos los importes
-        $datosRecibos = ReciboPagos::select('recibo_pago_id', 'clave_subgrupo_id', 'cantidad_subgrupo', 'importe')->get();
+        $datosRecibos = ReciboPagos::select('pago_recibo_id', 'clave_subgrupo_id', 'cantidad_subgrupo', 'importe')->get();
 
         // Convertir el total a palabras en español para los recibos
         $numberToWords = new NumberToWords();
@@ -24,7 +43,7 @@ class TablaController extends Controller
 
         foreach ($recibos as $recibo) {
             // Buscar el importe correspondiente al recibo actual
-            $importeRecibo = $datosRecibos->where('recibo_pago_id', $recibo->id)->first();
+            $importeRecibo = $datosRecibos->where('pago_recibo_id', $recibo->id)->first();
 
             // Asignar el importe al recibo si se encuentra
             if ($importeRecibo) {
@@ -38,7 +57,6 @@ class TablaController extends Controller
         }
 
         // Pasar los datos de los recibos y sus importes a la vista
-        return view('tabla_grupos_subgrupos', compact('recibos', 'datosRecibos', 'currencyTransformer'));
+        return view('tabla_grupos_subgrupos', compact('recibos', 'datosRecibos', 'currencyTransformer', 'search'));
     }
-    
 }

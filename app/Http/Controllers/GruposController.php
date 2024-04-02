@@ -11,23 +11,28 @@ class GruposController extends Controller
     // Método para mostrar todos los grupos
     public function index()
     {
-        $cgrupos = Grupos::all(); // Recupera todos los grupos de la base de datos
-        return view('nuevogrupo', compact('cgrupos')); // Devuelve la vista 'nuevogrupo' con los grupos recuperados
+        $cgrupos = Grupos::paginate(5); // Cambia 10 por el número de registros que deseas mostrar por página
+        return view('nuevogrupo', compact('cgrupos'));
     }
 
-    // Método para almacenar un nuevo grupo
-    public function store(Request $request)
-    {
-        $grupo = new Grupos(); // Crea una nueva instancia de Grupos
+// Método para almacenar un nuevo grupo
+public function store(Request $request)
+{
+    $grupo = new Grupos(); // Crea una nueva instancia de Grupos
 
-        // Asigna los valores del formulario al nuevo grupo
-        $grupo->clave = $request->get('clave');
-        $grupo->concepto = $request->get('concepto');
+    // Asigna los valores del formulario al nuevo grupo
+    $grupo->clave = $request->get('clave');
+    $grupo->concepto = $request->get('concepto');
 
-        $grupo->save(); // Guarda el nuevo grupo en la base de datos
+    $grupo->save(); // Guarda el nuevo grupo en la base de datos
 
-        return redirect('/nuevogrupo'); // Redirige a la vista 'nuevogrupo'
-    }
+    // Devuelve una respuesta JSON indicando el éxito y el mensaje
+    return response()->json([
+        'success' => true,
+        'message' => 'El grupo se ha guardado correctamente.'
+    ]);
+}
+
 
     // Método para mostrar el formulario de edición de un grupo
     public function show(string $id)
@@ -37,18 +42,22 @@ class GruposController extends Controller
     }
 
     // Método para actualizar un grupo existente
-    public function update(Request $request, string $id)
-    {
-        $cgrupos = Grupos::find($id); // Busca el grupo a actualizar
+public function update(Request $request, string $id)
+{
+    $cgrupos = Grupos::find($id); // Busca el grupo a actualizar
 
-        // Actualiza los valores del grupo con los datos del formulario
-        $cgrupos->clave = $request->get('clave');
-        $cgrupos->concepto = $request->get('concepto');
+    // Actualiza los valores del grupo con los datos del formulario
+    $cgrupos->clave = $request->get('clave');
+    $cgrupos->concepto = $request->get('concepto');
 
-        $cgrupos->save(); // Guarda los cambios en la base de datos
+    $cgrupos->save(); // Guarda los cambios en la base de datos
 
-        return redirect('/nuevogrupo'); // Redirige a la vista 'nuevogrupo'
-    }
+    // Establece un mensaje de sesión flash
+    session()->flash('success_message', 'Los datos se han actualizado correctamente.');
+
+    // Redirige a la vista 'nuevogrupo'
+    return redirect('/nuevogrupo');
+}
 
     // Método para eliminar un grupo
     public function destroy(string $id)

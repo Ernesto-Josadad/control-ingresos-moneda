@@ -11,7 +11,7 @@ class SubgruposController extends Controller
     // Método para mostrar todos los subgrupos
     public function index()
     {
-        $csubgrupos = Subgrupos::all(); // Recupera todos los subgrupos de la base de datos
+        $csubgrupos = Subgrupos::paginate(5); // Recupera todos los subgrupos de la base de datos
         $grupos = Grupos::all(); // Recupera todos los grupos de la base de datos
         return view('grupos_subgrupos', compact('csubgrupos', 'grupos')); // Devuelve la vista 'grupos_subgrupos' con los subgrupos y grupos recuperados
     }
@@ -29,7 +29,11 @@ class SubgruposController extends Controller
 
         $subgrupo->save(); // Guarda el nuevo subgrupo en la base de datos
 
-        return redirect('/grupos_subgrupos'); // Redirige a la vista 'grupos_subgrupos'
+        // Devuelve una respuesta JSON indicando el éxito y el mensaje
+        return response()->json([
+            'success' => true,
+            'message' => 'El subgrupo se ha guardado correctamente.'
+        ]);
     }
 
     // Método para mostrar el formulario de edición de un subgrupo
@@ -53,6 +57,9 @@ class SubgruposController extends Controller
 
         $subgrupo->save(); // Guarda los cambios en la base de datos
 
+        // Establece un mensaje de sesión flash
+        session()->flash('success_message', 'Los datos se han actualizado correctamente.');
+
         return redirect('/grupos_subgrupos'); // Redirige a la vista 'grupos_subgrupos'
     }
 
@@ -64,4 +71,3 @@ class SubgruposController extends Controller
         return redirect('/grupos_subgrupos'); // Redirige a la vista 'grupos_subgrupos'
     }
 }
-
