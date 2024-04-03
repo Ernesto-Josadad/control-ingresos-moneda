@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Fpdf\Fpdf;
 use Carbon\Carbon;
 use App\Models\Grupos;
 use App\Models\Recibo;
 use App\Models\Subgrupos;
 use App\Models\ReciboPagos;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 use App\Models\Reporte_mensual;
