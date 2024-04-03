@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Fpdf\Fpdf;
 use Carbon\Carbon;
 use App\Models\Grupos;
 use App\Models\Recibo;
 use App\Models\Subgrupos;
 use App\Models\ReciboPagos;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 use App\Models\Reporte_mensual;
@@ -145,8 +145,8 @@ class ReporteMensualController extends Controller
         $reporteMensual->folio_final = $folioFinal;
         $reporteMensual->fecha_inicial_del_mes = $fechaInicialFormateada;
         $reporteMensual->fecha_final_del_mes = $fechaFinalFormateada;
-        $reporteMensual->ganancias_por_subgrupo = $gananciasPorSubgrupo = json_encode($gananciasPorSubgrupo);;
-        $reporteMensual->grupos = $grupos = json_encode($grupos);;
+        $reporteMensual->ganancias_por_subgrupo = $gananciasPorSubgrupo = json_encode($gananciasPorSubgrupo);
+        $reporteMensual->grupos = $grupos = json_encode($grupos);
         $reporteMensual->ganancias_por_grupo = $ingresosPorGrupo = json_encode($ingresosPorGrupo);
         $reporteMensual->ejercicio_fiscal = $anio_informe;
         $reporteMensual->periodo_de_informe = $nombre_mes_informe;
@@ -167,6 +167,8 @@ class ReporteMensualController extends Controller
     {
         //
     }
+
+    // !
 
     public function generarPDF(Request $request)
     {
@@ -194,7 +196,7 @@ class ReporteMensualController extends Controller
 
         $pdf->AliasNbPages();
 
-        $pdf->AddPage('L','A4');
+        $pdf->AddPage('','A4');
 
         // ? Establecer una fuente
         $pdf->SetFont('Courier', '', 10);
@@ -206,17 +208,17 @@ class ReporteMensualController extends Controller
 
         // TODO Títulos de la tabla
         $pdf->SetFont('Arial', 'B', 8.5);
-        $pdf->Cell(45, 10, 'CLAVE DEL PLANTEL', 1, 0, 'C');
-        $pdf->Cell(45, 10, 'EJERCICIO FISCAL', 1, 0, 'C');
-        $pdf->Cell(45, 10, 'PERIODO DE INFORME', 1, 0, 'C');
-        $pdf->Cell(45, 10, 'FECHA DE ELABORACION', 1, 0, 'C');
+        $pdf->Cell(45, 7, 'CLAVE DEL PLANTEL', 1, 0, 'C');
+        $pdf->Cell(45, 7, 'EJERCICIO FISCAL', 1, 0, 'C');
+        $pdf->Cell(45, 7, 'PERIODO DE INFORME', 1, 0, 'C');
+        $pdf->Cell(45, 7, 'FECHA DE ELABORACION', 1, 0, 'C');
         $pdf->Ln();
         // ? Agregar datos obtenidos del reporte
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(45, 10, '31DTA0284Z', 1, 0, 'C'); // Clave del plantel
-        $pdf->Cell(45, 10, $reporte->ejercicio_fiscal, 1, 0, 'C');
-        $pdf->Cell(45, 10, $reporte->periodo_de_informe, 1, 0, 'C');
-        $pdf->Cell(45, 10, $reporte->fecha_de_elaboracion, 1, 1, 'C'); // MultiCell para permitir saltos de línea
+        $pdf->Cell(45, 7, '31DTA0284Z', 1, 0, 'C'); // Clave del plantel
+        $pdf->Cell(45, 7, $reporte->ejercicio_fiscal, 1, 0, 'C');
+        $pdf->Cell(45, 7, $reporte->periodo_de_informe, 1, 0, 'C');
+        $pdf->Cell(45, 7, $reporte->fecha_de_elaboracion, 1, 1, 'C'); // MultiCell para permitir saltos de línea
 
         // Separación entre las dos tablas
         $pdf->Ln(10);
@@ -232,7 +234,7 @@ class ReporteMensualController extends Controller
         //CONTENIDO DE TABLA
         // Iterar sobre los datos agrupados y agregarlos al PDF
         foreach ($datosAgrupados as $grupo => $subgrupos) {
-            $pdf->Cell(180, 10, $grupo, '{T, L, R}', 1);
+            $pdf->Cell(180, 7, $grupo, '{T, L, R}', 1);
             foreach ($subgrupos as $subgrupo) {
                 // ? $pdf->Cell(180, 10, '', '{L}', 1);
                 $pdf->Cell(180, 10, '       ' . $subgrupo[0] . ':       ' . '$' . $subgrupo[1], '{R, L}', 1);
@@ -240,13 +242,13 @@ class ReporteMensualController extends Controller
         }
         $pdf->Cell(170, 0, '', '{T}', 1);
         // TODO: CELDAS SIN MARGEN
-        $pdf->Cell(50, 10, '', 0, 0, '', 0);
+        $pdf->Cell(50, 7, '', 0, 0, '', 0);
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(50, 10, 'SUMAS IGUALES', 0, 0, 'C');
+        $pdf->Cell(50, 7, 'SUMAS IGUALES', 0, 0, 'C');
         $pdf->SetFont('Arial', '', 10);
         // TODO: CELDAS CON MARGEN
-        $pdf->Cell(40, 10, $reporte->ingresos, 1, 0, 'C');
-        $pdf->Cell(40, 10, $reporte->ingresos, 1, 1, 'C');
+        $pdf->Cell(40, 7, $reporte->ingresos, 1, 0, 'C');
+        $pdf->Cell(40, 7, $reporte->ingresos, 1, 1, 'C');
 
         $pdf->Ln(10);
 
@@ -254,35 +256,33 @@ class ReporteMensualController extends Controller
 
         // * TITULO
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(180, 10, 'MOVIMIENTOS DE LA CUENTA DE CAJA', 0, 1, 'C');
+        $pdf->Cell(180, 7, 'MOVIMIENTOS DE LA CUENTA DE CAJA', 0, 1, 'C');
 
         $pdf->SetFont('Arial', '', 10);
 
         // TODO: CELDAS SIN MARGEN
-        $pdf->Cell(70, 10, 'SALDO DEL MES ANTERIOR:', '{T, L}', 0, 'C');
-        $pdf->Cell(30, 10, '', '{T}', 0, '', 0);
-        $pdf->Cell(40, 10, $reporte->total_disponible, '{T, B}', 0, 'C');
-        $pdf->Cell(40, 10, '', '{T, R}', 0, '', 0);
+        $pdf->Cell(70, 7, 'SALDO DEL MES ANTERIOR:', '{T, L}', 0, 'C');
+        $pdf->Cell(30, 7, '', '{T}', 0, '', 0);
+        $pdf->Cell(40, 7, $reporte->total_disponible, '{T, B}', 0, 'C');
+        $pdf->Cell(40, 7, '', '{T, R}', 0, '', 0);
         $pdf->Ln();
 
         // TODO: CELDAS SIN MARGEN
-        $pdf->Cell(60, 10, 'INGRESOS', '{L}', 0, 'C', 0);
-        $pdf->Cell(40, 10, '', '', 0, '', 0);
-        $pdf->Cell(40, 10, $reporte->ingresos, '{B}', 0, 'C', 0);
-        $pdf->Cell(40, 10, '', '{R}', 0, 'C', 0);
+        $pdf->Cell(60, 7, 'INGRESOS', '{L}', 0, 'C', 0);
+        $pdf->Cell(40, 7, '', '', 0, '', 0);
+        $pdf->Cell(40, 7, $reporte->ingresos, '{B}', 0, 'C', 0);
+        $pdf->Cell(40, 7, '', '{R}', 0, 'C', 0);
         $pdf->Ln();
 
         // TODO: CELDAS SIN MARGEN
-        $pdf->Cell(60, 10, 'TOTAL DISPONIBLE:', '{B, L}', 0, 'C');
-        $pdf->Cell(40, 10, '', '{B}', 0, '', 0);
-        $pdf->Cell(40, 10, $reporte->total_disponible, '{B}', 0, 'C');
-        $pdf->Cell(40, 10, '', '{R,B}', 0, '', 0);
+        $pdf->Cell(60, 7, 'TOTAL DISPONIBLE:', '{B, L}', 0, 'C');
+        $pdf->Cell(40, 7, '', '{B}', 0, '', 0);
+        $pdf->Cell(40, 7, $reporte->total_disponible, '{B}', 0, 'C');
+        $pdf->Cell(40, 7, '', '{R,B}', 0, '', 0);
 
         $pdf->Ln(20);
 
         // !Añadimos nueva página
-
-        $pdf->AddPage('L','A4');
 
         // * TITULO
         $pdf->SetFont('Arial', 'B', 14);
@@ -290,33 +290,33 @@ class ReporteMensualController extends Controller
 
         $pdf->SetFont('Arial', '', 8.5);
         // TODO: CELDAS SIN MARGEN
-        $pdf->Cell(80, 10, utf8_decode('FOLIOS ASIGNADOS EN LA ÚLTIMA DOTACIÓN:'), '{L,T,B}', 0, 'C');
-        $pdf->Cell(100, 10, utf8_decode('TOTAL DE FOLIOS UTILIZADOS EN EL MES'), '{R,T,B}', 1, 0);
+        $pdf->Cell(80, 7, utf8_decode('FOLIOS ASIGNADOS EN LA ÚLTIMA DOTACIÓN:'), '{L,T,B}', 0, 'C');
+        $pdf->Cell(100, 7, utf8_decode('TOTAL DE FOLIOS UTILIZADOS EN EL MES'), '{R,T,B}', 1, 0);
         // TODO: CELDAS SIN MARGEN
-        $pdf->Cell(36, 10, 'INICIAL', '{L}', 0, 'C');
-        $pdf->Cell(36, 10, 'FINAL', 0, 0, 'C');
+        $pdf->Cell(36, 7, 'INICIAL', '{L}', 0, 'C');
+        $pdf->Cell(36, 7, 'FINAL', 0, 0, 'C');
         //
-        $pdf->Cell(36, 10, 'CANTIDAD', 0, 0, 'C');
-        $pdf->Cell(36, 10, 'DEL', 0, 0, 'C', 0);
-        $pdf->Cell(36, 10, 'AL', '{R}', 0, 'C', 0);
+        $pdf->Cell(36, 7, 'CANTIDAD', 0, 0, 'C');
+        $pdf->Cell(36, 7, 'DEL', 0, 0, 'C', 0);
+        $pdf->Cell(36, 7, 'AL', '{R}', 0, 'C', 0);
         $pdf->Ln();
 
         // TODO: CELDAS SIN MARGEN
         $pdf->SetFont('Arial', 'U', 10);
-        $pdf->Cell(36, 10, $reporte->folio_inicial, '{L, B}', 0, 'C', 0);
-        $pdf->Cell(36, 10, $reporte->folio_final, '{B}', 0, 'C', 0);
-        $pdf->Cell(36, 10, $reporte->cantidad_de_folios, '{B}', 0, 'C', 0);
+        $pdf->Cell(36, 7, $reporte->folio_inicial, '{L, B}', 0, 'C', 0);
+        $pdf->Cell(36, 7, $reporte->folio_final, '{B}', 0, 'C', 0);
+        $pdf->Cell(36, 7, $reporte->cantidad_de_folios, '{B}', 0, 'C', 0);
         // !
-        $pdf->Cell(36, 10,  $reporte->fecha_inicial_del_mes, '{B}', 0, 'C', 0);
-        $pdf->Cell(36, 10,  $reporte->fecha_final_del_mes, '{R,B}', 1, 'C',);
+        $pdf->Cell(36, 7,  $reporte->fecha_inicial_del_mes, '{B}', 0, 'C', 0);
+        $pdf->Cell(36, 7,  $reporte->fecha_final_del_mes, '{R,B}', 1, 'C',);
         $pdf->Ln(10);
 
         // TODO: Inicializamos nueva tabla
         //? HEADER
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(90, 10, 'SELLO CON LOS DATOS DEL PLANTEL', 1, 0, 'C');
-        $pdf->Cell(20, 10, '', 0, 0, 'C');
-        $pdf->Cell(70, 10, 'EL DIRECTOR DEL PLANTEL', 1, 1, 'C');
+        $pdf->Cell(90, 7, 'SELLO CON LOS DATOS DEL PLANTEL', 1, 0, 'C');
+        $pdf->Cell(20, 7, '', 0, 0, 'C');
+        $pdf->Cell(70, 7, 'EL DIRECTOR DEL PLANTEL', 1, 1, 'C');
 
         //? ESPACIO PARA LA FIRMA
         $pdf->Cell(90, 40, '', 1, 0, 'C');
@@ -324,9 +324,9 @@ class ReporteMensualController extends Controller
         $pdf->Cell(70, 40, '', 1, 1, 'C');
         //? FOOTER
         $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell(90, 10, 'EL SELLO SERA LEGIBLE Y EL QUE SE EMPLEA EN LOS R.O.C.', 1, 0, 'C');
-        $pdf->Cell(20, 10, ' ', 0, 0, 'C');
-        $pdf->Cell(70, 10, utf8_decode('M.E ANGÉLICA MARÍA CASTILLO LÓPEZ'), 1, 1, 'C');
+        $pdf->Cell(90, 7, 'EL SELLO SERA LEGIBLE Y EL QUE SE EMPLEA EN LOS R.O.C.', 1, 0, 'C');
+        $pdf->Cell(20, 7, ' ', 0, 0, 'C');
+        $pdf->Cell(70, 7, utf8_decode('M.E ANGÉLICA MARÍA CASTILLO LÓPEZ'), 1, 1, 'C');
 
 
 
