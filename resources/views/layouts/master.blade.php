@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Cerrar sesion -->
       <ul class="navbar-nav ml-auto">
         <div class="btn" style="color:black; background:#FAEBD7; border-radius: 100%;">
-          <i class="fa fa-sign-out fa-2=x" aria-hidden="true"></i>
+          <a href="{{route('logout.destroy')}}" class="fa fa-sign-out fa-2=x" aria-hidden="true"></a>
         </div>
       </ul>
     </nav>
