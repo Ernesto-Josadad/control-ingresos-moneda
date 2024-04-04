@@ -20,7 +20,8 @@
     }
 
     .custom-table th {
-        background-color: #bdecb6;
+        /* background-color: #bdecb6; */
+        background-color: #00FF7F;
         font-family: 'Courier New';
         text-align: center;
     }
@@ -42,6 +43,24 @@
     .shadow-effect {
 
         font-family: 'TIMES NEW ROMAN';
+    }
+
+    .page-link-black-bold {
+        font-family: 'Arial';
+        color: black;
+        font-weight: bold;
+    }
+
+    .page-link-prev-next {
+        font-family: 'Arial';
+        color: black;
+        font-weight: bold;
+    }
+
+    .page-link-default {
+        font-family: 'Arial';
+        color: #007bff;
+        /* Azul predeterminado */
     }
 </style>
 
@@ -97,12 +116,11 @@
                         <td>
                             <!-- Botones para editar y eliminar cada subgrupo -->
                             <div class="d-inline-flex mt-2">
-                                <a href="{{url('/grupos_subgrupos',[$row])}}" class="btn btn-primary mb-2 mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
-
+                                <a href="#" class="btn btn-primary mb-2 mx-2 edit-btn" data-url="{{ url('/grupos_subgrupos') }}/{{$row->id}}" onclick="return showEditConfirmation(this)"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <form action="{{url('/grupos_subgrupos',[$row])}}" method="post" style="display: inline-block;">
                                     @csrf
                                     @method('delete')
-                                    <button class="btn btn-danger mx-2"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button type="button" class="btn btn-danger mx-2 delete-btn"><i class="fa-solid fa-trash-can"></i></button>
                                 </form>
                             </div>
                         </td>
@@ -157,4 +175,206 @@
     </div>
 </div>
 
+<!-- Paginación -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        {{-- Botón Anterior --}}
+        @if ( $csubgrupos->onFirstPage())
+        <li class="page-item disabled">
+            <span class="page-link page-link-black">Anterior</span>
+        </li>
+        @else
+        <li class="page-item">
+            <a class="page-link page-link-prev-next" href="{{  $csubgrupos->previousPageUrl() }}" tabindex="-1">Anterior</a>
+        </li>
+        @endif
+
+        {{-- Números de Página --}}
+        @if ( $csubgrupos->lastPage() > 1)
+        @for ($i = max(1,  $csubgrupos->currentPage() - 1); $i <= min( $csubgrupos->lastPage(),  $csubgrupos->currentPage() + 1); $i++)
+            <li class="page-item {{ $i ==  $csubgrupos->currentPage() ? 'active' : '' }}">
+                <a class="page-link {{ $i ==  $csubgrupos->currentPage() ? 'page-link-black-bold' : 'page-link-default' }}" href="{{  $csubgrupos->url($i) }}">{{ $i }}</a>
+            </li>
+            @endfor
+            @endif
+
+            {{-- Botón Siguiente --}}
+            @if ( $csubgrupos->hasMorePages())
+            <li class="page-item">
+                <a class="page-link page-link-prev-next" href="{{  $csubgrupos->nextPageUrl() }}" tabindex="-1">Siguiente</a>
+            </li>
+            @else
+            <li class="page-item disabled">
+                <span class="page-link page-link-black">Siguiente</span>
+            </li>
+            @endif
+    </ul>
+</nav>
+
+<!-- Incluir Sweet Alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    // Agregar evento click al botón de eliminar para mostrar Sweet Alert de confirmación
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Una vez eliminado, no podrás recuperar este registro.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Obtener el formulario de eliminación asociado al botón
+                    const form = button.closest('form');
+
+                    // Enviar el formulario de eliminación
+                    fetch(form.action, {
+                        method: form.method,
+                        body: new FormData(form),
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            // Si se elimina correctamente, mostrar mensaje de éxito
+                            Swal.fire({
+                                title: '¡Eliminado!',
+                                text: 'El registro ha sido eliminado correctamente.',
+                                icon: 'success',
+                                showConfirmButton: true, // Mostrar el botón "Ok"
+                                allowOutsideClick: false // Evitar que el usuario cierre el mensaje haciendo clic fuera
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Opcional: recargar la página después de un tiempo para reflejar los cambios
+                                    window.location.reload();
+                                }
+                            });
+                        } else {
+                            // Si hay un error en la eliminación, mostrar mensaje de error
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
+                                'error'
+                            );
+                        }
+                    }).catch(error => {
+                        console.error('Error al enviar la solicitud:', error);
+                        // Mostrar mensaje de error si falla la eliminación
+                        Swal.fire(
+                            'Error',
+                            'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
+                            'error'
+                        );
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Mostrar mensaje de cancelación si el usuario cancela
+                    Swal.fire(
+                        'Cancelado',
+                        'La eliminación ha sido cancelada.',
+                        'info'
+                    );
+                }
+            });
+        });
+    });
+
+
+    // Función para mostrar la alerta de confirmación al hacer clic en el botón de editar
+    function showEditConfirmation(button) {
+        var url = button.getAttribute('data-url');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres editar este registro?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa',
+            confirmButtonText: 'Sí, editar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si se confirma, redirigir a la página de edición
+                window.location.href = url;
+            } else {
+                // Mostrar mensaje de cancelación
+                Swal.fire(
+                    'Cancelado',
+                    'La edición ha sido cancelada.',
+                    'info'
+                );
+            }
+        });
+        // Prevenir el comportamiento predeterminado del enlace
+        return false;
+    }
+
+    //MENSAJE DE AGREGADO DE SUBGRUPO
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Escucha el evento submit del formulario
+        document.querySelector('#modalSubgrupo form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previene el comportamiento predeterminado del formulario
+
+            // Captura una referencia al modal
+            let modal = document.querySelector('#modalSubgrupo');
+
+            // Envía la solicitud AJAX para guardar el nuevo subgrupo
+            fetch(this.action, {
+                    method: this.method,
+                    body: new FormData(this),
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Cierra el modal independientemente de si la respuesta es exitosa o no
+                    $(modal).modal('hide');
+
+                    // Si la respuesta indica éxito, muestra el mensaje de éxito
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: data.message
+                        }).then((result) => {
+                            // Redirige a la vista grupos_subgrupos después de mostrar el mensaje
+                            window.location.href = '{{ url(' / grupos_subgrupos ') }}';
+                        });
+                    } else {
+                        // Si la respuesta indica un error, muestra un mensaje de error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Hubo un problema al guardar el grupo. Por favor, inténtalo de nuevo.'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al enviar la solicitud:', error);
+                });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verificar si existe un mensaje de éxito en la sesión flash
+        let successMessage = '{{ session('
+        success_message ') }}';
+        if (successMessage) {
+            // Mostrar el mensaje de éxito con SweetAlert
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: successMessage
+            });
+        }
+    });
+</script>
 @endsection

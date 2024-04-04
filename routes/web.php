@@ -82,12 +82,7 @@ Route::resource('/nuevogrupo', GruposController::class);
 
 Route::resource('/tabla_grupos_subgrupos', TablaController::class);
 
-Route::group(['middleware' => 'web'], function () {
-    Route::resource('grupos_subgrupos', GruposController::class);
-    Route::resource('subgrupos', SubgruposController::class);
-});
-Route::resource('/grupos_subgrupos', SubgruposController::class);
-Route::resource('/nuevogrupo', GruposController::class);
+
 
 Route::resource('prueba',ReciboController::class);
 Route::get('/payments/{payment}/pdf', [GenerarController::class, 'verPDF'])->name('payments.pdf');

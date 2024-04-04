@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('clave_grupos', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo');
-            $table->string('descripcion');
+            $table->string('clave');
+            $table->string('concepto');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@
 <div class="card mt-4"> 
     <div class="card-body"> 
         <h5 class="card-body text-center">Editando Grupo</h5> 
+
         <!-- Formulario para editar el grupo -->
         <form action="{{url('/nuevogrupo',[$cgrupos])}}" method="post"> 
             @csrf 

@@ -8,8 +8,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
     <style>
         body {
             margin: 0;
@@ -22,18 +20,8 @@
             padding: 0;
         }
 
-        .input-group-text i {
-            margin: auto;
-            color: #ccc;
-        }
-
-
         .barra {
             margin-top: 1em;
-        }
-
-        .form-control {
-            border-radius: px;
         }
 
         th.tabla-header {
@@ -42,22 +30,18 @@
             color: black;
             font-weight: bold;
             text-align: center;
-            background-color: #bdecb6;
+            /* background-color: #bdecb6; */
+            background-color: #00FF7F;
             padding: 10px;
             white-space: nowrap;
-            /* Evitar saltos de línea */
-
         }
 
         td.table-font {
             font-family: 'Arial Narrow';
             font-size: 16px;
             white-space: nowrap;
-            /* Evitar saltos de línea */
             overflow: hidden;
-            /* Ocultar el contenido excedente */
             text-overflow: ellipsis;
-            /* Mostrar puntos suspensivos cuando el contenido es demasiado largo */
         }
 
         .table-bordered,
@@ -69,31 +53,31 @@
             border-width: 1px;
         }
 
-        .pagination .page-link {
-            color: black;
-            /* Cambiar el color del texto a negro */
-        }
-
         .sidebar-closed .container-fluid .col-lg-12 {
             padding-left: 20px;
-            /* Ajusta el padding según el ancho de la barra lateral */
             padding-right: 20px;
-            /* Ajusta el padding según el ancho de la barra lateral */
+        }
+
+        .page-link-black {
+            font-family: 'arial';
+            color: black;
+            font-weight: bold;
         }
     </style>
-
 </head>
 
 <!-- Barra de búsqueda -->
 <div class="barra">
-    <div class="input-group">
-        <input id="input" class="form-control" type="search" placeholder="Buscar...">
+    <form id="searchForm" action="{{ route('tabla_grupos_subgrupos.index') }}" method="GET" class="input-group">
+    <input id="searchInput" name="search" class="form-control search-input" type="search" placeholder="Buscar..." value="{{ $search ?? '' }}" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
         <div class="input-group-append">
-            <span class="input-group-text" style="background-color: transparent; border: none; padding: 0; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">
-                <i class="fas fa-search" style="color: #000000;"></i>
-            </span>
+        <button type="submit" class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 10px; border-bottom-right-radius: 10px;"><i class="fas fa-search"></i></button>
         </div>
-    </div>
+        @if($search)
+        <button type="submit" class="btn btn-secondary ml-2" onclick="clearSearch()" style="background-color: #98FB98; color: black; font-weight: bold; border: 1px solid #008000; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">Limpiar búsqueda</button>
+
+        @endif
+    </form>
 </div>
 <br>
 <!-- Contenido de la página con tabla responsiva -->
@@ -106,7 +90,7 @@
                         <tr>
                             <th class="tabla-header align-middle text-center" scope="col">NUMERO</th>
                             <th class="tabla-header align-middle text-center" scope="col">FECHA</th>
-                            <!-- <th class="tabla-header align-middle text-center" scope="col">ID ALUMNO</th> -->
+                            <th class="tabla-header align-middle text-center" scope="col">ID ALUMNO</th>
                             <th class="tabla-header align-middle text-center" scope="col">MATRICULA</th>
                             <th class="tabla-header align-middle text-center" scope="col">NOMBRES</th>
                             <th class="tabla-header align-middle text-center" scope="col">APELLIDO PATERNO</th>
@@ -125,34 +109,43 @@
                     <tbody>
                         @foreach($recibos as $row)
                         <tr>
-                            <td class="table-font align-middle text-center">{{$row->id}}</td>
-                            <td class="table-font align-middle text-center">{{$row->fecha}}</td>
-                            <!-- <td class="table-font">{{$row->alumno_id}}</td> -->
-                            <td class="table-font align-middle text-center">{{$row->alumno->matricula}}</td>
-                            <td class="table-font align-middle text-center">{{$row->alumno->nombres}}</td>
-                            <td class="table-font align-middle text-center">{{$row->alumno->apellido_paterno}}</td>
-                            <td class="table-font align-middle text-center">{{$row->alumno->apellido_materno}}</td>
-                            <td class="table-font align-middle text-center">{{$row->alumno->grado}}</td>
-                            <td class="table-font align-middle text-center">{{$row->alumno->grupo}}</td>
-                            <td class="table-font align-middle text-center">{{$row->alumno->carrera}}</td>
-                            @foreach($datosRecibos as $dato)
-                            @if($dato->recibo_pago_id == $row->id)
-                            <?php
+                            <td class="table-font align-middle text-center">{{$row->id ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->fecha ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno_id}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno->matricula ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno->nombres ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno->apellido_paterno ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno->apellido_materno ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno->grado ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno->grupo ?? 'N/A'}}</td>
+                            <td class="table-font align-middle text-center">{{$row->alumno->carrera ?? 'N/A'}}</td>
+
+                            @php
+                            $subgrupo = null;
+                            $importe = '0';
+                            $descripcion = 'N/A';
+                            $cantidad_subgrupo = 'N/A';
+
+                            foreach($datosRecibos as $dato) {
+                            if($dato->pago_recibo_id == $row->id) {
                             $subgrupo = App\Models\Subgrupos::find($dato->clave_subgrupo_id);
-                            ?>
+                            $importe = $dato->importe;
+                            $descripcion = $subgrupo ? $subgrupo->descripcion : 'N/A';
+                            $cantidad_subgrupo = $dato->cantidad_subgrupo;
+                            break;
+                            }
+                            }
+                            @endphp
+
                             <td class="table-font align-middle text-center">{{$subgrupo ? $subgrupo->codigo : 'N/A'}}</td>
-                            <td class="table-font align-middle text-center">{{$subgrupo ? $subgrupo->descripcion : 'N/A'}}</td>
-                            <td class="table-font align-middle text-center">${{$dato->importe}}</td>
+                            <td class="table-font align-middle text-center">{{$descripcion}}</td>
+                            <td class="table-font align-middle text-center">${{ number_format($importe, 2, '.', ',') }}</td>
                             <td class="table-font align-middle text-center">
-                                {{ ucwords($currencyTransformer->toWords($dato->importe * 100, 'MXN')) }}
+                                {{ ucwords($currencyTransformer->toWords(floatval($importe) * 100, 'MXN')) }}
                             </td>
+                            <td class="table-font align-middle text-center">{{$cantidad_subgrupo}}</td>
 
-                            <td class="table-font align-middle text-center">{{$dato->cantidad_subgrupo}}</td>
-                            @break
-                            @endif
-                            @endforeach
-
-                            <td class="table-font align-middle text-center">{{$row->folio}}</td>
+                            <td class="table-font align-middle text-center">{{$row->folio ?? 'N/A'}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -161,45 +154,6 @@
         </div>
     </div>
 </div>
-
-<!-- Script JavaScript para manejar la búsqueda en tiempo real -->
-<script>
-    // Obtener el campo de búsqueda y las filas de la tabla
-    const input = document.getElementById('input');
-    const filas = document.querySelectorAll('#tablaRecibos tbody tr');
-
-    // Agregar un evento de escucha para el evento input
-    input.addEventListener('input', function() {
-        // Obtener el valor del campo de búsqueda
-        const keyword = input.value.trim().toLowerCase();
-
-        // Filtrar las filas de la tabla
-        for (let i = 0; i < filas.length; i++) {
-            const fila = filas[i];
-            let coincide = false;
-            // Obtener las celdas visibles de la fila
-            const celdas = fila.getElementsByTagName('td');
-            for (let j = 0; j < celdas.length; j++) {
-                const celda = celdas[j];
-                // Obtener el texto de la celda y convertirlo a minúsculas
-                const textoCelda = celda.textContent.trim().toLowerCase();
-                // Verificar si el texto de la celda coincide con el término de búsqueda
-                if (textoCelda.includes(keyword)) {
-                    coincide = true;
-                    break;
-                }
-            }
-            // Mostrar la fila si coincide con el término de búsqueda, ocultarla si no coincide
-            if (coincide) {
-                fila.style.display = '';
-            } else {
-                fila.style.display = 'none';
-            }
-        }
-    });
-</script>
-
-
 <br>
 <!-- Paginación -->
 <nav aria-label="Page navigation example">
@@ -207,33 +161,45 @@
         {{-- Botón Anterior --}}
         @if ($recibos->onFirstPage())
         <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            <span class="page-link page-link-black">Anterior</span>
         </li>
         @else
         <li class="page-item">
-            <a class="page-link" href="{{ $recibos->previousPageUrl() }}" tabindex="-1">Anterior</a>
+            <a class="page-link page-link-black" href="{{ $recibos->previousPageUrl() }}" tabindex="-1">Anterior</a>
         </li>
         @endif
 
         {{-- Números de Página --}}
-        @foreach ($recibos->getUrlRange(1, $recibos->lastPage()) as $page => $url)
-        <li class="page-item {{ $page == $recibos->currentPage() ? 'active' : '' }}">
-            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-        </li>
-        @endforeach
+        @if ($recibos->lastPage() > 1)
+        @for ($i = max(1, $recibos->currentPage() - 1); $i <= min($recibos->lastPage(), $recibos->currentPage() + 1); $i++)
+            <li class="page-item {{ $i == $recibos->currentPage() ? 'active' : '' }}">
+                <a class="page-link" href="{{ $recibos->appends(['search' => $search])->url($i) }}">{{ $i }}</a>
+            </li>
+            @endfor
+            @endif
 
-        {{-- Botón Siguiente --}}
-        @if ($recibos->hasMorePages())
-        <li class="page-item">
-            <a class="page-link" href="{{ $recibos->nextPageUrl() }}" tabindex="-1">Siguiente</a>
-        </li>
-        @else
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Siguiente</a>
-        </li>
-        @endif
+            {{-- Botón Siguiente --}}
+            @if ($recibos->hasMorePages())
+            <li class="page-item">
+                <a class="page-link page-link-black" href="{{ $recibos->nextPageUrl() }}" tabindex="-1">Siguiente</a>
+            </li>
+            @else
+            <li class="page-item disabled">
+                <span class="page-link page-link-black">Siguiente</span>
+            </li>
+            @endif
     </ul>
 </nav>
+
+
+<!-- para limpiar la barra de busqueda-->
+<script>
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchForm').submit();
+    }
+</script>
+
 </body>
 
 </html>

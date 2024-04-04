@@ -30,9 +30,6 @@
 
                         {{-- ! Barra de Búsqueda --}}
 
-
-
-
                         <!-- CUERPO DE LA TABLA -->
                         <div class="card-body">
                             <table class="table table-bordered table-striped table-reponsive mt-4">
