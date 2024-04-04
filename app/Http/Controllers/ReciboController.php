@@ -20,15 +20,19 @@ class ReciboController extends Controller
         //
         $student = Student::all();
         $payment = Recibo::select(
+            'recibo_pagos.id',
             'alumno_id',
-            'matricula',
-            'apellido_paterno',
-            'apellido_materno',
-            'nombres',            
             'folio',
             'cantidad',
-            'fecha',
             'total',
+            'fecha',
+            'matricula',
+            'nombres',
+            'apellido_paterno',
+            'apellido_materno',
+            'grado',
+            'grupo',
+            'carrera',
             
         )
             ->join('alumnos', 'alumnos.id', '=', 'recibo_pagos.alumno_id')->get();

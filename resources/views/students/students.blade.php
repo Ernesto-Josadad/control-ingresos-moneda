@@ -25,31 +25,31 @@
                             <div class="card-body">
                                 <table class="table table-bordered table-striped table-reponsive mt-4">
                                     <thead>
-                                        <th>#</th>
-                                        <th>MATRICULA</th>
-                                        <th>NOMBRES</th>
-                                        <th>APELLIDO PATERNO</th>
-                                        <th>APELLIDO MATERNO</th>
-                                        <th>GRUPO</th>
-                                        <th>GRADO</th>
-                                        <th>CARRERA</th>
-                                        <th>TURNO</th>
-                                        <th>ACCIONES</th>
+                                        <th class="tabla-header align-middle text-center">#</th>
+                                        <th class="tabla-header align-middle text-center">MATRICULA</th>
+                                        <th class="tabla-header align-middle text-center">NOMBRES</th>
+                                        <th class="tabla-header align-middle text-center">APELLIDO PATERNO</th>
+                                        <th class="tabla-header align-middle text-center">APELLIDO MATERNO</th>
+                                        <th class="tabla-header align-middle text-center">GRUPO</th>
+                                        <th class="tabla-header align-middle text-center">GRADO</th>
+                                        <th class="tabla-header align-middle text-center">CARRERA</th>
+                                        <th class="tabla-header align-middle text-center">TURNO</th>
+                                        <th class="tabla-header align-middle text-center">ACCIONES</th>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             @foreach($students as $row)
                                             <!-- la primera variable es la que mande en el compat
             despues del as es el valor que se va a sustituir en la tabla -->
-                                            <td>{{$row -> id}}</td>
-                                            <td>{{$row -> matricula}}</td>
-                                            <td>{{$row -> nombres}}</td>
-                                            <td>{{$row -> apellido_paterno}}</td>
-                                            <td>{{$row -> apellido_materno}}</td>
-                                            <td>{{$row -> grado}}</td>
-                                            <td>{{$row -> grupo}}</td>
-                                            <td>{{$row -> carrera}}</td>
-                                            <td>{{$row -> turno}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> id}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> matricula}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> nombres}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> apellido_paterno}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> apellido_materno}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> grado}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> grupo}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> carrera}}</td>
+                                            <td class="tabla-header align-middle text-center">{{$row -> turno}}</td>
                                             <td>
 
                                                 <a href="{{url('/students',[$row])}}" class="btn btn-warning mb-2"><i class="fa-solid fa-pencil"></i></a>
@@ -108,14 +108,46 @@
                             <!-- End Modal -->
                         </div>
                     </div>
-                    <div class="card-body">
-
-                    </div>
-
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Paginación -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        {{-- Botón Anterior --}}
+        @if ($students->onFirstPage())
+        <li class="page-item disabled">
+            <span class="page-link">Anterior</span>
+        </li>
+        @else
+        <li class="page-item">
+            <a class="page-link" href="{{ $students->previousPageUrl() }}" tabindex="-1">Anterior</a>
+        </li>
+        @endif
+
+        {{-- Números de Página --}}
+        @if ($students->lastPage() > 1)
+        @for ($i = max(1, $students->currentPage() - 1); $i <= min($students->lastPage(), $students->currentPage() + 1); $i++)
+            <li class="page-item {{ $i == $students->currentPage() ? 'active' : '' }}">
+                <a class="page-link" href="{{ $students->url($i) }}">{{ $i }}</a>
+            </li>
+            @endfor
+            @endif
+
+            {{-- Botón Siguiente --}}
+            @if ($students->hasMorePages())
+            <li class="page-item">
+                <a class="page-link" href="{{ $students->nextPageUrl() }}" tabindex="-1">Siguiente</a>
+            </li>
+            @else
+            <li class="page-item disabled">
+                <span class="page-link">Siguiente</span>
+            </li>
+            @endif
+    </ul>
+</nav>
+<!-- End Paginación -->
 @endsection

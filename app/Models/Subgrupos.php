@@ -9,13 +9,15 @@ class Subgrupos extends Model
 {
     use HasFactory;
 
-    protected $table = 'clave_subgrupos';
-    public $primaryKey = "id"; 
-    protected $fillable = [
-        'clave_grupo_id',
-        'codigo',
-        'descripcion',
-        'costo'
-    ];
+    protected $table = 'clave_subgrupos'; // Nombre de la tabla en la base de datos
 
+    public $primaryKey = 'id'; // Clave primaria de la tabla
+
+    protected $fillable = [ // Atributos asignables en masa
+        'clave_grupo_id', // Clave foránea que referencia al grupo al que pertenece el subgrupo
+        'codigo', // Código del subgrupo
+        'descripcion', // Descripción del subgrupo
+        'costo' // Costo del subgrupo
+    ];
 }
+

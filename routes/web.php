@@ -7,7 +7,9 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ReporteMensualController;
 use App\Http\Controllers\GruposController;
 use App\Http\Controllers\SubgruposController;
+use App\Http\Controllers\TablaController;
 use Illuminate\Routing\RouteGroup;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +61,7 @@ Route::controller(ReporteMensualController::class)->group(function(){
 });
 
 Route::view('alumnos', 'alumnos');
+Route::view('prueba', 'prueba');
 
 Route::view('login','login');
 Route::view('tabla_grupos_subgrupos', 'tabla_grupos_subgrupos');
@@ -69,10 +72,16 @@ Route::resource('/students', StudentController::class);
 Route::resource('/payment', ReciboController::class);
 Route::resource('/generar', GenerarController::class);
 
-Route::post('savePayment', [GenerarController::class, 'savePayment'])->name('savePayment');
+Route::post('/savePayment', [GenerarController::class, 'savePayment']);
 Route::view('/makePayment', 'formPagos');
 // show pdf Hola <3
 Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
+
+Route::resource('/grupos_subgrupos', SubgruposController::class);
+Route::resource('/nuevogrupo', GruposController::class);
+
+Route::resource('/tabla_grupos_subgrupos', TablaController::class);
+
 Route::group(['middleware' => 'web'], function () {
     Route::resource('grupos_subgrupos', GruposController::class);
     Route::resource('subgrupos', SubgruposController::class);
@@ -81,4 +90,4 @@ Route::resource('/grupos_subgrupos', SubgruposController::class);
 Route::resource('/nuevogrupo', GruposController::class);
 
 Route::resource('prueba',ReciboController::class);
-
+Route::get('/payments/{payment}/pdf', [GenerarController::class, 'verPDF'])->name('payments.pdf');

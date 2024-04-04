@@ -105,7 +105,7 @@
 											<td>${{$row->total}}</td>
 											<td>${{$row->fecha}}</td>
 											<td>
-
+												<a href="{{ route('payments.pdf', $row->id) }}" class="btn btn-primary"><i class="fa-solid fa-file"></i></a>
 											</td>
 										</tr>
 										@endforeach

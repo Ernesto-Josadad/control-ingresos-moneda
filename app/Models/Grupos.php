@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Grupos extends Model
 {
     use HasFactory;
-    protected $table = 'clave_grupos';
-    public $primaryKey = 'id';
-    protected $fillable = [
-        'clave',
-        'concepto'
+
+    protected $table = 'clave_grupos'; // Nombre de la tabla en la base de datos
+
+    public $primaryKey = 'id'; // Clave primaria de la tabla
+
+    protected $fillable = [ // Atributos asignables en masa
+        'clave', // Clave del grupo
+        'concepto' // Concepto del grupo
     ];
 }
+

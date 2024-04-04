@@ -5,117 +5,119 @@
 
 </style>
 <div class="card mt-4">
-    <div class="card-body">
-        <h5 class="card-body text-center">RECIBO COBROS</h5>
-        <div class="grid-item">
-            <div class="grid item">
-                <div class="col-md-6" style="width: 30%;">
-                    <label for="matricula">Recibí de:</label>
-                    <div class="row">
-                        
+    <form id="miForm" onsubmit="sendFormToBackend(event)">
+        @csrf
+        <div class="card-body">
+            <h5 class="card-body text-center">RECIBO COBROS</h5>
+            <div class="grid-item">
+                <div class="grid item">
+                    <div class="col-md-6" style="width: 30%;">
+                        <label for="matricula">Recibí de:</label>
+                        <div class="row">
+
                             <div class="col-md-6">
-                                <input type="text" id="inputMatricula" class="form-control" placeholder="MATRICULA">
+                                <input type="number" id="inputMatricula" class="form-control" placeholder="MATRICULA">
                             </div>
                             <div class="col-md-6 mt-2 mt-md-0">
                                 <button class="btn btn-success btn-sm" id="btnActualizar">BUSCAR</button>
                             </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group" style="margin-left:80%">
-                <input type="text" class="form-control" name="folio" id="folio" placeholder="FOLIO">
+                <div class="form-group" style="margin-left:80%">
+                    <input type="text" class="form-control" name="folio" id="folio" placeholder="FOLIO" required>
 
-                <input type="date" id="fecha" class="form-control">
-            </div>
+                    <input type="date" id="fecha" class="form-control" required>
+                </div>
 
 
-            <div class="row" mb-3>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="alumno_id" name="alumno_id">
-                </div>
-            </div>
-            <div class="row mb-3"> <!-- Añadimos mb-3 para la separación -->
-                <div class="col-md-4">
-                    <input type="text" class="form-control" name="matricula" placeholder="NOMBRES" id="nombres">
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" name="matricula" placeholder="NOMBRES" id="matricula">
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" name="matricula" placeholder="APELLIDO P" id="apellido_paterno">
-                </div>
-                <div class="col-md-4 mt-3">
-                    <input type="text" class="form-control" name="matricula" placeholder="APELLIDO M" id="apellido_materno">
-                </div>
-            </div>
-
-            <div class="row mb-3"> <!-- Añadimos mb-3 para la separación -->
-                <div class="col-md-3">
-                    <input type="text" class="form-control" name="matricula" placeholder="GRADO" id="grado">
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" name="matricula" placeholder="GRUPO" id="grupo">
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" name="matricula" placeholder="CARRERA" id="carrera">
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" name="matricula" placeholder="TURNO" id="turno">
-                </div>
-            </div>
-
-            <div class="grid-item">
-                <div class="row">
-                    <div class="col-md-2">
-                        <input type="text" id="inputCode" class="form-control" placeholder="CLAVE SUBGRUPO">
-                    </div>
-                    <div class="col-md-6 mt-2 mt-md-0 mb-4">
-                        <button class="btn btn-success btn-sm" id="btnAddNewRow">BUSCAR</button>
-                    </div>
-
-                    <div class="col-md-6 mt-2 mt-md-0 mb-4">
-                        <input type="number" id="claveSubgrupoId" class="form-control">
+                <div class="row" mb-3>
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" id="alumno_id" name="alumno_id">
                     </div>
                 </div>
-            </div>
-            <div class="container">
-                <table class="table" id="subGroupTable">
-                    <thead>
-                        <tr>
-                            <th>Cantidad</th>
-                            <th>Clave</th>
-                            <th>Concepto</th>
-                            <th>Cuota</th>
-                            <th>Importe</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Aquí colocas la primera fila que estará presente siempre -->
+                <div class="row mb-3"> <!-- Añadimos mb-3 para la separación -->
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="matricula" placeholder="NOMBRES" id="nombres">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="matricula" placeholder="NOMBRES" id="matricula">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="matricula" placeholder="APELLIDO P" id="apellido_paterno">
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <input type="text" class="form-control" name="matricula" placeholder="APELLIDO M" id="apellido_materno">
+                    </div>
+                </div>
+
+                <div class="row mb-3"> <!-- Añadimos mb-3 para la separación -->
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="matricula" placeholder="GRADO" id="grado">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="matricula" placeholder="GRUPO" id="grupo">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="matricula" placeholder="CARRERA" id="carrera">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="matricula" placeholder="TURNO" id="turno">
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input type="text" id="inputCode" class="form-control" placeholder="CLAVE SUBGRUPO">
+                        </div>
+                        <div class="col-md-6 mt-2 mt-md-0 mb-4">
+                            <button class="btn btn-success btn-sm" id="btnAddNewRow">BUSCAR</button>
+                        </div>
+
+                        <div class="col-md-6 mt-2 mt-md-0 mb-4">
+                            <input type="number" id="claveSubgrupoId" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <table class="table" id="subGroupTable">
+                        <thead>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Clave</th>
+                                <th>Concepto</th>
+                                <th>Cuota</th>
+                                <th>Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí colocas la primera fila que estará presente siempre -->
 
 
-                        <!-- Aquí puedes agregar más filas dinámicamente si es necesario -->
-                    </tbody>
-                </table>
+                            <!-- Aquí puedes agregar más filas dinámicamente si es necesario -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="footer">
-                <button class="btn btn-primary" @onclick="sendFormToBackend()">Enviar</button>
+            <div class="card-body">
+                <div class="footer">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
             </div>
-        </div>
-        
-    </div>
+    </form>
+</div>
 </div>
 </div>
 </div>
 @endsection
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Aquí dentro colocarías todas tus funciones y llamadas a funciones
         actualizarCampos();
         addNewRowTableSubGroup();
-        sendFormToDb();
 
     });
 
@@ -207,99 +209,83 @@
             }
         });
     }
-    // Lo declaramos de forma global para poder usarlo en el json form de lo contario
-    // nos saldra indefinido
-    let detallePagos = [];
-    let importe = 0;
-    let cantidad = 0;
-    function sendFormToDb() {
-     let detallePagos = []; // Definir detallePagos dentro de la función
-            let form = {};
-            // Traemos los datos de la tabla de sub grupos 
-            let table = document.getElementById('subGroupTable');
-            if (table) {
-                console.log('Se encontró la tabla');
 
+    async function sendFormToBackend(event) {
+        event.preventDefault();
+        let detallePagos = []; // Definir detallePagos dentro de la función
+        let form = {};
+        // Traemos los datos de la tabla de sub grupos 
+        let table = document.getElementById('subGroupTable');
+        if (table) {
+            console.log('Se encontró la tabla');
 
-                // Obtener todas las filas de la tabla
-                let rows = table.getElementsByTagName('tr');
+            // Obtener todas las filas de la tabla
+            let rows = table.getElementsByTagName('tr');
 
-                // Iterar sobre todas las filas, excepto la primera (encabezados)
-                for (let i = 1; i < rows.length; i++) {
-                    let cells = rows[i].getElementsByTagName('td');
+            // Iterar sobre todas las filas, excepto la primera (encabezados)
+            for (let i = 1; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName('td');
 
-                    // Obtener los valores de las celdas en la fila actual
-                    //let claveSubgrupoId = cells[5].textContent; // Suponiendo que el ID del subgrupo está en la sexta columna
-                    let importeString = cells[4].textContent;
-                     importe = parseFloat(importeString, 10)
-                     cantidadSubgrupo = cells[0].querySelector('input');
-                    let cantidad = parseInt(cantidadSubgrupo.value, 10);
+                // Obtener los valores de las celdas en la fila actual
+                let importeString = cells[4].textContent;
+                let importe = parseFloat(importeString, 10);
+                let cantidadSubgrupo = cells[0].querySelector('input');
+                let cantidad = parseInt(cantidadSubgrupo.value, 10);
 
-                    // Crear un objeto con los datos del detalle de pago y agregarlo al array
-                    let detallePago = {
-                        clave_subgrupo_id: parseInt(document.getElementById('claveSubgrupoId').value, 10),
-                        importe: importe,
-                        cantidad_subgrupo: cantidad
-                    };
-                    detallePagos.push(detallePago);
-                }
-
-                console.log(detallePagos);
-
-
-            } else {
-                console.error('No se encontró la tabla');
+                // Crear un objeto con los datos del detalle de pago y agregarlo al array
+                let detallePago = {
+                    folio: document.getElementById('folio').value,
+                    clave_subgrupo_id: parseInt(document.getElementById('claveSubgrupoId').value, 10),
+                    importe: importe,
+                    cantidad_subgrupo: cantidad
+                };
+                detallePagos.push(detallePago);
             }
-            let fechaInput = document.getElementById('fecha');
-            let fecha = new Date(fechaInput.value);
-            let dia = fecha.getDate().toString().padStart(2, '0');
-            let mes = (fecha.getMonth +1).toString().padStart(2, '0');
-            let año = fecha.getFullYear();
-            let fechaFormateada = `${dia}/${mes}/${año}`;
+        } else {
+            console.error('No se encontró la tabla');
+            return; // Salir de la función si no se encontró la tabla
+        }
 
-            // Crear el objeto de formulario con detallePagos
-            form = {
-                alumno_id: document.getElementById('alumno_id').value,
-                folio: document.getElementById('folio').value,
-                fecha: fechaFormateada,
-                total: importe,
-                cantidad: cantidad,
-                detallePago: detallePagos, // Aquí usamos detallePagos
-            };
-            console.log(form);
-    }
-
-    async function sendFormToBackend() {
-        // Crear el objeto de formulario con los datos
-        //let form = {
-          //  alumno_id: document.getElementById('alumno_id').value,
-            //folio: document.getElementById('folio').value,
-            //detallePago: detallePagos, // Aquí usamos detallePagos
-        //};
+        // Obtener la fecha y formatearla
+        let fechaInput = document.getElementById('fecha');
+        let fecha = new Date(fechaInput.value);
+        let dia = fecha.getDate().toString().padStart(2, '0');
+        let mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Corrección aquí
+        let año = fecha.getFullYear();
+        let fechaFormateada = `${dia}/${mes}/${año}`;
 
 
+        // Crear el objeto de formulario con detallePagos
+        form = {
+            alumno_id: parseInt(document.getElementById('alumno_id').value, 10),
+            folio: document.getElementById('folio').value,
+            fecha: fechaFormateada,
+            total: detallePagos.reduce((total, detalle) => total + detalle.importe, 0), // Calcular el total sumando todos los importes
+            cantidad: detallePagos.reduce((total, detalle) => total + detalle.cantidad_subgrupo, 0), // Calcular la cantidad sumando todas las cantidades
+            detallePagos: detallePagos // Aquí usamos detallePagos
+        };
 
+        console.log(form);
         try {
-            let formData = sendFormToDb();
-            // Realizar la solicitud POST al backend
-            let response = await fetch('savePayment', {
-                method: 'POST',
+            const formData = new FormData(event.target);
+
+            const response = await axios.post('/savePayment', form, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(form)
             });
 
-            // Verificar si la solicitud fue exitosa (código de estado 200-299)
-            if (response.ok) {
-                let data = await response.json(); // Obtener los datos de la respuesta si hay
-                console.log(data); // Hacer algo con los datos si es necesario
+            if (response.status === 200) {
+                const reciboId = response.data.recibo_id;
+                window.location.href = `/payments/${reciboId}/pdf`;
             } else {
-                console.error('Error en la solicitud:', response.statusText);
+                alert('Error al enviar los datos');
             }
         } catch (error) {
-            console.error('Error de red:', error);
+            console.log(error);
         }
+
+
     }
 </script>
 @endpush
