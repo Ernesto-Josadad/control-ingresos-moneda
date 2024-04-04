@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../js/alerts.js"></script>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Registrarme</title>
     <style>
         body {
             background-color: #FF977A;
@@ -24,7 +26,7 @@
         .container {
             background-color: #08483A;
             width: 500px;
-            height: 320px;
+            height: 470px;
             margin: 150px auto;
             padding: 0px;
             border: 15px solid black;
@@ -67,9 +69,8 @@
         button {
             width: 30%;
             height: 40px;
-            padding: 10px;
             border: none;
-            margin: 0px 80px;
+            margin: 0px 90px;
             border-radius: 30px;
             background-color: rgb(16, 16, 16);
             color: #f7f3f3;
@@ -82,39 +83,51 @@
         }
 
         a {
+            padding: 10px;
             color: white;
-            margin: 40px;
+            margin: 10px 17px;
             font-weight: bold;
-        }
-        p{
-            color: white;
-            font-weight: bold;
-            margin: 0px 10px;
-            padding: 1%;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>LOGIN</h1>
-        <form action="{{ route('login.login') }}" method="post">
+        <h1>REGISTRARME</h1>
+        <form action="{{ route('registrate.register') }}" method="post">
 
             @csrf
 
-            <input type="email" id="email" name="email" class="form-control" required
-                placeholder="Correo Electrónico">
+            @if (count($errors) > 0)
+                @php
+                    $errorMessages = '';
+                    foreach ($errors->all() as $message) {
+                        $errorMessages .= "<li>$message</li>";
+                    }
+                @endphp
 
-            <input type="password" id="password" name="password" required placeholder="Contraseña">
-            <div class="conteiner-fluid">
-                <a href="{{ route('registrate.register') }}">Registrarme</a>
+                <script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Corrige los siguientes errores",
+                        html: `{!! $errorMessages !!}`
+                    });
+                </script>
+            @endif
+            <br>
+            <input type="text" autocomplete="off" name="name" placeholder="Nombre" value="{{ old('name') }}">
 
-                <button type="submit" class="btn btn-block">Entrar</button>
+            <input type="email" autocomplete="off" name="email" placeholder="Correo Electrónico"
+                value="{{ old('email') }}">
+
+            <input type="password" name="password" required placeholder="Contraseña">
+
+            <input type="password" name="password_confirmation" required placeholder="Confirmar Contraseña">
+
+            <div class="container-fluid">
+                <a href="{{route('login')}}">Iniciar sesión</a>
+                <button type="submit" class="btn btn-black">Registrarme</button>
             </div>
-
-            @error('email')
-                <div class="bg-red-900 text-white p-1 text-center mt-3"><p>Error: {{ $message }}</p></div>
-            @enderror
 
         </form>
     </div>

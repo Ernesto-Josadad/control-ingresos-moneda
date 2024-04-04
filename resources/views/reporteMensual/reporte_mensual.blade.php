@@ -21,8 +21,8 @@
                     <div style="flex-grow: 1;">
                         <div style="margin-left: 80%;">
                             <form method="GET" action="{{ route('pdfAuto') }}">
-                                <button type="submit" class="d-sm-inline-block btn btn-primary shadow-sm">
-                                    <i class="fa-regular fa-clipboard"></i> Generar Reporte
+                                <button type="submit" class="d-sm-inline-block btn btn-warning shadow-sm">
+                                    <i style=" font-size:25px;" class="fa-regular fa-clipboard"></i> Generar Reporte
                                 </button>
                             </form>
                         </div>
@@ -45,8 +45,10 @@
                                                 <form action="{{ route('pdf') }}" method="post" target="_blank">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $reporte->id }}">
-                                                    <!-- Suponiendo que tienes acceso a la variable $reporte que contiene el reporte deseado -->
-                                                    <button type="submit" class="btn btn-primary"><i
+
+                                                    <button style="width: 45px; height:45px;" type="submit"
+                                                        class="btn btn-primary"><i
+                                                            style="font-size:25px;"
                                                             class="fa-regular fa-file-pdf"></i></button>
                                                 </form>
                                             </td>
