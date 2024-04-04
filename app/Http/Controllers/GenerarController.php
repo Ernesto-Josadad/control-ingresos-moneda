@@ -8,6 +8,7 @@ use App\Models\Subgrupos;
 use App\Models\Recibo;
 use App\Models\ReciboPagos;
 use Codedge\Fpdf\Fpdf\Fpdf;
+use NumberFormatter;
 
 class GenerarController extends Controller
 {
@@ -15,7 +16,7 @@ class GenerarController extends Controller
     {
         $students = Student::all(); // Obtiene todos los estudiantes
         $subGroups = Subgrupos::all(); // Obtiene todos los subgrupos
-        $payment = Recibo::all();// Realiza una consulta para obtener los pagos
+        $payment = Recibo::all(); // Realiza una consulta para obtener los pagos
         return view('recibo_pagos.generar', compact('payment', 'students', 'subGroups')); // Devuelve la vista con los datos necesarios
     }
 
@@ -33,8 +34,8 @@ class GenerarController extends Controller
         $detalesDePagos = $request->get('detallePagos');
         foreach ($detalesDePagos as $row) {
             ReciboPagos::create([
-                'folio' => $row['folio'],
-                'clave_subgrupo_id' => $row['clave_subgrupo_id'],
+                'recibo_id' => $recibo->id,
+                'subgrupo_id' => $row['clave_subgrupo_id'],
                 'importe' => $row['importe'],
                 'cantidad_subgrupo' => $row['cantidad_subgrupo'],
             ]);
@@ -49,16 +50,37 @@ class GenerarController extends Controller
         return response()->file($pdf);
     }
 
+    private function Conversion($numero){
+        $formatear = new \NumberFormatter('es', \NumberFormatter::SPELLOUT);
+        return ucfirst($formatear->format($numero));
+    }
+
     private function generarPDF($reciboId)
     {
         // Obtenemos las relaciones del modelo
-        $payment = Recibo::with(['alumno', 'subgrupos'])->findOrFail($reciboId);
+        $payment = Recibo::with(['alumno', 'detallePagos'])->findOrFail($reciboId);
         if (!$payment) {
             abort(404);
         }
         $alumno = $payment->alumno;
-        // $grupo = $payment->subgrupos;
-        // $reciboPago = $payment->paymentReceipt;
+        // Acceder a los detalles de pago relacionados
+        $detallePagos = $payment->detallePagos;
+
+        foreach ($detallePagos as $detallePago) {
+            // Acceder al subgrupo asociado a este detalle de pago
+            $subgrupo = $detallePago->subgrupos;
+            // Ahora puedes acceder a los atributos del subgrupo, por ejemplo:
+            $codigoSubgrupo = $subgrupo->codigo;
+            $descripcionSubgrupo = $subgrupo->descripcion;
+            $costoXSubgrupo = $subgrupo->costo;
+            $importeXSubgrupo = $detallePago->importe;
+            $cantidadSubgrupo = $detallePago->cantidad_subgrupo;
+            
+        }
+
+        $cantidadEnLetras = $this->Conversion($payment->total);
+
+
         // Formateo del folio para que solo tome los números
         $strFolio = $payment->folio;
         // Este es el que se imprime dentro del pdf 
@@ -143,7 +165,7 @@ class GenerarController extends Controller
         $fpdf->setfont('arial', 'B', 7);
         $fpdf->Cell(25, 8, utf8_decode('LA CANTIDA ES $'), 'LTB', 0);
         $fpdf->Cell(40, 8, $payment->total, 'RTB', 1);
-        // $fpdf->Cell(212, 8, $cantidadEnLetras.' Pesos', 1, 1,'C');
+        $fpdf->Cell(212, 8, $cantidadEnLetras.' Pesos', 1, 1,'C');
 
         //espacio vacio
         $fpdf->Cell(277, 6, '', 0, 1);
@@ -159,20 +181,14 @@ class GenerarController extends Controller
 
         $fpdf->setfont('arial', '', 7);
         $fpdf->Cell(20, 6, '', 0, 0);
-        // $fpdf->Cell(30, 6, $consultas->cantidad, 1, 0,'C');
-        // $fpdf->Cell(30, 6, $grupo->codigo, 1, 0, 'C');
-        // $fpdf->Cell(105, 6, $grupo->descripcion, 1, 0, 'C');
-        // $fpdf->Cell(38, 6, $consultas->cuota, 'LRB', 0,'C');
+        $fpdf->Cell(30, 6, $cantidadSubgrupo, 1, 0,'C');
+        $fpdf->Cell(30, 6, $codigoSubgrupo, 1, 0, 'C');
+        $fpdf->Cell(105, 6, $descripcionSubgrupo, 1, 0, 'C');
+        $fpdf->Cell(38, 6,'$ ' . $costoXSubgrupo, 1, 0,'C');
         $fpdf->Cell(4, 6, '', 0, 0);
-        $fpdf->Cell(50, 6, $payment->total, 'LRB', 1, 'C');
+        $fpdf->Cell(50, 6,'$ ' . $importeXSubgrupo, 1, 1, 'C');
 
-        $fpdf->Cell(20, 6, '', 0, 0);
-        $fpdf->Cell(30, 6, '', 1, 0);
-        $fpdf->Cell(30, 6, '', 1, 0);
-        $fpdf->Cell(105, 6, '', 1, 0);
-        $fpdf->Cell(38, 6, '', 1, 0);
-        $fpdf->Cell(4, 6, '', 0, 0);
-        $fpdf->Cell(50, 6, '', 1, 1);
+        
 
         $fpdf->Cell(20, 6, '', 0, 0);
         $fpdf->Cell(30, 6, '', 'LTB', 0);
@@ -189,7 +205,7 @@ class GenerarController extends Controller
         $fpdf->Cell(105, 6, '', 0, 0);
         $fpdf->Cell(38, 6, utf8_decode('TOTAL'), 0, 0, 'C');
         $fpdf->Cell(4, 6, '', 0, 0);
-        $fpdf->Cell(50, 6, $payment->total, 0, 1, 'C');
+        $fpdf->Cell(50, 6,'$ ' . $payment->total, 0, 1, 'C');
 
         //espacio vacio
         $fpdf->Cell(277, 6, '', 0, 1);
@@ -214,17 +230,17 @@ class GenerarController extends Controller
         $fpdf->Cell(5, 13, '', 0, 0);
         $fpdf->Cell(92, 13, '', 1, 1);
 
-        $fpdf->Cell(20, 6, '', 0, 0);
-        $fpdf->Cell(80, 6, 'M.E. JORGE CARLOS AZCORRA OSORIO', 'LRB', 0, 'C');
-        $fpdf->Cell(80, 6, '', 'LRB', 0);
-        $fpdf->Cell(5, 6, '', 0, 0);
-        $fpdf->Cell(92, 6, '', 1, 1);
+        $fpdf->Cell(20, 4, '', 0, 0);
+        $fpdf->Cell(80, 4, 'M.E. JORGE CARLOS AZCORRA OSORIO', 'LRB', 0, 'C');
+        $fpdf->Cell(80, 4, '', 'LRB', 0);
+        $fpdf->Cell(5, 4, '', 0, 0);
+        $fpdf->Cell(92, 4, '', 1, 1);
         $fpdf->Image('img/SAT.png', 195, 144, -185);
 
 
         //encabezado
         $fpdf->setfont('arial', '', 6);
-        $fpdf->Cell(277, 6, utf8_decode('NOTA: CARECE DE VALIDEZ COMO COMPROBANTE DE PAGO SI NO TIENE SELLO DE LA ESCUELA Y FIRMA DEL CAJERO EXENTO DE I.V.A. CONFORME AL ART. 15 FRACC. IV DE LA LEY DE IMPUESTO AL VALOR AGREGADO'), 0, 1, 'C');
+        $fpdf->Cell(277, 7, utf8_decode('NOTA: CARECE DE VALIDEZ COMO COMPROBANTE DE PAGO SI NO TIENE SELLO DE LA ESCUELA Y FIRMA DEL CAJERO EXENTO DE I.V.A. CONFORME AL ART. 15 FRACC. IV DE LA LEY DE IMPUESTO AL VALOR AGREGADO'), 0, 1, 'C');
 
         $fpdf->Output();
         exit;

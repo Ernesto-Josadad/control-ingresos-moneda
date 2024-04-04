@@ -11,19 +11,24 @@ class ReciboPagos extends Model
     protected $table = 'detalle_pagos'; // Nombre de la tabla en la base de datos
     public $primaryKey = 'id';
     protected $fillable = [
-        'pago_recibo_id',
-        'clave_subgrupo_id',
+        'recibo_id',
+        'subgrupo_id',
         'importe',
         'cantidad_subgrupo'
     ];
 
 
-    public function recibo(){
+    public function recibo()
     {
         return $this->belongsTo(Recibo::class);
+    }
+
+    public function subgrupos()
+    {
+        return $this->belongsTo(Subgrupos::class, 'subgrupo_id');
     }
      
 }
 
-}
+
 

@@ -29,9 +29,9 @@ class Recibo extends Model
     {
         return $this->belongsTo(Subgrupos::class, 'clave_subgrupos_id');
     }
-    public function paymentReceipt()
+    public function detallePagos()
     {
-        return $this->belongsTo(ReciboPagos::class, 'payment_receipt_id');
+        return $this->hasMany(ReciboPagos::class);
     }
 
     // public function alumno()
