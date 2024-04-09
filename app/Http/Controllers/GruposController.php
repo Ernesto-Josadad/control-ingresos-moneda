@@ -34,6 +34,7 @@ public function store(Request $request)
 }
 
 
+
     // Método para mostrar el formulario de edición de un grupo
     public function show(string $id)
     {

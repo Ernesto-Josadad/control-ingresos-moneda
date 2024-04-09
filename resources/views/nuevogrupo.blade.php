@@ -257,6 +257,8 @@
 
 
 <script>
+
+    //todo: mensaje de eliminación
     // Agregar evento click al botón de eliminar para mostrar Sweet Alert de confirmación
     const deleteButtons = document.querySelectorAll('.delete-btn');
     deleteButtons.forEach(button => {
@@ -327,7 +329,8 @@
     });
 
 
-    // Función para mostrar la alerta de confirmación al hacer clic en el botón de editar
+    //todo: Función para mostrar la alerta de confirmación al hacer clic en el botón de editar
+
     function showEditConfirmation(button) {
         var url = button.getAttribute('data-url');
 
@@ -357,7 +360,7 @@
         return false;
     }
 
-    //mensaje de agregado del agregado del grupo
+    //todo: ALERTA DESPUES DE AGREGAR UN REGISTRO
 
     document.addEventListener('DOMContentLoaded', function() {
         // Escucha el evento submit del formulario
@@ -388,7 +391,7 @@
                             text: data.message
                         }).then((result) => {
                             // Redirige a la vista nuevogrupo después de mostrar el mensaje
-                            window.location.href = '{{ url(' / nuevogrupo ') }}';
+                            window.location.href = '{{ url('/nuevogrupo') }}';
                         });
                     } else {
                         // Si la respuesta indica un error, muestra un mensaje de error
@@ -405,10 +408,11 @@
         });
     });
 
+    //todo: MENSAJE DE EDICIÓN
+
     document.addEventListener('DOMContentLoaded', function() {
         // Verificar si existe un mensaje de éxito en la sesión flash
-        let successMessage = '{{ session('
-        success_message ') }}';
+        var successMessage = '{{ session('success_message') }}'; // Asegúrate de que esté correctamente definida como una variable JavaScript
         if (successMessage) {
             // Mostrar el mensaje de éxito con SweetAlert
             Swal.fire({
@@ -418,6 +422,51 @@
             });
         }
     });
+
+    // Agregar evento submit al formulario de edición
+    document.querySelector('#editForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+
+        // Capturar una referencia al modal
+        let modal = document.querySelector('#modalGrupo');
+
+        // Envía la solicitud AJAX para actualizar el grupo
+        fetch(this.action, {
+            method: this.method,
+            body: new FormData(this),
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Cierra el modal independientemente de si la respuesta es exitosa o no
+            $(modal).modal('hide');
+
+            // Si la respuesta indica éxito, muestra el mensaje de éxito
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: data.message
+                }).then((result) => {
+                    // Redirige a la vista nuevogrupo después de mostrar el mensaje
+                    window.location.href = '{{ url('/nuevogrupo') }}';
+                });
+            } else {
+                // Si la respuesta indica un error, muestra un mensaje de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema al guardar el grupo. Por favor, inténtalo de nuevo.'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error al enviar la solicitud:', error);
+        });
+    });
+
 </script>
 
 

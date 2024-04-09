@@ -1,14 +1,15 @@
 <?php
-use App\Http\Controllers\GenerarController;
-use App\Http\Controllers\Auth\AuthController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReciboController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\ReporteMensualController;
-use App\Http\Controllers\GruposController;
-use App\Http\Controllers\SubgruposController;
-use App\Http\Controllers\TablaController;
 use Illuminate\Routing\RouteGroup;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TablaController;
+use App\Http\Controllers\GruposController;
+use App\Http\Controllers\ReciboController;
+use App\Http\Controllers\GenerarController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubgruposController;
+use App\Http\Controllers\ReporteMensualController;
+
 
 
 /*
@@ -22,22 +23,7 @@ use Illuminate\Routing\RouteGroup;
 |
 */
 
-//Auth
-
-Route::prefix('auth')->group(function(){
-    Route::get('login', [AuthController::class, 'login']);
-    Route::get('register', [AuthController::class, 'register']);
-    Route::post('register', [AuthController::class, 'registerVerify'])->name('login.verify');
-    Route::post('login', [AuthController::class, 'loginVerify']);
-});
-
 //Protegidas
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('panel_control', function(){
-        return view('panel_control')->name('panel_control');
-    });
-});
 
 Route::get('/', function () {
     return view('login');
@@ -49,25 +35,34 @@ Route::get('modeloPrincipal', function () {
 });
 
 
-Route::view('panel_control', 'panel_control');
+Route::view('panel_control', 'panel_control')->middleware('auth')->name('panel_control');
 
 // ! Rutas del Reporte Mensual
 
 Route::controller(ReporteMensualController::class)->group(function(){
-    Route::get('reporte', 'index')->name('reporte');
-    Route::get('reporte/mes', 'create')->name('pdfAuto');
+    Route::get('reporte', 'index')->middleware('auth')->name('reporte');
+    Route::get('reporte/mes', 'create')->middleware('auth')->name('pdfAuto');
     // //  RUTA EN DESUSO  Route::get('reporte/search', 'search')->name('search');
-    Route::post('reporte/pdf', 'generarPDF')->name('pdf');
+    Route::post('reporte/pdf', 'generarPDF')->middleware('auth')->name('pdf');
 });
 
-Route::view('alumnos', 'alumnos');
+Route::view('alumnos', 'alumnos')->middleware('guest')->name('alumnos');
 Route::view('prueba', 'prueba');
 
-Route::view('login','login');
-Route::view('tabla_grupos_subgrupos', 'tabla_grupos_subgrupos');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('registrate','registrate')->middleware('guest')->name('registrate');
+Route::view('login','login')->middleware('guest')->name('login');
+
+Route::post('registrate', [LoginController::class, 'register'])->name('registrate.register');
+Route::post('login', [LoginController::class, 'login'])->name('login.login');
+Route::get('logout', [LoginController::class, 'destroy'])->name('logout.destroy');
+
+
+Route::view('tabla_grupos_subgrupos', 'tabla_grupos_subgrupos')->middleware('auth')->name('tabla_grupos_subgrupos');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
 // Conchi Routes:
+
 Route::resource('/students', StudentController::class);
 Route::resource('/payment', ReciboController::class);
 Route::resource('/generar', GenerarController::class);
@@ -77,10 +72,18 @@ Route::view('/makePayment', 'formPagos');
 // show pdf Hola <3
 Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
 
-Route::resource('/grupos_subgrupos', SubgruposController::class);
-Route::resource('/nuevogrupo', GruposController::class);
+Route::resource('/students', StudentController::class)->middleware('auth');
+Route::resource('/payment', ReciboController::class)->middleware('auth');
+Route::resource('/generar', GenerarController::class)->middleware('auth');
+Route::view('/makePayment', 'formPagos')->middleware('auth');
+// show pdf
+Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->middleware('auth')->name('payments.pdf');
 
-Route::resource('/tabla_grupos_subgrupos', TablaController::class);
+
+Route::resource('/grupos_subgrupos', SubgruposController::class)->middleware('auth');
+Route::resource('/nuevogrupo', GruposController::class)->middleware('auth');
+
+Route::resource('/tabla_grupos_subgrupos', TablaController::class)->middleware('auth');
 
 
 
