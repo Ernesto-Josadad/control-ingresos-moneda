@@ -20,7 +20,7 @@ class Recibo extends Model
     ];
     public function detallePagos()
     {
-        return $this->hasMany(ReciboPagos::class, 'pago_recibo_id');
+        return $this->hasMany(ReciboPagos::class, 'recibo_pago_id');
     }
 
     public function alumno()

@@ -287,7 +287,7 @@
             });
 
             if (response.status === 200) {
-                const reciboId = response.data.pago_recibo_id;
+                const reciboId = response.data.recibo_pago_id;
                 window.location.href = `/payments/${reciboId}/pdf`;
             } else {
                 alert('Error al enviar los datos');

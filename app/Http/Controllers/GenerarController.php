@@ -34,14 +34,14 @@ class GenerarController extends Controller
         $detalesDePagos = $request->get('detallePagos');
         foreach ($detalesDePagos as $row) {
             ReciboPagos::create([
-                'pago_recibo_id' => $recibo->id,
+                'recibo_pago_id' => $recibo->id,
                 'clave_subgrupo_id' => $row['clave_subgrupo_id'],
                 'importe' => $row['importe'],
                 'cantidad_subgrupo' => $row['cantidad_subgrupo'],
             ]);
         }
 
-        return response()->json(['pago_recibo_id' => $recibo->id], 200);
+        return response()->json(['recibo_pago_id' => $recibo->id], 200);
     }
 
     public function verPDF($reciboId)
