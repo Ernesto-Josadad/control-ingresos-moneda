@@ -33,7 +33,7 @@
 
                 <div class="row" mb-3>
                     <div class="col-md-4">
-                        <input type="number" class="form-control" id="alumno_id" name="alumno_id">
+                        <input type="number" class="form-control" id="alumno_id" name="alumno_id" hidden>
                     </div>
                 </div>
                 <div class="row mb-3"> <!-- Añadimos mb-3 para la separación -->
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="col-md-6 mt-2 mt-md-0 mb-4">
-                            <input type="number" id="claveSubgrupoId" class="form-control">
+                            <input type="number" id="claveSubgrupoId" class="form-control" hidden>
                         </div>
                     </div>
                 </div>

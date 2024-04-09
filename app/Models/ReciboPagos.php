@@ -18,12 +18,17 @@ class ReciboPagos extends Model
     ];
 
 
-    public function recibo(){
+    public function recibo()
     {
         return $this->belongsTo(Recibo::class);
     }
 
+    public function subgrupos()
+    {
+        return $this->belongsTo(Subgrupos::class, 'subgrupo_id');
+    }
+     
 }
 
-}
+
 
