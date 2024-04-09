@@ -34,14 +34,14 @@ class GenerarController extends Controller
         $detalesDePagos = $request->get('detallePagos');
         foreach ($detalesDePagos as $row) {
             ReciboPagos::create([
-                'recibo_id' => $recibo->id,
-                'subgrupo_id' => $row['clave_subgrupo_id'],
+                'pago_recibo_id' => $recibo->id,
+                'clave_subgrupo_id' => $row['clave_subgrupo_id'],
                 'importe' => $row['importe'],
                 'cantidad_subgrupo' => $row['cantidad_subgrupo'],
             ]);
         }
 
-        return response()->json(['recibo_id' => $recibo->id], 200);
+        return response()->json(['pago_recibo_id' => $recibo->id], 200);
     }
 
     public function verPDF($reciboId)
@@ -50,7 +50,8 @@ class GenerarController extends Controller
         return response()->file($pdf);
     }
 
-    private function Conversion($numero){
+    private function Conversion($numero)
+    {
         $formatear = new \NumberFormatter('es', \NumberFormatter::SPELLOUT);
         return ucfirst($formatear->format($numero));
     }
@@ -63,20 +64,20 @@ class GenerarController extends Controller
             abort(404);
         }
         $alumno = $payment->alumno;
-        // Acceder a los detalles de pago relacionados
-        $detallePagos = $payment->detallePagos;
+        // // Acceder a los detalles de pago relacionados
+        // $detallePagos = $payment->detallePagos;
 
-        foreach ($detallePagos as $detallePago) {
-            // Acceder al subgrupo asociado a este detalle de pago
-            $subgrupo = $detallePago->subgrupos;
-            // Ahora puedes acceder a los atributos del subgrupo, por ejemplo:
-            $codigoSubgrupo = $subgrupo->codigo;
-            $descripcionSubgrupo = $subgrupo->descripcion;
-            $costoXSubgrupo = $subgrupo->costo;
-            $importeXSubgrupo = $detallePago->importe;
-            $cantidadSubgrupo = $detallePago->cantidad_subgrupo;
-            
-        }
+        // foreach ($detallePagos as $detallePago) {
+        //     // Acceder al subgrupo asociado a este detalle de pago
+        //     $subgrupo = $detallePago->subgrupos;
+        //     // Ahora puedes acceder a los atributos del subgrupo, por ejemplo:
+        //     $codigoSubgrupo = $subgrupo->codigo;
+        //     $descripcionSubgrupo = $subgrupo->descripcion;
+        //     $costoXSubgrupo = $subgrupo->costo;
+        //     $importeXSubgrupo = $detallePago->importe;
+        //     $cantidadSubgrupo = $detallePago->cantidad_subgrupo;
+
+        // }
 
         $cantidadEnLetras = $this->Conversion($payment->total);
 
@@ -146,11 +147,11 @@ class GenerarController extends Controller
         $fpdf->Cell(23, 3, '', 'T', 0);
         $fpdf->Cell(20, 3, '', 'RT', 1);
 
-        $fpdf->Cell(198, 10, 'CONOCIDO', 'LRB', 0, 'C');
+        $fpdf->Cell(198, 3, 'CONOCIDO', 'LRB', 0, 'C');
         $fpdf->Cell(16, 10, '', 0, 0);
-        $fpdf->Cell(20, 10, utf8_decode($alumno->grado), 'LRB', 0, 'C');
-        $fpdf->Cell(23, 10, utf8_decode($alumno->grupo), 'LRB', 0, 'C');
-        $fpdf->Cell(20, 10, utf8_decode($alumno->turno), 'LRB', 1, 'C');
+        $fpdf->Cell(20, 5, utf8_decode($alumno->grado), 'LRB', 0, 'C');
+        $fpdf->Cell(23, 5, utf8_decode($alumno->grupo), 'LRB', 0, 'C');
+        $fpdf->Cell(20, 5, utf8_decode($alumno->turno), 'LRB', 1, 'C');
 
         $fpdf->Cell(198, 5, '', 1, 0);
         $fpdf->Cell(16, 5, '', 0, 0);
@@ -158,18 +159,15 @@ class GenerarController extends Controller
         $fpdf->Cell(23, 5, utf8_decode('GRUPO'), 1, 0);
         $fpdf->Cell(20, 5, utf8_decode('TURNO'), 1, 1);
 
-        //espacio vacio
-        $fpdf->Cell(277, 6, '', 0, 1);
+
 
         //seccion 10
         $fpdf->setfont('arial', 'B', 7);
         $fpdf->Cell(25, 8, utf8_decode('LA CANTIDA ES $'), 'LTB', 0);
         $fpdf->Cell(40, 8, $payment->total, 'RTB', 1);
-        $fpdf->Cell(212, 8, $cantidadEnLetras.' Pesos', 1, 1,'C');
-
+        $fpdf->Cell(212, 8, $cantidadEnLetras . ' Pesos', 1, 1, 'C');
         //espacio vacio
         $fpdf->Cell(277, 6, '', 0, 1);
-
         //SECCION 11
         $fpdf->Cell(20, 6, '', 0, 0);
         $fpdf->Cell(30, 6, utf8_decode('CANTIDAD'), 0, 0, 'C');
@@ -179,16 +177,30 @@ class GenerarController extends Controller
         $fpdf->Cell(4, 6, '', 0, 0);
         $fpdf->Cell(50, 6, utf8_decode('IMPORTE'), 0, 1, 'C');
 
-        $fpdf->setfont('arial', '', 7);
-        $fpdf->Cell(20, 6, '', 0, 0);
-        $fpdf->Cell(30, 6, $cantidadSubgrupo, 1, 0,'C');
-        $fpdf->Cell(30, 6, $codigoSubgrupo, 1, 0, 'C');
-        $fpdf->Cell(105, 6, $descripcionSubgrupo, 1, 0, 'C');
-        $fpdf->Cell(38, 6,'$ ' . $costoXSubgrupo, 1, 0,'C');
-        $fpdf->Cell(4, 6, '', 0, 0);
-        $fpdf->Cell(50, 6,'$ ' . $importeXSubgrupo, 1, 1, 'C');
+       
+        // Acceder a los detalles de pago relacionados
+        $detallePagos = $payment->detallePagos;
 
-        
+        // Iterar sobre los detalles de pago y generar las filas de la tabla en el PDF
+        foreach ($detallePagos as $detallePago) {
+            // Acceder al subgrupo asociado a este detalle de pago
+            $subgrupo = $detallePago->subgrupos;
+            // Ahora puedes acceder a los atributos del subgrupo, por ejemplo:
+            $codigoSubgrupo = $subgrupo->codigo;
+            $descripcionSubgrupo = $subgrupo->descripcion;
+            $costoXSubgrupo = $subgrupo->costo;
+            $importeXSubgrupo = $detallePago->importe;
+            $cantidadSubgrupo = $detallePago->cantidad_subgrupo;
+
+            // Generar una fila de la tabla por cada detalle de pago
+            $fpdf->Cell(20, 6, '', 0, 0);
+            $fpdf->Cell(30, 6, $cantidadSubgrupo, 1, 0, 'C');
+            $fpdf->Cell(30, 6, $codigoSubgrupo, 1, 0, 'C');
+            $fpdf->Cell(105, 6, $descripcionSubgrupo, 1, 0, 'C');
+            $fpdf->Cell(38, 6, '$ ' . $costoXSubgrupo, 1, 0, 'C');
+            $fpdf->Cell(4, 6, '', 0, 0);
+            $fpdf->Cell(50, 6, '$ ' . $importeXSubgrupo, 1, 1, 'C');
+        }
 
         $fpdf->Cell(20, 6, '', 0, 0);
         $fpdf->Cell(30, 6, '', 'LTB', 0);
@@ -205,10 +217,7 @@ class GenerarController extends Controller
         $fpdf->Cell(105, 6, '', 0, 0);
         $fpdf->Cell(38, 6, utf8_decode('TOTAL'), 0, 0, 'C');
         $fpdf->Cell(4, 6, '', 0, 0);
-        $fpdf->Cell(50, 6,'$ ' . $payment->total, 0, 1, 'C');
-
-        //espacio vacio
-        $fpdf->Cell(277, 6, '', 0, 1);
+        $fpdf->Cell(50, 6, '$ ' . $payment->total, 0, 1, 'C');
 
         //seccion 12
         $fpdf->setfont('arial', '', 7);

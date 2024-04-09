@@ -18,7 +18,10 @@ class Recibo extends Model
         'total',
         'fecha'
     ];
-
+    public function detallePagos()
+    {
+        return $this->hasMany(ReciboPagos::class, 'pago_recibo_id');
+    }
 
     public function alumno()
     {
@@ -29,22 +32,5 @@ class Recibo extends Model
     {
         return $this->belongsTo(Subgrupos::class, 'clave_subgrupos_id');
     }
-    public function detallePagos()
-    {
-        return $this->hasMany(ReciboPagos::class);
-    }
-
-    // public function alumno()
-    // {
-    //     return $this->belongsTo(Student::class, 'alumno_id');
-    // }
-    // public function subgrupos()
-    // {
-    //     return $this->belongsTo(Subgrupos::class, 'clave_subgrupo_id');
-    // }
-    // public function recibopagos()
-    // {
-    //     return $this->belongsTo(ReciboPagos::class, 'payment_receipt_id');
-    // }
 
 }

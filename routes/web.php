@@ -70,14 +70,14 @@ Route::resource('/generar', GenerarController::class);
 Route::post('/savePayment', [GenerarController::class, 'savePayment']);
 Route::view('/makePayment', 'formPagos');
 // show pdf Hola <3
-Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
+// Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->name('payments.pdf');
 
 Route::resource('/students', StudentController::class)->middleware('auth');
 Route::resource('/payment', ReciboController::class)->middleware('auth');
 Route::resource('/generar', GenerarController::class)->middleware('auth');
 Route::view('/makePayment', 'formPagos')->middleware('auth');
 // show pdf
-Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->middleware('auth')->name('payments.pdf');
+// Route::get('/payments/{payment}/pdf', [ReciboController::class, 'showPDF'])->middleware('auth')->name('payments.pdf');
 
 
 Route::resource('/grupos_subgrupos', SubgruposController::class)->middleware('auth');

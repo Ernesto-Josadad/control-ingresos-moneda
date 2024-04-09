@@ -103,7 +103,7 @@
 											<td>{{$row->apellido_paterno}}</td>
 											<td>{{$row->apellido_materno}}</td>
 											<td>${{$row->total}}</td>
-											<td>${{$row->fecha}}</td>
+											<td>{{$row->fecha}}</td>
 											<td>
 												<a href="{{ route('payments.pdf', $row->id) }}" class="btn btn-primary"><i class="fa-solid fa-file"></i></a>
 											</td>
