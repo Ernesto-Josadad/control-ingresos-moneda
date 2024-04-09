@@ -37,8 +37,15 @@ class ReporteMensualController extends Controller
         $fecha_inicio_mes = $fecha_actual->copy()->startOfMonth();
         $recibos = ReciboPagos::where('created_at', '>=', $fecha_inicio_mes)->get();
 
+        // Verificar si $recibos es nulo
+        if ($recibos->isEmpty()) {
+            return redirect()->back()->with('error', 'No se encontraron datos de recibos para el mes actual.');
+        }
+
         // * Obtenemos los ids de los recibos para buscar los pagos asociados
-        $reciboIds = $recibos->pluck('pago_recibo_id');
+        $reciboIds = $recibos->pluck('recibo_pago_id');
+
+        // dd($recibos);
 
         // * Obtenemos los pagos asociados a los recibos
         $pagosRecibo = Recibo::whereIn('id', $reciboIds)->get();
@@ -97,6 +104,10 @@ class ReporteMensualController extends Controller
 
         // TODO: Inicializar un array para almacenar las ganancias por subgrupo
         $gananciasPorSubgrupo = [];
+
+        // TODO: Inicializar un array para almacenar las ganancias por subgrupo
+        $ingresosPorGrupo = [];
+
 
         // TODO: Obtener los subgrupos con sus datos
         $subgrupos = Subgrupos::all()->keyBy('id');

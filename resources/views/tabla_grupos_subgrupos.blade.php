@@ -143,7 +143,7 @@
                             $cantidad_subgrupo = 'N/A';
 
                             foreach($datosRecibos as $dato) {
-                            if($dato->pago_recibo_id == $row->id) {
+                            if($dato->recibo_pago_id == $row->id) {
                             $subgrupo = App\Models\Subgrupos::find($dato->clave_subgrupo_id);
                             $importe = $dato->importe;
                             $descripcion = $subgrupo ? $subgrupo->descripcion : 'N/A';

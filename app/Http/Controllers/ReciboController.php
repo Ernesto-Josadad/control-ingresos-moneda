@@ -33,7 +33,7 @@ class ReciboController extends Controller
             'grado',
             'grupo',
             'carrera',
-            
+
         )
             ->join('alumnos', 'alumnos.id', '=', 'recibo_pagos.alumno_id')->get();
         return view('recibo_pagos.recibo', compact('payment', 'student'));
@@ -44,9 +44,9 @@ class ReciboController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $payment = new Recibo();
-        $payment->pago_recibo_id = $request->get('pago_recibo_id');
+        $payment->recibo_pago_id = $request->get('recibo_pago_id');
         $payment->save();
     }
 
@@ -95,5 +95,5 @@ class ReciboController extends Controller
         }
     }
 
-    
+
 }

@@ -35,7 +35,7 @@ class TablaController extends Controller
 
 
         // Obtener los datos de los recibos, incluidos los importes
-        $datosRecibos = ReciboPagos::select('pago_recibo_id', 'clave_subgrupo_id', 'cantidad_subgrupo', 'importe')->get();
+        $datosRecibos = ReciboPagos::select('recibo_pago_id', 'clave_subgrupo_id', 'cantidad_subgrupo', 'importe')->get();
 
         // Convertir el total a palabras en español para los recibos
         $numberToWords = new NumberToWords();
@@ -43,7 +43,7 @@ class TablaController extends Controller
 
         foreach ($recibos as $recibo) {
             // Buscar el importe correspondiente al recibo actual
-            $importeRecibo = $datosRecibos->where('pago_recibo_id', $recibo->id)->first();
+            $importeRecibo = $datosRecibos->where('recibo_pago_id', $recibo->id)->first();
 
             // Asignar el importe al recibo si se encuentra
             if ($importeRecibo) {

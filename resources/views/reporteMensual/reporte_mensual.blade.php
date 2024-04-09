@@ -2,6 +2,18 @@
 @section('titulo', 'reporte_mensual')
 @section('contenido')
 
+    @if (session('error'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                title: 'Error',
+                text: '{{ session('error') }}',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -28,6 +40,7 @@
                         </div>
                         <br>
 
+
                         {{-- ! Barra de Búsqueda --}}
 
                         <!-- CUERPO DE LA TABLA -->
@@ -47,8 +60,7 @@
                                                     <input type="hidden" name="id" value="{{ $reporte->id }}">
 
                                                     <button style="width: 45px; height:45px;" type="submit"
-                                                        class="btn btn-primary"><i
-                                                            style="font-size:25px;"
+                                                        class="btn btn-primary"><i style="font-size:25px;"
                                                             class="fa-regular fa-file-pdf"></i></button>
                                                 </form>
                                             </td>
