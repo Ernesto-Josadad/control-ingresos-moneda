@@ -69,8 +69,6 @@
                 @endif
             </form>
         </div>
-
-
         <br>
         <div style="margin-left: 84%;">
             <button type="button" class="btn btn-warning font-weight-bold shadow-sm" shadow-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -112,14 +110,14 @@
                     <td class="tabla-header align-middle text-center">{{$row -> carrera}}</td>
                     <td class="tabla-header align-middle text-center">{{$row -> turno}}</td>
                     <td>
-                    <div class="d-inline-flex mt-2">
+                        <div class="d-inline-flex mt-2">
                             <a href="#" class="btn btn-primary mb-2 mx-2 edit-btn" data-url="{{ url('/students') }}/{{$row->id}}" onclick="return showEditConfirmation(this)"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <form action="{{url('/students',[$row])}}" method="post" style="display: inline-block;">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="button" class="btn btn-danger mx-2 delete-btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </form>
-                            </div>
+                            <form action="{{url('/students',[$row])}}" method="post" style="display: inline-block;">
+                                @csrf
+                                @method('delete')
+                                <button type="button" class="btn btn-danger mx-2 delete-btn"><i class="fa-solid fa-trash-can"></i></button>
+                            </form>
+                        </div>
                     </td>
                     </tr>
                     @endforeach
@@ -198,10 +196,28 @@
             @endif
     </ul>
 </nav>
-
 <!-- End Paginación -->
+
+<!-- Código para mostrar SweetAlert cuando no hay registros -->
+@if($students->isEmpty() && isset($search))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'info',
+                title: 'No se encontraron alumnos',
+                text: 'No hay registros que coincidan con la búsqueda.'
+            }).then(function() {
+                // Redirigir al usuario de vuelta a la vista 'students.index'
+                window.location.href = '{{ route("students.index") }}';
+            });
+        });
+    </script>
+@endif
+
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+    //todo: barra de busqueda
     function clearSearch() {
         document.getElementById('searchInput').value = '';
         document.getElementById('searchForm').submit();
@@ -229,78 +245,73 @@
         });
     });
 
-
-// Agregar evento click al botón de eliminar para mostrar Sweet Alert de confirmación
+ //TODO Agregar evento click al botón de eliminar para mostrar Sweet Alert de confirmación eliminación
 const deleteButtons = document.querySelectorAll('.delete-btn');
 deleteButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: 'Una vez eliminado, no podrás recuperar este registro.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminarlo',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Obtener el formulario de eliminación asociado al botón
-                const form = button.closest('form');
+    // Desasociar eventos de clic anteriores para evitar la acumulación de eventos
+    button.removeEventListener('click', handleDeleteClick);
 
-                // Enviar el formulario de eliminación
-                fetch(form.action, {
-                    method: form.method,
-                    body: new FormData(form),
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        // Si se elimina correctamente, mostrar mensaje de éxito
-                        Swal.fire({
-                            title: '¡Eliminado!',
-                            text: 'El registro ha sido eliminado correctamente.',
-                            icon: 'success',
-                            showConfirmButton: true, // Mostrar el botón "Ok"
-                            allowOutsideClick: false // Evitar que el usuario cierre el mensaje haciendo clic fuera
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Opcional: recargar la página después de un tiempo para reflejar los cambios
-                                window.location.reload();
-                            }
-                        });
-                    } else {
-                        // Si hay un error en la eliminación, mostrar mensaje de error
-                        Swal.fire(
-                            'Error',
-                            'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
-                            'error'
-                        );
-                    }
-                }).catch(error => {
-                    console.error('Error al enviar la solicitud:', error);
-                    // Mostrar mensaje de error si falla la eliminación
+    // Asociar nuevo evento de clic
+    button.addEventListener('click', handleDeleteClick);
+});
+
+function handleDeleteClick(event) {
+    const button = event.target;
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Una vez eliminado, no podrás recuperar este registro.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminarlo',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const form = button.closest('form');
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form),
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    Swal.fire({
+                        title: '¡Eliminado!',
+                        text: 'El registro ha sido eliminado correctamente.',
+                        icon: 'success',
+                        showConfirmButton: true,
+                        allowOutsideClick: false
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
                     Swal.fire(
                         'Error',
                         'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
                         'error'
                     );
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // Mostrar mensaje de cancelación si el usuario cancela
+                }
+            }).catch(error => {
+                console.error('Error al enviar la solicitud:', error);
                 Swal.fire(
-                    'Cancelado',
-                    'La eliminación ha sido cancelada.',
-                    'info'
+                    'Error',
+                    'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
+                    'error'
                 );
-            }
-        });
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+                'Cancelado',
+                'La eliminación ha sido cancelada.',
+                'info'
+            );
+        }
     });
-});
+}
 
-
-    // Función para mostrar la alerta de confirmación al hacer clic en el botón de editar
+    //TODO Función para mostrar la alerta de confirmación al hacer clic en el botón de editar
     function showEditConfirmation(button) {
         var url = button.getAttribute('data-url');
 
@@ -330,57 +341,58 @@ deleteButtons.forEach(button => {
         return false;
     }
 
-    //mensaje de agregado del agregado de alumnos
+    //TODO mensaje del agregado de alumnos
 
-    document.addEventListener('DOMContentLoaded', function () {
-    // Escucha el evento submit del formulario
-    document.querySelector('#exampleModal form').addEventListener('submit', function (event) {
-        event.preventDefault(); // Previene el comportamiento predeterminado del formulario
+    document.addEventListener('DOMContentLoaded', function() {
+        // Escucha el evento submit del formulario
+        document.querySelector('#exampleModal form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previene el comportamiento predeterminado del formulario
 
-        // Captura una referencia al modal
-        let modal = document.querySelector('#exampleModal');
+            // Captura una referencia al modal
+            let modal = document.querySelector('#exampleModal');
 
-        // Envía la solicitud AJAX para guardar el nuevo alumno
-        fetch(this.action, {
-            method: this.method,
-            body: new FormData(this),
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Cierra el modal independientemente de si la respuesta es exitosa o no
-            $(modal).modal('hide');
+            // Envía la solicitud AJAX para guardar el nuevo alumno
+            fetch(this.action, {
+                    method: this.method,
+                    body: new FormData(this),
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Cierra el modal independientemente de si la respuesta es exitosa o no
+                    $(modal).modal('hide');
 
-            // Si la respuesta indica éxito, muestra el mensaje de éxito
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: data.message
-                }).then((result) => {
-                    // Redirige a la vista students después de mostrar el mensaje
-                    window.location.href = '{{ url('/students') }}';
+                    // Si la respuesta indica éxito, muestra el mensaje de éxito
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: data.message
+                        }).then((result) => {
+                            // Redirige a la vista students después de mostrar el mensaje
+                            window.location.href = '{{ url('/students') }}';
+                        });
+                    } else {
+                        // Si la respuesta indica un error, muestra un mensaje de error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Hubo un problema al guardar el grupo. Por favor, inténtalo de nuevo.'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al enviar la solicitud:', error);
                 });
-            } else {
-                // Si la respuesta indica un error, muestra un mensaje de error
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Hubo un problema al guardar el grupo. Por favor, inténtalo de nuevo.'
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error al enviar la solicitud:', error);
         });
     });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
+    //TODO EDICIÓN
+    document.addEventListener('DOMContentLoaded', function() {
         // Verificar si existe un mensaje de éxito en la sesión flash
-        let successMessage = '{{ session('success_message') }}';
+        var successMessage = '{{ session('success_message') }}'; // Asegúrate de que esté correctamente definida como una variable JavaScript
         if (successMessage) {
             // Mostrar el mensaje de éxito con SweetAlert
             Swal.fire({
@@ -389,6 +401,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 text: successMessage
             });
         }
+    });
+
+    // Agregar evento submit al formulario de edición
+    document.querySelector('#editForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+
+        // Capturar una referencia al modal
+        let modal = document.querySelector('#exampleModal');
+
+        // Envía la solicitud AJAX para actualizar el grupo
+        fetch(this.action, {
+                method: this.method,
+                body: new FormData(this),
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Cierra el modal independientemente de si la respuesta es exitosa o no
+                $(modal).modal('hide');
+
+                // Si la respuesta indica éxito, muestra el mensaje de éxito
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: data.message
+                    }).then((result) => {
+                        // Redirige a la vista nuevogrupo después de mostrar el mensaje
+                        window.location.href = '{{ url('/students') }}';
+                    });
+                } else {
+                    // Si la respuesta indica un error, muestra un mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un problema al actualizar los datos. Por favor, inténtalo de nuevo.'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar la solicitud:', error);
+            });
     });
 </script>
 

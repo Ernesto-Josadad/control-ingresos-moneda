@@ -125,11 +125,17 @@ class ReporteMensualController extends Controller
             $cantidadSubgrupos = $recibo->cantidad_subgrupo;
             $gananciasPorSubgrupo[$infoCompleta] += $costoSubgrupo * $cantidadSubgrupos;
 
+
             // ? Sumar las ganancias del subgrupo al total de ingresos del grupo
+            // Inicializar $ingresosPorGrupo como un array vacío
+            $ingresosPorGrupo = [];
+
+            // Código existente...
             if (!isset($ingresosPorGrupo[$grupoId])) {
                 $ingresosPorGrupo[$grupoId] = 0;
             }
             $ingresosPorGrupo[$grupoId] += $costoSubgrupo * $cantidadSubgrupos;
+            // ...
         }
 
         // Ordenar el array por claves de forma ascendente
@@ -196,7 +202,7 @@ class ReporteMensualController extends Controller
 
         $pdf->AliasNbPages();
 
-        $pdf->AddPage('','A4');
+        $pdf->AddPage('', 'A4');
 
         // ? Establecer una fuente
         $pdf->SetFont('Courier', '', 10);

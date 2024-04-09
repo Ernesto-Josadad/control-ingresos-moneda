@@ -31,7 +31,7 @@ class TablaController extends Controller
         }
 
         // Paginar los resultados
-        $recibos = $recibosQuery->paginate(7)->appends(['search' => $search]);
+        $recibos = $recibosQuery->paginate(10)->appends(['search' => $search]);
 
 
         // Obtener los datos de los recibos, incluidos los importes

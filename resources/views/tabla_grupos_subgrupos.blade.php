@@ -69,9 +69,9 @@
 <!-- Barra de búsqueda -->
 <div class="barra">
     <form id="searchForm" action="{{ route('tabla_grupos_subgrupos.index') }}" method="GET" class="input-group">
-    <input id="searchInput" name="search" class="form-control search-input" type="search" placeholder="Buscar..." value="{{ $search ?? '' }}" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+        <input id="searchInput" name="search" class="form-control search-input" type="search" placeholder="Buscar..." value="{{ $search ?? '' }}" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border: 1px solid #000000;">
         <div class="input-group-append">
-        <button type="submit" class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 10px; border-bottom-right-radius: 10px;"><i class="fas fa-search"></i></button>
+            <button type="submit" class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border: 1px solid #000000;"><i class="fas fa-search"></i></button>
         </div>
         @if($search)
         <button type="submit" class="btn btn-secondary ml-2" onclick="clearSearch()" style="background-color: #98FB98; color: black; font-weight: bold; border: 1px solid #008000; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">Limpiar búsqueda</button>
@@ -84,6 +84,22 @@
 <div class="container-fluid"> <!-- Conserva el contenedor original -->
     <div class="row">
         <div class="col-lg-12">
+            @if ($recibos->isEmpty())
+            <!-- Mostrar el mensaje de SweetAlert si no hay registros -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No se encontraron registros',
+                        text: 'No hay registros que coincidan con la búsqueda.'
+                    }).then(function() {
+                        // Redirigir al usuario de vuelta a la vista 'tabla_grupos_subgrupos'
+                        window.location.href = '{{ route("tabla_grupos_subgrupos.index") }}';
+                    });
+                });
+            </script>
+            @endif
             <div class="table-responsive">
                 <table id="tablaRecibos" class="table table-bordered">
                     <thead>
@@ -151,6 +167,7 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>

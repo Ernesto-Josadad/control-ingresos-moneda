@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Recibo extends Model
 {
     use HasFactory;
-    protected $table = 'recibo_pago'; // Nombre de la tabla en la base de datos
+    protected $table = 'recibo_pagos'; // Nombre de la tabla en la base de datos
     public $primaryKey = 'id';
     protected $fillable = [
         'alumno_id',
