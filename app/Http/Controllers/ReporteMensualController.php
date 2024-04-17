@@ -264,8 +264,8 @@ class ReporteMensualController extends Controller
         $pdf->Cell(50, 7, 'SUMAS IGUALES', 0, 0, 'C');
         $pdf->SetFont('Arial', '', 10);
         // TODO: CELDAS CON MARGEN
-        $pdf->Cell(40, 7, $reporte->ingresos, 1, 0, 'C');
-        $pdf->Cell(40, 7, $reporte->ingresos, 1, 1, 'C');
+        $pdf->Cell(40, 7, '$'.$reporte->ingresos, 1, 0, 'C');
+        $pdf->Cell(40, 7, '$'.$reporte->ingresos, 1, 1, 'C');
 
         $pdf->Ln(10);
 
@@ -280,21 +280,21 @@ class ReporteMensualController extends Controller
         // TODO: CELDAS SIN MARGEN
         $pdf->Cell(70, 7, 'SALDO DEL MES ANTERIOR:', '{T, L}', 0, 'C');
         $pdf->Cell(30, 7, '', '{T}', 0, '', 0);
-        $pdf->Cell(40, 7, $reporte->total_disponible, '{T, B}', 0, 'C');
+        $pdf->Cell(40, 7, '$'.$reporte->total_disponible, '{T, B}', 0, 'C');
         $pdf->Cell(40, 7, '', '{T, R}', 0, '', 0);
         $pdf->Ln();
 
         // TODO: CELDAS SIN MARGEN
         $pdf->Cell(60, 7, 'INGRESOS', '{L}', 0, 'C', 0);
         $pdf->Cell(40, 7, '', '', 0, '', 0);
-        $pdf->Cell(40, 7, $reporte->ingresos, '{B}', 0, 'C', 0);
+        $pdf->Cell(40, 7, '$'.$reporte->ingresos, '{B}', 0, 'C', 0);
         $pdf->Cell(40, 7, '', '{R}', 0, 'C', 0);
         $pdf->Ln();
 
         // TODO: CELDAS SIN MARGEN
         $pdf->Cell(60, 7, 'TOTAL DISPONIBLE:', '{B, L}', 0, 'C');
         $pdf->Cell(40, 7, '', '{B}', 0, '', 0);
-        $pdf->Cell(40, 7, $reporte->total_disponible, '{B}', 0, 'C');
+        $pdf->Cell(40, 7, '$'.$reporte->total_disponible, '{B}', 0, 'C');
         $pdf->Cell(40, 7, '', '{R,B}', 0, '', 0);
 
         $pdf->Ln(20);

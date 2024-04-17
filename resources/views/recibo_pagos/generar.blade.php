@@ -116,9 +116,6 @@
             <div class="footer d-flex justify-content-between" >
                 <button type="button" class="btn btn-warning" id="btnRecargarPagina">Limpiar</button>
 
-            <div class="footer d-flex justify-content-between"> <!-- Utilizamos flexbox y justify-content-between para alinear los botones -->
-                <button type="button" class="btn btn-warning" id="btnRecargarPagina">Limpiar</button> <!-- Nuevo botón para recargar la página -->
-
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </div>

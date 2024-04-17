@@ -172,48 +172,64 @@
     </div>
 </div>
 <br>
-<!-- Paginación -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-        {{-- Botón Anterior --}}
-        @if ($recibos->onFirstPage())
-        <li class="page-item disabled">
-            <span class="page-link page-link-black">Anterior</span>
-        </li>
-        @else
-        <li class="page-item">
-            <a class="page-link page-link-black" href="{{ $recibos->previousPageUrl() }}" tabindex="-1">Anterior</a>
-        </li>
-        @endif
+<div class="d-flex justify-content-between align-items-center">
+    <!-- Botones -->
+    <div class="pagination-buttons">
+    <button class="btn" style="background-color: #ffc107; color: black; font-weight: bold;" onclick="goToFirstPage()">Página Inicial</button>
+    <button class="btn" style="background-color: #ffc107; color: black; font-weight: bold;" onclick="goToLastPage()">Página Final</button>
+</div>
 
-        {{-- Números de Página --}}
-        @if ($recibos->lastPage() > 1)
-        @for ($i = max(1, $recibos->currentPage() - 1); $i <= min($recibos->lastPage(), $recibos->currentPage() + 1); $i++)
-            <li class="page-item {{ $i == $recibos->currentPage() ? 'active' : '' }}">
-                <a class="page-link" href="{{ $recibos->appends(['search' => $search])->url($i) }}">{{ $i }}</a>
-            </li>
-            @endfor
-            @endif
 
-            {{-- Botón Siguiente --}}
-            @if ($recibos->hasMorePages())
-            <li class="page-item">
-                <a class="page-link page-link-black" href="{{ $recibos->nextPageUrl() }}" tabindex="-1">Siguiente</a>
+    <!-- Paginación -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination mb-0">
+            {{-- Botón Anterior --}}
+            @if ($recibos->onFirstPage())
+            <li class="page-item disabled">
+                <span class="page-link page-link-black">Anterior</span>
             </li>
             @else
-            <li class="page-item disabled">
-                <span class="page-link page-link-black">Siguiente</span>
+            <li class="page-item">
+                <a class="page-link page-link-black" href="{{ $recibos->previousPageUrl() }}" tabindex="-1">Anterior</a>
             </li>
             @endif
-    </ul>
-</nav>
 
+            {{-- Números de Página --}}
+            @if ($recibos->lastPage() > 1)
+            @for ($i = max(1, $recibos->currentPage() - 1); $i <= min($recibos->lastPage(), $recibos->currentPage() + 1); $i++)
+                <li class="page-item {{ $i == $recibos->currentPage() ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $recibos->appends(['search' => $search])->url($i) }}">{{ $i }}</a>
+                </li>
+                @endfor
+                @endif
 
-<!-- para limpiar la barra de busqueda-->
+                {{-- Botón Siguiente --}}
+                @if ($recibos->hasMorePages())
+                <li class="page-item">
+                    <a class="page-link page-link-black" href="{{ $recibos->nextPageUrl() }}" tabindex="-1">Siguiente</a>
+                </li>
+                @else
+                <li class="page-item disabled">
+                    <span class="page-link page-link-black">Siguiente</span>
+                </li>
+                @endif
+        </ul>
+    </nav>
+</div>
+<br>
+
 <script>
     function clearSearch() {
         document.getElementById('searchInput').value = '';
         document.getElementById('searchForm').submit();
+    }
+
+    function goToFirstPage() {
+        window.location.href = "{{ route('tabla_grupos_subgrupos.index') }}";
+    }
+
+    function goToLastPage() {
+        window.location.href = "{{ route('tabla_grupos_subgrupos.index') }}?page={{ $recibos->lastPage() }}";
     }
 </script>
 

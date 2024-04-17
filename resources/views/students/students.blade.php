@@ -141,9 +141,6 @@ input:invalid + .error-msg {
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #bdecb6;">
                         <h5 class="modal-title text-black" id="exampleModalLabel">Agregar Alumno</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <form action="{{url('/students')}}" method="post">
