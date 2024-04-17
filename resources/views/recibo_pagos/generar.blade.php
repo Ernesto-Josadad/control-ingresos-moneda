@@ -9,9 +9,6 @@
         @csrf
         <div class="card-body">
             <h5 class="card-body text-center">RECIBO COBROS</h5>
-            <div>
-                <button class="btn btn-primary" id="btnRecargarPagina">Limpiar Campos</button>
-            </div>
             <div class="grid-item">
                 <div class="grid item">
                     <div class="col-md-6" style="width: 30%;">
@@ -106,23 +103,17 @@
         </div>
 
         <div class="card-body">
-            <div class="footer">
+            <div class="footer d-flex justify-content-between" >
+                <button type="button" class="btn btn-warning" id="btnRecargarPagina">Limpiar</button>
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </div>
     </form>
 </div>
-</div>
-</div>
-</div>
 @endsection
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    document.getElementById('btnRecargarPagina').addEventListener('click', function() {
-        // Redirecciona a la misma página para recargarla y limpiar los cambios
-        window.location.reload();
-    });
 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -225,7 +216,7 @@
         event.preventDefault();
         let detallePagos = []; // Definir detallePagos dentro de la función
         let form = {};
-        // Traemos los datos de la tabla de sub grupos 
+        // Traemos los datos de la tabla de sub grupos
         let table = document.getElementById('subGroupTable');
         if (table) {
             console.log('Se encontró la tabla');
@@ -298,5 +289,11 @@
 
 
     }
+
+    document.getElementById('btnRecargarPagina').addEventListener('click', function() {
+        // Redirecciona a la misma página para recargarla y limpiar los cambios
+        window.location.reload();
+    });
+
 </script>
 @endpush

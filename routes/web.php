@@ -52,9 +52,11 @@ Route::view('prueba', 'prueba');
 
 Route::view('registrate','registrate')->middleware('guest')->name('registrate');
 Route::view('login','login')->middleware('guest')->name('login');
+Route::view('cambio','cambio_contrasena')->middleware('auth')->name('cambio');
 
 Route::post('registrate', [LoginController::class, 'register'])->name('registrate.register');
 Route::post('login', [LoginController::class, 'login'])->name('login.login');
+Route::post('cambio', [LoginController::class, 'updatePassword'])->name('cambio.updatePassword');
 Route::get('logout', [LoginController::class, 'destroy'])->name('logout.destroy');
 
 
@@ -89,3 +91,5 @@ Route::resource('/tabla_grupos_subgrupos', TablaController::class)->middleware('
 
 Route::resource('prueba',ReciboController::class);
 Route::get('/payments/{payment}/pdf', [GenerarController::class, 'verPDF'])->name('payments.pdf');
+
+

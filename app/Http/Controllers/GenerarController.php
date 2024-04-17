@@ -30,7 +30,7 @@ class GenerarController extends Controller
         $recibo->total = $request->get('total');
         $recibo->fecha = $request->get('fecha');
         $recibo->save();
-        //  Crear los Detalles de Pago 
+        //  Crear los Detalles de Pago
         $detalesDePagos = $request->get('detallePagos');
         foreach ($detalesDePagos as $row) {
             ReciboPagos::create([
@@ -84,7 +84,7 @@ class GenerarController extends Controller
 
         // Formateo del folio para que solo tome los números
         $strFolio = $payment->folio;
-        // Este es el que se imprime dentro del pdf 
+        // Este es el que se imprime dentro del pdf
         $folio = preg_replace("/[^0-9]/", "", $strFolio);
         $fecha_actual = date("d-m-Y");
         $fpdf = new FPDF('L');
@@ -177,7 +177,7 @@ class GenerarController extends Controller
         $fpdf->Cell(4, 6, '', 0, 0);
         $fpdf->Cell(50, 6, utf8_decode('IMPORTE'), 0, 1, 'C');
 
-       
+
         // Acceder a los detalles de pago relacionados
         $detallePagos = $payment->detallePagos;
 

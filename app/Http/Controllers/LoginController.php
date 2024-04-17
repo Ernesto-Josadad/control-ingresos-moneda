@@ -33,6 +33,30 @@ class LoginController extends Controller
         return redirect()->route('panel_control');
     }
 
+    public function updatePassword(Request $request)
+    {
+        $user = auth()->user();
+        $repeatPassword = '';
+        $notification = '';
+
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            $repeatPassword = 'La nueva contraseña no puede ser igual a la anteriro';
+        }else {
+            $notification = 'La contraseña ha sido actualizada con éxito';
+        }
+
+        $request->user()->update([
+            'password' => bcrypt($request->password)
+        ]);
+
+        return redirect()->back()->with(compact('repeatPassword', 'notification'));
+    }
+
     public function login(Request $request)
     {
         $credenciales = [
@@ -42,11 +66,11 @@ class LoginController extends Controller
 
         $remember = ($request->has('remember') ? true : false);
 
-        if(Auth::attempt($credenciales, $remember)){
+        if (Auth::attempt($credenciales, $remember)) {
             $request->session()->regenerate();
 
             return redirect()->intended('panel_control');
-        }else{
+        } else {
             return back()->withErrors([
                 'email' => 'Las credenciales ingresadas no son correctas'
             ])->onlyInput('email');
@@ -61,6 +85,5 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
-
     }
 }
