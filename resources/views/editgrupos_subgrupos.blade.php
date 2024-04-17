@@ -22,15 +22,15 @@
             </div> 
 
             <div class="form-group"> 
-                <input type="text" class="form-control" name="codigo" placeholder="Codigo del subgrupo" value="{{$csubgrupos->codigo}}"> 
+                <input type="text" class="form-control" name="codigo" placeholder="Codigo del subgrupo" value="{{$csubgrupos->codigo}}" oninput="this.value = this.value.toUpperCase()"> 
             </div> 
 
             <div class="form-group"> 
-                <input type="text" class="form-control" name="descripcion" placeholder="Descripción del subgrupo" value="{{$csubgrupos->descripcion}}"> 
+                <input type="text" class="form-control" name="descripcion" placeholder="Descripción del subgrupo" value="{{$csubgrupos->descripcion}}" oninput="this.value = this.value.toUpperCase()"> 
             </div> 
 
             <div class="form-group"> 
-                <input type="text" class="form-control" name="costo" placeholder="Costo del subgrupo" value="{{$csubgrupos->costo}}">
+                <input type="text" class="form-control" name="costo" placeholder="Costo del subgrupo" value="{{$csubgrupos->costo}}" oninput="this.value = this.value.toUpperCase()">
             </div> 
 
             <div class="row"> 

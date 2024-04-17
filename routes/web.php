@@ -92,4 +92,5 @@ Route::resource('/tabla_grupos_subgrupos', TablaController::class)->middleware('
 Route::resource('prueba',ReciboController::class);
 Route::get('/payments/{payment}/pdf', [GenerarController::class, 'verPDF'])->name('payments.pdf');
 
+Route::get('/ultimoFolio', [GenerarController::class, 'obtenerUltimoFolio'])->name('obtenerUltimoFolio');
 

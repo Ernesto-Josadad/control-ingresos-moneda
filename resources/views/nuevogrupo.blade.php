@@ -183,10 +183,10 @@
                         <div class="modal-body">
                             <!-- Campos para ingresar datos del nuevo grupo -->
                             <div class="form-group">
-                                <input type="text" class="form-control" name="clave" placeholder="Clave del grupo">
+                                <input type="text" class="form-control" name="clave" placeholder="Clave del grupo" oninput="this.value = this.value.toUpperCase()">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="concepto" placeholder="Descripción del grupo">
+                                <input type="text" class="form-control" name="concepto" placeholder="Descripción del grupo" oninput="this.value = this.value.toUpperCase()">
                             </div>
                         </div>
                         <div class="modal-footer">

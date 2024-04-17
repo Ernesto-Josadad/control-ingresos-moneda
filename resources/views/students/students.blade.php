@@ -2,6 +2,16 @@
 @section('titulo', 'ALUMNOS')
 @section('contenido')
 <style>
+    .error-msg {
+    display: none;
+    color: red;
+    font-size: 0.8em;
+}
+
+input:invalid + .error-msg {
+    display: block;
+}
+
     .button-container {
         margin-left: 2%;
     }
@@ -139,15 +149,35 @@
                         <form action="{{url('/students')}}" method="post">
                             @csrf
                             <div class="form-group">
-                                <input type="text" placeholder="Matricula" class="form-control mt-2" name="matricula">
-                                <input type="text" placeholder="Nombre" class="form-control mt-2" name="nombres">
-                                <input type="text" placeholder="Apellido Paterno" class="form-control mt-2" name="apellido_paterno">
-                                <input type="text" placeholder="Apellido Materno" class="form-control mt-2" name="apellido_materno">
-                                <input type="text" placeholder="Grado" class="form-control mt-2" name="grado">
-                                <input type="text" placeholder="Grupo" class="form-control mt-2" name="grupo">
-                                <input type="text" placeholder="Carrera" class="form-control mt-2" name="carrera">
-                                <input type="text" placeholder="Turno" class="form-control mt-2" name="turno">
+                                <input type="text" placeholder="Matricula" class="form-control mt-2" name="matricula" oninput="this.value = this.value.toUpperCase()" required>
+                                <span class="error-msg">Campo requerido</span>
+
+                                <input type="text" placeholder="Nombre" class="form-control mt-2" name="nombres" oninput="this.value = this.value.toUpperCase()" required>
+                                <span class="error-msg">Campo requerido</span>
+
+                                <input type="text" placeholder="Apellido Paterno" class="form-control mt-2" name="apellido_paterno" oninput="this.value = this.value.toUpperCase()" required>
+                                <span class="error-msg">Campo requerido</span>
+
+                                <input type="text" placeholder="Apellido Materno" class="form-control mt-2" name="apellido_materno" oninput="this.value = this.value.toUpperCase()" required>
+                                <span class="error-msg">Campo requerido</span>
+
+                                <input type="number" placeholder="Grado" class="form-control mt-2" name="grado" required>
+                                <span class="error-msg">Campo requerido</span>
+
+                                <input type="text" placeholder="Grupo" class="form-control mt-2" name="grupo" oninput="this.value = this.value.toUpperCase()" required>
+                                <span class="error-msg">Campo requerido</span>
+
+                                <input type="text" placeholder="Carrera" class="form-control mt-2" name="carrera" oninput="this.value = this.value.toUpperCase()" required>
+                                <span class="error-msg">Campo requerido</span>
+
+                                <select class="form-control mt-2" name="turno" required>
+                                    <option value="" selected disabled hidden>Elige un turno</option>
+                                    <option value="MATUTINO">MATUTINO</option>
+                                    <option value="VESPERTINO">VESPERTINO</option>
+                                </select>
+                                <span class="error-msg">Campo requerido</span>
                             </div>
+
 
                     </div>
                     <div class="modal-footer">
@@ -200,18 +230,18 @@
 
 <!-- Código para mostrar SweetAlert cuando no hay registros -->
 @if($students->isEmpty() && isset($search))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                icon: 'info',
-                title: 'No se encontraron alumnos',
-                text: 'No hay registros que coincidan con la búsqueda.'
-            }).then(function() {
-                // Redirigir al usuario de vuelta a la vista 'students.index'
-                window.location.href = '{{ route("students.index") }}';
-            });
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'info',
+            title: 'No se encontraron alumnos',
+            text: 'No hay registros que coincidan con la búsqueda.'
+        }).then(function() {
+            // Redirigir al usuario de vuelta a la vista 'students.index'
+            window.location.href = '{{ route("students.index") }}';
         });
-    </script>
+    });
+</script>
 @endif
 
 
@@ -245,71 +275,71 @@
         });
     });
 
- //TODO Agregar evento click al botón de eliminar para mostrar Sweet Alert de confirmación eliminación
-const deleteButtons = document.querySelectorAll('.delete-btn');
-deleteButtons.forEach(button => {
-    // Desasociar eventos de clic anteriores para evitar la acumulación de eventos
-    button.removeEventListener('click', handleDeleteClick);
+    //TODO Agregar evento click al botón de eliminar para mostrar Sweet Alert de confirmación eliminación
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        // Desasociar eventos de clic anteriores para evitar la acumulación de eventos
+        button.removeEventListener('click', handleDeleteClick);
 
-    // Asociar nuevo evento de clic
-    button.addEventListener('click', handleDeleteClick);
-});
+        // Asociar nuevo evento de clic
+        button.addEventListener('click', handleDeleteClick);
+    });
 
-function handleDeleteClick(event) {
-    const button = event.target;
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: 'Una vez eliminado, no podrás recuperar este registro.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, eliminarlo',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const form = button.closest('form');
-            fetch(form.action, {
-                method: form.method,
-                body: new FormData(form),
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            }).then(response => {
-                if (response.ok) {
-                    Swal.fire({
-                        title: '¡Eliminado!',
-                        text: 'El registro ha sido eliminado correctamente.',
-                        icon: 'success',
-                        showConfirmButton: true,
-                        allowOutsideClick: false
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                } else {
+    function handleDeleteClick(event) {
+        const button = event.target;
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Una vez eliminado, no podrás recuperar este registro.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = button.closest('form');
+                fetch(form.action, {
+                    method: form.method,
+                    body: new FormData(form),
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        Swal.fire({
+                            title: '¡Eliminado!',
+                            text: 'El registro ha sido eliminado correctamente.',
+                            icon: 'success',
+                            showConfirmButton: true,
+                            allowOutsideClick: false
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error',
+                            'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
+                            'error'
+                        );
+                    }
+                }).catch(error => {
+                    console.error('Error al enviar la solicitud:', error);
                     Swal.fire(
                         'Error',
                         'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
                         'error'
                     );
-                }
-            }).catch(error => {
-                console.error('Error al enviar la solicitud:', error);
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
-                    'Error',
-                    'Hubo un problema al eliminar el registro. Por favor, inténtalo de nuevo.',
-                    'error'
+                    'Cancelado',
+                    'La eliminación ha sido cancelada.',
+                    'info'
                 );
-            });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire(
-                'Cancelado',
-                'La eliminación ha sido cancelada.',
-                'info'
-            );
-        }
-    });
-}
+            }
+        });
+    }
 
     //TODO Función para mostrar la alerta de confirmación al hacer clic en el botón de editar
     function showEditConfirmation(button) {
@@ -372,7 +402,7 @@ function handleDeleteClick(event) {
                             text: data.message
                         }).then((result) => {
                             // Redirige a la vista students después de mostrar el mensaje
-                            window.location.href = '{{ url('/students') }}';
+                            window.location.href = '{{ url('/students ') }}';
                         });
                     } else {
                         // Si la respuesta indica un error, muestra un mensaje de error
@@ -392,7 +422,8 @@ function handleDeleteClick(event) {
     //TODO EDICIÓN
     document.addEventListener('DOMContentLoaded', function() {
         // Verificar si existe un mensaje de éxito en la sesión flash
-        var successMessage = '{{ session('success_message') }}'; // Asegúrate de que esté correctamente definida como una variable JavaScript
+        var successMessage = '{{ session('
+        success_message ') }}'; // Asegúrate de que esté correctamente definida como una variable JavaScript
         if (successMessage) {
             // Mostrar el mensaje de éxito con SweetAlert
             Swal.fire({
@@ -431,7 +462,7 @@ function handleDeleteClick(event) {
                         text: data.message
                     }).then((result) => {
                         // Redirige a la vista nuevogrupo después de mostrar el mensaje
-                        window.location.href = '{{ url('/students') }}';
+                        window.location.href = '{{ url(' / students ') }}';
                     });
                 } else {
                     // Si la respuesta indica un error, muestra un mensaje de error
