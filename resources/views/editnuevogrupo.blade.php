@@ -12,11 +12,11 @@
             @method('PUT')   
 
             <div class="form-group"> 
-                <input type="text" class="form-control" name="clave" placeholder="Clave del grupo" value="{{$cgrupos->clave}}">
+                <input type="text" class="form-control" name="clave" placeholder="Clave del grupo" value="{{$cgrupos->clave}}" oninput="this.value = this.value.toUpperCase()">
             </div>
 
             <div class="form-group"> 
-                <input type="text" class="form-control" name="concepto" placeholder="Descripción del grupo" value="{{$cgrupos->concepto}}">
+                <input type="text" class="form-control" name="concepto" placeholder="Descripción del grupo" value="{{$cgrupos->concepto}}" oninput="this.value = this.value.toUpperCase()">
             </div>
 
             <div class="row">

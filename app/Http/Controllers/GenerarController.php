@@ -19,6 +19,18 @@ class GenerarController extends Controller
         $payment = Recibo::all(); // Realiza una consulta para obtener los pagos
         return view('recibo_pagos.generar', compact('payment', 'students', 'subGroups')); // Devuelve la vista con los datos necesarios
     }
+    
+    public function obtenerUltimoFolio()
+    {
+        // Utiliza el método latest() para obtener el último folio según el campo 'id'
+        $ultimoFolio = Recibo::latest()->first();
+
+        if ($ultimoFolio) {
+            return $ultimoFolio->folio;
+        } else {
+            return null; // Si no hay ningún folio en la base de datos, retorna null
+        }
+    }
 
     public function savePayment(Request $request)
     {
@@ -104,7 +116,7 @@ class GenerarController extends Controller
         $fpdf->setfont('arial', '', 7);
         $fpdf->Cell(30, 6, '610', 1, 0, 'C');
         $fpdf->Cell(7, 6, '', 0, 0);
-        $fpdf->Cell(35, 6, 'DGETAYCM ' . $folio, 1, 1, 'C');
+        $fpdf->Cell(35, 6, ('DGTAYCM ') . $payment->folio, 1, 1, 'C');
         $fpdf->setfont('arial', 'B', 14);
         $fpdf->Cell(277, 6, utf8_decode('RECIBO OFICIAL DE COBRO'), 0, 1, 'C');
         $fpdf->setfont('arial', '', 7);
@@ -163,7 +175,7 @@ class GenerarController extends Controller
 
         //seccion 10
         $fpdf->setfont('arial', 'B', 7);
-        $fpdf->Cell(25, 8, utf8_decode('LA CANTIDA ES $'), 'LTB', 0);
+        $fpdf->Cell(25, 8, utf8_decode('LA CANTIDAD ES $'), 'LTB', 0);
         $fpdf->Cell(40, 8, $payment->total, 'RTB', 1);
         $fpdf->Cell(212, 8, $cantidadEnLetras . ' Pesos', 1, 1, 'C');
         //espacio vacio
@@ -177,7 +189,7 @@ class GenerarController extends Controller
         $fpdf->Cell(4, 6, '', 0, 0);
         $fpdf->Cell(50, 6, utf8_decode('IMPORTE'), 0, 1, 'C');
 
-       
+
         // Acceder a los detalles de pago relacionados
         $detallePagos = $payment->detallePagos;
 
@@ -185,6 +197,7 @@ class GenerarController extends Controller
         foreach ($detallePagos as $detallePago) {
             // Acceder al subgrupo asociado a este detalle de pago
             $subgrupo = $detallePago->subgrupos;
+
             // Ahora puedes acceder a los atributos del subgrupo, por ejemplo:
             $codigoSubgrupo = $subgrupo->codigo;
             $descripcionSubgrupo = $subgrupo->descripcion;

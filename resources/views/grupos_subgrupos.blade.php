@@ -154,13 +154,13 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="codigo" placeholder="Codigo del subgrupo">
+                                <input type="text" class="form-control" name="codigo" placeholder="Codigo del subgrupo" oninput="this.value = this.value.toUpperCase()">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="descripcion" placeholder="Descripción del subgrupo">
+                                <input type="text" class="form-control" name="descripcion" placeholder="Descripción del subgrupo" oninput="this.value = this.value.toUpperCase()">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="costo" placeholder="Costo del subgrupo">
+                                <input type="text" class="form-control" name="costo" placeholder="Costo del subgrupo" oninput="this.value = this.value.toUpperCase()">
                             </div>
                         </div>
                         <div class="modal-footer">
